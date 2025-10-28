@@ -62,5 +62,38 @@
         "contactEmail": "",
         "available": "Open", 
         "approved": true 
+    },
+     {
+        "title": "New Northern Community Services", 
+        "description": "Imam needed for Jummah", 
+        "address": "237 Tom Taylor Crescent", 
+        "category": "Jummah", 
+        "city": "Newmarket", 
+        "notes": "",
+        "attendance": "50+",
+        "accommodations": "Travel & Food", 
+        "startDate": "",
+        "endDate": "",
+        "contactNumber": "",
+        "contactEmail": "",
+        "available": "Open", 
+        "approved": true 
+    },
+     {
+        "title": "Islamic Society of Belleville", 
+        "description": "Huffadh needed for general Taraweeh", 
+        "address": "33 Moira Street West", 
+        "category": "Taraweeh", 
+        "city": "", 
+        "notes": "",
+        "attendance": "20-30",
+        "accommodations": "Food & Lodging", 
+        "startDate": "",
+        "endDate": "",
+        "contactNumber": "",
+        "contactEmail": "",
+        "available": "Open", 
+        "approved": true 
     }
+
 ]
