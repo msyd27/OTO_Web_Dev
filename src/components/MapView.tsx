@@ -31,7 +31,7 @@ function crescentStarIcon(color: string) {
   `);
   return L.icon({
     iconUrl: `data:image/svg+xml;charset=UTF-8,${svg}`,
-    iconSize: [26, 34], // smaller, proportional
+    iconSize: [26, 34], 
     iconAnchor: [13, 33],
     popupAnchor: [0, -28],
   });
@@ -64,13 +64,11 @@ function madrasahIcon(color: string) {
 
   return L.icon({
     iconUrl: `data:image/svg+xml;charset=UTF-8,${svg}`,
-    iconSize: [26, 26],      // same circle size
-    iconAnchor: [13, 13],    // centered
+    iconSize: [26, 26],      
+    iconAnchor: [13, 13],    
     popupAnchor: [0, -13],
   });
 }
-
-
 
 
 type PlaceType = "Masjid" | "Musallah" | "Madrasah";
@@ -117,8 +115,6 @@ function toTuple(pos: L.LatLngExpression): [number, number] {
     return [p.lat, p.lng];
 }
 
-// Some My Maps exports put the site in `website` or `Website`,
-// others embed it inside `description` as an <a href="...">
 function extractWebsite(props: Record<string, unknown>): string | undefined {
     const direct = (props.website ?? props.Website ?? props.url ?? props.URL) as string | undefined;
     if (direct) return direct;
@@ -126,7 +122,6 @@ function extractWebsite(props: Record<string, unknown>): string | undefined {
     const desc = (props.description ?? props.Description) as string | undefined;
     if (!desc) return undefined;
 
-    // very light HTML link scrape
     const m = desc.match(/href="([^"]+)"/i) || desc.match(/(https?:\/\/[^\s"<]+)/i);
     return m?.[1];
 }
@@ -144,11 +139,9 @@ function inferType(p: Record<string, unknown>): PlaceType {
 
 function getLeafletIconForPlace(place: Place): L.Icon {
     if (place.type === "Madrasah") {
-        // orange / school icon
         return madrasahIcon("#f57c00");
     }
 
-    // Masjid + Musallah use the crescent/star icon in blue
     return crescentStarIcon("#1d4ed8");
 }
 
@@ -160,7 +153,6 @@ export default function MapView() {
     const highlightsRef = useRef<L.LayerGroup | null>(null);
     const [panelOpen, setPanelOpen] = useState(true);
 
-    // prompt to enable location if auto-get fails or device location is off
     const [needsUserGesture, setNeedsUserGesture] = useState(false);
     const [geoMsg, setGeoMsg] = useState<string | null>(null);
 
@@ -202,7 +194,6 @@ useEffect(() => {
     const map = mapRef.current;
     if (!map || !userPos || nearest3.length === 0) return;
 
-    // wrap all logic so it only runs after Leaflet is fully initialized
     map.whenReady(() => {
         const uPair = toTuple(userPos);
         const u = L.latLng(uPair[0], uPair[1]);
@@ -210,10 +201,8 @@ useEffect(() => {
         const pts = nearest3.map(({ p }) => L.latLng(p.lat, p.lng));
         const bounds = L.latLngBounds([u, ...pts]).pad(0.2);
 
-        // now safe
         map.fitBounds(bounds);
 
-        // marker highlights for nearest 3
         if (!highlightsRef.current) {
             highlightsRef.current = L.layerGroup().addTo(map);
         } else {
@@ -298,13 +287,12 @@ useEffect(() => {
                     return {
                         id: (p.id ?? p.place_id ?? p.name ?? `${lat},${lng}`) as string,
                         name: (p.name ?? "Unnamed").toString(),
-                        type: inferType(p),                        // <-- use our smarter classifier
+                        type: inferType(p),                        
                         lat,
                         lng,
                         address: p.address as string | undefined,
                         notes: p.notes as string | undefined,
-                        website: extractWebsite(p),               // <-- tries to pull URL from description, etc.
-                        // DO NOT copy p.icon here, we don't want the blank white Google marker
+                        website: extractWebsite(p),               
                     };
                 });
 
