@@ -15,7 +15,7 @@ const Marker = dynamic(async () => (await import("react-leaflet")).Marker, { ssr
 const Popup = dynamic(async () => (await import("react-leaflet")).Popup, { ssr: false });
 
 function crescentStarIcon(color: string) {
-   const svg = encodeURIComponent(`
+    const svg = encodeURIComponent(`
 <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="2048" height="2048" style="shape-rendering:geometricPrecision;text-rendering:geometricPrecision;image-rendering:optimizeQuality;fill-rule:evenodd;clip-rule:evenodd">
 <defs>
 <style>.fil0{fill:#f60}.fil2,.fil3{fill:#424242;fill-rule:nonzero}.fil3{fill:#64b5f6}</style>
@@ -29,16 +29,16 @@ function crescentStarIcon(color: string) {
 <path style="fill:none" d="M0 0h2048v2048H0z"/>
 </svg>
   `);
-  return L.icon({
-    iconUrl: `data:image/svg+xml;charset=UTF-8,${svg}`,
-    iconSize: [26, 34], 
-    iconAnchor: [13, 33],
-    popupAnchor: [0, -28],
-  });
+    return L.icon({
+        iconUrl: `data:image/svg+xml;charset=UTF-8,${svg}`,
+        iconSize: [26, 34],
+        iconAnchor: [13, 33],
+        popupAnchor: [0, -28],
+    });
 }
 
 function madrasahIcon(color: string) {
-  const svg = encodeURIComponent(`
+    const svg = encodeURIComponent(`
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26">
     <!-- circular background -->
     <circle cx="13" cy="13" r="12" fill="${color}" />
@@ -62,12 +62,12 @@ function madrasahIcon(color: string) {
   </svg>
   `);
 
-  return L.icon({
-    iconUrl: `data:image/svg+xml;charset=UTF-8,${svg}`,
-    iconSize: [26, 26],      
-    iconAnchor: [13, 13],    
-    popupAnchor: [0, -13],
-  });
+    return L.icon({
+        iconUrl: `data:image/svg+xml;charset=UTF-8,${svg}`,
+        iconSize: [26, 26],
+        iconAnchor: [13, 13],
+        popupAnchor: [0, -13],
+    });
 }
 
 
@@ -82,6 +82,7 @@ type Place = {
     notes?: string;
     website?: string;
     iconUrl?: string;
+    place_id?: string;
 };
 
 const TYPE_COLOR: Record<PlaceType, string> = {
@@ -125,6 +126,62 @@ function extractWebsite(props: Record<string, unknown>): string | undefined {
     const m = desc.match(/href="([^"]+)"/i) || desc.match(/(https?:\/\/[^\s"<]+)/i);
     return m?.[1];
 }
+
+function MapLegend() {
+    return (
+        <div
+            style={{
+                position: "absolute",
+                bottom: "10px",
+                left: "10px",
+                zIndex: 1000,
+                background: "white",
+                padding: "8px 12px",
+                borderRadius: "8px",
+                border: "1px solid rgba(0,0,0,0.15)",
+                boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+                fontSize: "12px",
+                lineHeight: "16px",
+            }}
+        >
+            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                <img
+                    src={crescentStarIcon("#1d4ed8").options.iconUrl!}
+                    width={20}
+                    height={20}
+                />
+                <span>Masjid / Musallah</span>
+            </div>
+
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    marginTop: "6px",
+                }}
+            >
+                <img
+                    src={madrasahIcon("#f57c00").options.iconUrl!}
+                    width={20}
+                    height={20}
+                />
+                <span>Madrasah</span>
+            </div>
+        </div>
+    );
+}
+
+function googlePlaceUrl(p: Place) {
+    // Best: place_id (if you add it to the JSON)
+    if (p.place_id) {
+        return `https://www.google.com/maps/search/?api=1&query_place_id=${encodeURIComponent(p.place_id)}`;
+    }
+    // Fallback: name + exact coordinates to get the right card
+    const q = p.name ? `${p.name} ${p.lat},${p.lng}` : `${p.lat},${p.lng}`;
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+}
+
 
 function inferType(p: Record<string, unknown>): PlaceType {
     const name = (p.name ?? "").toString().toLowerCase();
@@ -190,39 +247,39 @@ export default function MapView() {
             .slice(0, 3);
     }, [userPos, places]);
 
-useEffect(() => {
-    const map = mapRef.current;
-    if (!map || !userPos || nearest3.length === 0) return;
+    useEffect(() => {
+        const map = mapRef.current;
+        if (!map || !userPos || nearest3.length === 0) return;
 
-    map.whenReady(() => {
-        const uPair = toTuple(userPos);
-        const u = L.latLng(uPair[0], uPair[1]);
+        map.whenReady(() => {
+            const uPair = toTuple(userPos);
+            const u = L.latLng(uPair[0], uPair[1]);
 
-        const pts = nearest3.map(({ p }) => L.latLng(p.lat, p.lng));
-        const bounds = L.latLngBounds([u, ...pts]).pad(0.2);
+            const pts = nearest3.map(({ p }) => L.latLng(p.lat, p.lng));
+            const bounds = L.latLngBounds([u, ...pts]).pad(0.2);
 
-        map.fitBounds(bounds);
+            map.fitBounds(bounds);
 
-        if (!highlightsRef.current) {
-            highlightsRef.current = L.layerGroup().addTo(map);
-        } else {
-            highlightsRef.current.clearLayers();
-        }
+            if (!highlightsRef.current) {
+                highlightsRef.current = L.layerGroup().addTo(map);
+            } else {
+                highlightsRef.current.clearLayers();
+            }
 
-        nearest3.forEach(({ p }) => {
-            L.circleMarker([p.lat, p.lng], {
-                radius: 6,
-                color: "#021733",
-                weight: 2,
-                fillColor: "#ffffff",
-                fillOpacity: 1,
-            }).addTo(highlightsRef.current!);
+            nearest3.forEach(({ p }) => {
+                L.circleMarker([p.lat, p.lng], {
+                    radius: 6,
+                    color: "#021733",
+                    weight: 2,
+                    fillColor: "#ffffff",
+                    fillOpacity: 1,
+                }).addTo(highlightsRef.current!);
+            });
+
+            // optional popup prep if you plan to open later
+            // L.popup({ offset: [0, -8] }).setLatLng(u);
         });
-
-        // optional popup prep if you plan to open later
-        // L.popup({ offset: [0, -8] }).setLatLng(u);
-    });
-}, [userPos, nearest3]);
+    }, [userPos, nearest3]);
 
 
     useEffect(() => {
@@ -287,12 +344,14 @@ useEffect(() => {
                     return {
                         id: (p.id ?? p.place_id ?? p.name ?? `${lat},${lng}`) as string,
                         name: (p.name ?? "Unnamed").toString(),
-                        type: inferType(p),                        
+                        type: inferType(p),
                         lat,
                         lng,
                         address: p.address as string | undefined,
                         notes: p.notes as string | undefined,
-                        website: extractWebsite(p),               
+                        website: extractWebsite(p),
+                        place_id: (p.place_id as string | undefined) // <— add this line
+
                     };
                 });
 
@@ -358,6 +417,16 @@ useEffect(() => {
                                         >
                                             Directions
                                         </a>
+                                        <span>|</span>
+                                        <a
+                                            className="underline text-[var(--brand)]"
+                                            href={googlePlaceUrl(p)}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            Details
+                                        </a>
+
                                         {p.website && (
                                             <a
                                                 className="underline text-[var(--brand)]"
@@ -369,12 +438,14 @@ useEffect(() => {
                                             </a>
                                         )}
                                     </div>
+
                                 </div>
                             </Popup>
                         </Marker>
                     ))}
 
                 </MapContainer>
+                <MapLegend />
 
                 {userPos && nearest3.length > 0 && (
                     <div className="pointer-events-none absolute top-3 right-3 z-[900] w-[clamp(200px,80%,420px)]">
