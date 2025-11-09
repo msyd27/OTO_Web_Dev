@@ -268,7 +268,7 @@ export default function MapView() {
 
             nearest3.forEach(({ p }) => {
                 L.circleMarker([p.lat, p.lng], {
-                    radius: 6,
+                    radius: 4,
                     color: "#021733",
                     weight: 2,
                     fillColor: "#ffffff",
@@ -350,8 +350,7 @@ export default function MapView() {
                         address: p.address as string | undefined,
                         notes: p.notes as string | undefined,
                         website: extractWebsite(p),
-                        place_id: (p.place_id as string | undefined) // <— add this line
-
+                        place_id: (p.place_id as string | undefined)
                     };
                 });
 
@@ -448,7 +447,7 @@ export default function MapView() {
                 <MapLegend />
 
                 {userPos && nearest3.length > 0 && (
-                    <div className="pointer-events-none absolute top-3 right-3 z-[900] w-[clamp(200px,80%,420px)]">
+                    <div className="pointer-events-none absolute top-3 right-3 z-[900] w-[clamp(200px,65%,420px)]">
                         <div className="pointer-events-auto rounded-2xl border bg-white/95 backdrop-blur shadow-lg overflow-hidden">
                             <button
                                 type="button"
@@ -481,9 +480,9 @@ export default function MapView() {
                                                         </div>
                                                     )}
                                                     <div className="text-xs text-[var(--muted)] text-left">
-                                                        {d.toFixed(1)} km away
+                                                        {d.toFixed(1)} km away - {p.type}
                                                     </div>
-
+                                                    
                                                 </div>
                                                 <a
                                                     className="shrink-0 rounded-lg border px-2 py-1 text-xs text-[var(--brand)] hover:bg-[var(--brand-50)]"
