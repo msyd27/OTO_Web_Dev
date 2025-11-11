@@ -63,6 +63,22 @@
         "available": "Open", 
         "approved": true 
     },
+        {
+        "title": "Markham Gateway Public School", 
+        "description": "Hafidh Needed for Jummah", 
+        "address": "30 Fonda Road, Markham ON", 
+        "category": "Jummah", 
+        "city": "", 
+        "notes": "Need a weekly committed Hafidh or 2 to lead Jummah at a local elementary school.",
+        "attendance": "15",
+        "accommodations": "", 
+        "startDate": "",
+        "endDate": "",
+        "contactNumber": "",
+        "contactEmail": "",
+        "available": "Open", 
+        "approved": true 
+    },
      {
         "title": "New Northern Community Services", 
         "description": "Imam needed for Jummah", 
