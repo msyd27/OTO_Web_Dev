@@ -217,27 +217,6 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    -79.0365611,
-                    43.8872861,
-                    0
-                ]
-            },
-            "properties": {
-                "name": "Islamic Society of Ajax - Masjid Quba",
-                "styleUrl": "#icon-1673-0288D1-nodesc",
-                "styleHash": "-4545d3bc",
-                "styleMapHash": {
-                    "normal": "#icon-1673-0288D1-nodesc-normal",
-                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
-                },
-                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
-            }
-        },
-        {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
                     -79.334424,
                     43.7731126,
                     0
@@ -6566,6 +6545,888 @@
             },
             "properties": {
                 "name": "Islamic Information Society of Calgary (IISC)",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.6354994,
+                    45.0353925,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Al-Rashid Islamic Institute",
+                "styleUrl": "#icon-1726-F57C00-nodesc",
+                "styleHash": "2f4ba4b3",
+                "styleMapHash": {
+                    "normal": "#icon-1726-F57C00-nodesc-normal",
+                    "highlight": "#icon-1726-F57C00-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.6054054,
+                    45.6103258,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Cultural Center Islamic Hawkesbury /Hawkesbury Islamic Cultural Center",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -75.6202987,
+                    45.3831034,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "The Ottawa Islamic Centre and Assalam Mosque",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -75.7264863,
+                    45.2891331,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "SNMC Mosque",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -75.9284454,
+                    45.3562497,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Kanata Muslim Association",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -113.332117,
+                    53.5125532,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Masjid Ibn Masood (Darul Uloom Alberta)",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -78.2945606,
+                    44.4190069,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Peterborough Lakefield Mosque Masjid (Ahle Sunnah Wal Jamaah)",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -78.3487212,
+                    44.3092733,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Kawartha Muslim Religious Association",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.6204697,
+                    43.7136878,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "School Madaniyya Academy",
+                "styleUrl": "#icon-1726-F57C00-nodesc",
+                "styleHash": "2f4ba4b3",
+                "styleMapHash": {
+                    "normal": "#icon-1726-F57C00-nodesc-normal",
+                    "highlight": "#icon-1726-F57C00-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -82.2102891,
+                    42.407472,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Chatham Islamic Centre",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.358466,
+                    49.913844,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Centre Communautaire El Mouahidine de Chibougamau",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.5821638,
+                    43.7175493,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Masjid Al-Istiqama",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.5330659,
+                    43.8296811,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Islamic Society of Vaughan",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -80.2169249,
+                    44.5020226,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Collingwood Islamic Center",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.2408656,
+                    43.8780306,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Markham Muslim Association",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.6467909,
+                    43.5752261,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Muslim Welfare Center - Mussalah Al-Abbas",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.3457555,
+                    43.7055479,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Toronto Hifz Academy",
+                "styleUrl": "#icon-1726-F57C00-nodesc",
+                "styleHash": "2f4ba4b3",
+                "styleMapHash": {
+                    "normal": "#icon-1726-F57C00-nodesc-normal",
+                    "highlight": "#icon-1726-F57C00-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.363787,
+                    43.6603335,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Regent Park Islamic Resource Centre (Masjid)",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.5931409,
+                    43.5998834,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "966 ICNA Masjid",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.5042532,
+                    43.603484,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Bosnian Islamic Centre",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.5809544,
+                    43.6079518,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Mississauga Muslim Community Center",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.4369864,
+                    43.659633,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Islamic Information & Dawah Centre International",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.844153,
+                    43.251397,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Ibrahim Jame Mosque",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -80.2519973,
+                    43.5514729,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Islamic Society of Guelph",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -80.3039807,
+                    43.3740172,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Cambridge Muslim Society (Jamia Umar Al-Farooq Masjid) cms",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.0355388,
+                    45.3660714,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Centre Culturel Islamique de Vaudreuil-Soulanges",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -73.4366674,
+                    45.4697187,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Islamic Community Center",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -121.9569918,
+                    49.1737665,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Chilliwack Islamic Center",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -123.0635315,
+                    49.2441672,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Muslim Association of Canada- MAC",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -123.108579,
+                    49.2800746,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Ajyal Islamic Centre",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -122.7934991,
+                    49.047652,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "White Rock Muslim Association - Musallah",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -112.8239708,
+                    49.7010408,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Lethbridge Islamic Centre",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -106.6796613,
+                    52.1609881,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Jamia Riyadul Jannah",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.0365611,
+                    43.8872861,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Islamic Society of Ajax - Masjid Quba",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -73.5671381,
+                    45.4799461,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Khadijah Mosque",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -73.57144,
+                    45.4590693,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Centre Islamique de Verdun",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -73.6232417,
+                    45.5297172,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Assuna Annabawiyah Mosque",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -71.2453152,
+                    46.807914,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Mosquée de la Capitale",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -71.2711529,
+                    46.7892298,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Annour Mosque",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -71.2249684,
+                    46.8148295,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Masjid Al-Rahma (CC MAC QC)",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -71.2348857,
+                    46.826913,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Mosquée de Québec à Limoilou",
+                "styleUrl": "#icon-1673-0288D1-nodesc",
+                "styleHash": "-4545d3bc",
+                "styleMapHash": {
+                    "normal": "#icon-1673-0288D1-nodesc-normal",
+                    "highlight": "#icon-1673-0288D1-nodesc-highlight"
+                },
+                "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -75.52058,
+                    45.4735074,
+                    0
+                ]
+            },
+            "properties": {
+                "name": "Darul Uloom Ottawa (Masjid&Center)",
                 "styleUrl": "#icon-1673-0288D1-nodesc",
                 "styleHash": "-4545d3bc",
                 "styleMapHash": {
