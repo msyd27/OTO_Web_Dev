@@ -126,6 +126,38 @@
         "contactEmail": "",
         "available": "Open", 
         "approved": true 
+    },
+     {
+        "title": "Meadowvale Islamic Center", 
+        "description": "Huffadh needed for general Taraweeh", 
+        "address": "6508 Winston Churchill Rd", 
+        "category": "Taraweeh", 
+        "city": "Mississauga", 
+        "notes": "Should reside in Mississauga or nearby areas",
+        "attendance": "500",
+        "accommodations": "", 
+        "startDate": "",
+        "endDate": "",
+        "contactNumber": "",
+        "contactEmail": "",
+        "available": "Open", 
+        "approved": true 
+    },
+      {
+        "title": "Masjid Bilal", 
+        "description": "Huffadh needed for general Taraweeh", 
+        "address": "726 Spruce St, Paris, ON", 
+        "category": "Taraweeh", 
+        "city": "Paris", 
+        "notes": "Someone with a good amount of experience and has strong memorizaion of the Quraan",
+        "attendance": "40",
+        "accommodations": "Food & Lodging", 
+        "startDate": "",
+        "endDate": "",
+        "contactNumber": "",
+        "contactEmail": "",
+        "available": "Open", 
+        "approved": true 
     }
 
 ]
