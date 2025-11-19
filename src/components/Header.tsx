@@ -53,7 +53,8 @@ export default function Header() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-1 relative">
-          <Link className={link} href="/apply">Apply</Link>
+            <Link className={link} href="/about">About</Link>
+            <Link className={link} href="/apply">Apply</Link>
 
           {/* Listings dropdown (desktop) */}
           <div
@@ -115,6 +116,7 @@ export default function Header() {
           ${mobileOpen ? "max-h-[480px] opacity-100" : "max-h-0 opacity-0"}`}
       >
         <div className="mx-auto max-w-6xl px-4 py-3 space-y-1 bg-white">
+          <MobileLink href="/about" onClick={() => setMobileOpen(false)}>About</MobileLink>
           <MobileLink href="/apply" onClick={() => setMobileOpen(false)}>Apply</MobileLink>
 
           {/* Mobile Listings */}
