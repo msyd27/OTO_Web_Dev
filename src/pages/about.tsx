@@ -9,9 +9,9 @@
           <br /><br />
           Our mission is simple; to strengthen our communities by making it easier for institutions to find qualified individuals, and for individuals to find meaningful opportunities to serve.
           <br /><br />
-          Across the region, communities consistently seek knowledgeable Ulamaa, Imams, and teachers to serve in essential roles—teaching in Madaris, delivering Jumu‘ah khutbahs, conducting programs, leading prayers, and offering spiritual mentorship.
+          Communities across Canada and beyond consistently seek knowledgeable Ulamaa, Imams, and teachers to serve in essential roles within Masajid and Madaris, delivering Jummah khutbahs, conducting programs, leading prayers, and offering spiritual mentorship.
           <br /><br />
-          Our goal is to support the growth and stability of Islamic institutions by ensuring they are empowered with dedicated individuals who can enrich their programs and spiritual services.
+          Our goal is to support the growth and stability of Islamic institutions by ensuring they are equipped with qualified individuals who can enrich their programs and spiritual services.
         </p>
       </section>
 
@@ -22,7 +22,7 @@
           Ontario Taraweeh Outreach was created to address a vital need within our communities by:
         </p>
         <ul className="list-disc list-outside text-black/80 pl-6 mt-4 space-y-2">
-          <li>Connecting qualified Huffadh, Imams, Ulamaa, and Quraan teachers with Masajid, Musallahs, and Madaris through a simple and transparent platform</li>
+          <li>Connecting qualified Huffadh and Ulamaa with Masajid, Musallahs, and Madaaris through a simple and transparent platform</li>
           <li>Helping institutions find reliable individuals while giving service-minded individuals access to meaningful opportunities</li>
           <li>Strengthening and uniting the Muslim community by improving access to strong religious leadership and dedicated Huffadh of the Quraan</li>
           <li>Enriching community life and supporting a more spiritually connected environment across Ontario and beyond</li>
