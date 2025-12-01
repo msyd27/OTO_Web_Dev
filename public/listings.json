@@ -206,5 +206,21 @@
     "contactEmail": "",
     "available": "Open",
     "approved": true
+  },
+  {
+    "title": "Ontario Tech University Musallah",
+    "description": "Huffadh needed for general Taraweeh",
+    "address": "2000 Simcoe St N",
+    "category": "Taraweeh",
+    "city": "Oshawa",
+    "notes": "",
+    "attendance": "30",
+    "accommodations": "None",
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open",
+    "approved": true
   }
 ]
