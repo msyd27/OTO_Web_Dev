@@ -212,6 +212,27 @@ function getLeafletIconForPlace(place: Place): L.Icon {
     return crescentStarIcon("#1d4ed8");
 }
 
+type MarkerLike =
+    | L.Marker
+    | { instance?: L.Marker }
+    | { leafletElement?: L.Marker };
+
+function normalizeMarker(m: MarkerLike | null | undefined): L.Marker | null {
+    if (!m) return null;
+
+    if (m instanceof L.Marker) return m;
+
+    if ("instance" in m && m.instance instanceof L.Marker) {
+        return m.instance;
+    }
+
+    if ("leafletElement" in m && m.leafletElement instanceof L.Marker) {
+        return m.leafletElement;
+    }
+
+    return null;
+}
+
 export default function MapView() {
     const [places, setPlaces] = useState<Place[]>([]);
     const [userPos, setUserPos] = useState<LatLngExpression | null>(null);
@@ -242,23 +263,14 @@ export default function MapView() {
             mapRef.current.setView([place.lat, place.lng], 13, { animate: true });
         }
 
-        const stored = markerRefs.current[place.id] as any;
-
-        const leafletMarker =
-            stored && typeof stored.openPopup === "function"
-                ? stored
-                : stored?.instance && typeof stored.instance.openPopup === "function"
-                    ? stored.instance
-                    : stored?.leafletElement && typeof stored.leafletElement.openPopup === "function"
-                        ? stored.leafletElement
-                        : null;
-
-        leafletMarker?.openPopup?.(); // open popup if available
+        const stored = markerRefs.current[place.id];
+        stored?.openPopup(); // L.Marker already has openPopup
 
         // keep selected name in the box, but close the dropdown
         setSearchQuery(place.name);
         setSearchOpen(false);
     };
+
 
 
 
@@ -543,20 +555,12 @@ export default function MapView() {
                             position={[p.lat, p.lng]}
                             icon={getLeafletIconForPlace(p)}
                             // whenCreated gives us the marker (or a wrapper) when it is mounted
-                            // @ts-ignore dynamic import loses MarkerProps typing, but this is valid
-                            whenCreated={(m: any) => {
-                                // Some setups give the raw marker, some give { instance: marker } or { leafletElement: marker }
-                                const leafletMarker =
-                                    typeof m?.openPopup === "function"
-                                        ? m
-                                        : m?.instance && typeof m.instance.openPopup === "function"
-                                            ? m.instance
-                                            : m?.leafletElement && typeof m.leafletElement.openPopup === "function"
-                                                ? m.leafletElement
-                                                : null;
-
+                            // @ts-expect-error: `whenCreated` exists on react-leaflet Marker at runtime but is missing in the TS types
+                            whenCreated={(m: MarkerLike) => {
+                                const leafletMarker = normalizeMarker(m);
                                 markerRefs.current[p.id] = leafletMarker;
                             }}
+
                         >
                             <Popup>
                                 <div className="space-y-1">
