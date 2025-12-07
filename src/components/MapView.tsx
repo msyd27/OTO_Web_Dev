@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import type { LatLngExpression, LatLngBoundsExpression } from "leaflet";
-import { useMap } from "react-leaflet";
+import { useMap, useMapEvents } from "react-leaflet";
 import type { FeatureCollection, Feature, Point } from "geojson";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -96,6 +96,16 @@ function SetMapRef({ onReady }: { onReady: (m: L.Map) => void }) {
     useEffect(() => { onReady(map); }, [map, onReady]);
     return null;
 }
+
+function MapClickCloser({ onClick }: { onClick: () => void }) {
+    useMapEvents({
+        click() {
+            onClick();
+        },
+    });
+    return null;
+}
+
 
 function normPos(pos: L.LatLngExpression): [number, number] {
     const p = L.latLng(pos);
@@ -212,6 +222,48 @@ export default function MapView() {
 
     const [needsUserGesture, setNeedsUserGesture] = useState(false);
     const [geoMsg, setGeoMsg] = useState<string | null>(null);
+
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchOpen, setSearchOpen] = useState(false);
+
+    const markerRefs = useRef<Record<string, L.Marker | null>>({});
+
+
+    const searchMatches = useMemo(() => {
+        const q = searchQuery.trim().toLowerCase();
+        if (!q) return [];
+        return places
+            .filter((p) => p.name.toLowerCase().includes(q))
+            .slice(0, 10);
+    }, [searchQuery, places]);
+
+    const handleSelectPlace = (place: Place) => {
+        if (mapRef.current) {
+            mapRef.current.setView([place.lat, place.lng], 13, { animate: true });
+        }
+
+        const stored = markerRefs.current[place.id] as any;
+
+        const leafletMarker =
+            stored && typeof stored.openPopup === "function"
+                ? stored
+                : stored?.instance && typeof stored.instance.openPopup === "function"
+                    ? stored.instance
+                    : stored?.leafletElement && typeof stored.leafletElement.openPopup === "function"
+                        ? stored.leafletElement
+                        : null;
+
+        leafletMarker?.openPopup?.(); // open popup if available
+
+        // keep selected name in the box, but close the dropdown
+        setSearchQuery(place.name);
+        setSearchOpen(false);
+    };
+
+
+
+
+
 
     const requestLocation = () => {
         if (!("geolocation" in navigator)) {
@@ -373,10 +425,98 @@ export default function MapView() {
         map.fitBounds(bounds);
     }, [bounds]);
 
+    const userPosTuple = userPos ? normPos(userPos) : null;
+
+
     return (
         <div className="rounded-2xl border border-[color:rgb(0_0_0_/_0.06)] overflow-hidden">
-            <div className="p-3 bg-white flex items-center justify-between">
+            <div className="p-3 bg-white">
                 <div className="text-[var(--ink)] font-semibold">Masjid & Musallah Map</div>
+                {/* 🔍 Search bar under heading */}
+                <div className="mt-3">
+                    <div className="rounded-2xl border bg-white/95 shadow-sm overflow-hidden">
+                        <div className="flex items-center gap-2 px-3 py-2">
+                            <svg
+                                className="h-4 w-4 text-[var(--muted)]"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    d="M15.5 15.5 20 20"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                                <circle
+                                    cx="11"
+                                    cy="11"
+                                    r="5"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                />
+                            </svg>
+
+                            <input
+                                type="search"
+                                value={searchQuery}
+                                onFocus={() => setSearchOpen(true)}
+                                onChange={(e) => {
+                                    setSearchQuery(e.target.value);
+                                    setSearchOpen(true);
+                                }}
+                                placeholder="Search by name…"
+                                className="w-full rounded-md border border-[color:rgb(0_0_0_/_0.06)] bg-white/90 px-2.5 py-1.5 text-sm text-[var(--ink)] shadow-sm placeholder:text-[var(--muted)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+                            />
+                        </div>
+
+                        {/* Dropdown results */}
+                        {searchOpen && searchQuery && (
+                            <>
+                                {searchMatches.length > 0 ? (
+                                    <ul className="max-h-64 overflow-y-auto px-3 pb-2 space-y-1 text-sm text-left">
+                                        {searchMatches.map((p) => {
+                                            const distanceKm =
+                                                userPosTuple != null
+                                                    ? haversineKm(userPosTuple, [p.lat, p.lng])
+                                                    : null;
+
+                                            return (
+                                                <li
+                                                    key={p.id}
+                                                    className="rounded-lg px-2 py-1.5 hover:bg-[var(--brand-50)]/40 cursor-pointer text-left"
+                                                    onClick={() => handleSelectPlace(p)}
+                                                >
+                                                    <div className="min-w-0">
+                                                        <div className="truncate font-medium text-[var(--ink)]">
+                                                            {p.name}
+                                                        </div>
+                                                        {p.address && (
+                                                            <div className="truncate text-xs text-[var(--muted)]">
+                                                                {p.address}
+                                                            </div>
+                                                        )}
+                                                        <div className="text-xs text-[var(--muted)] text-left">
+                                                            {distanceKm !== null
+                                                                ? `${p.type} - ${distanceKm.toFixed(1)} km away`
+                                                                : p.type}
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
+                                ) : (
+                                    <div className="px-3 pb-2 text-xs text-[var(--muted)] text-left">
+                                        No locations found.
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </div>
+                </div>
+
             </div>
 
             <div className="relative z-0">
@@ -386,7 +526,11 @@ export default function MapView() {
                     style={{ height: 520, width: "100%" }}
                 >
                     <SetMapRef onReady={(m) => { mapRef.current = m; }} />
+
+                    <MapClickCloser onClick={() => setSearchOpen(false)} />
+
                     <LibertyLayer />
+
 
                     {userPos && (
                         <Marker position={userPos} icon={pinIcon("#ef4444")}>
@@ -398,6 +542,21 @@ export default function MapView() {
                             key={p.id}
                             position={[p.lat, p.lng]}
                             icon={getLeafletIconForPlace(p)}
+                            // whenCreated gives us the marker (or a wrapper) when it is mounted
+                            // @ts-ignore dynamic import loses MarkerProps typing, but this is valid
+                            whenCreated={(m: any) => {
+                                // Some setups give the raw marker, some give { instance: marker } or { leafletElement: marker }
+                                const leafletMarker =
+                                    typeof m?.openPopup === "function"
+                                        ? m
+                                        : m?.instance && typeof m.instance.openPopup === "function"
+                                            ? m.instance
+                                            : m?.leafletElement && typeof m.leafletElement.openPopup === "function"
+                                                ? m.leafletElement
+                                                : null;
+
+                                markerRefs.current[p.id] = leafletMarker;
+                            }}
                         >
                             <Popup>
                                 <div className="space-y-1">
@@ -437,14 +596,16 @@ export default function MapView() {
                                             </a>
                                         )}
                                     </div>
-
                                 </div>
                             </Popup>
                         </Marker>
                     ))}
 
+
                 </MapContainer>
                 <MapLegend />
+
+
 
                 {userPos && nearest3.length > 0 && (
                     <div className="pointer-events-none absolute top-3 right-3 z-[900] w-[clamp(200px,65%,420px)]">
@@ -482,7 +643,7 @@ export default function MapView() {
                                                     <div className="text-xs text-[var(--muted)] text-left">
                                                         {d.toFixed(1)} km away - {p.type}
                                                     </div>
-                                                    
+
                                                 </div>
                                                 <a
                                                     className="shrink-0 rounded-lg border px-2 py-1 text-xs text-[var(--brand)] hover:bg-[var(--brand-50)]"
