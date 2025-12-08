@@ -222,5 +222,38 @@
     "contactEmail": "",
     "available": "Open",
     "approved": true
+  },
+    {
+    "title": "Masjid Quba",
+    "description": "Huffadh needed for second Taraweeh",
+    "address": "1501 Harwood Ave N",
+    "category": "Taraweeh",
+    "city": "Ajax",
+    "notes": "",
+    "attendance": "200",
+    "accommodations": "None",
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open",
+    "approved": true
+  },
+  {
+    "title": "Lakeridge Islamic Centre",
+    "description": "Huffadh needed for general Taraweeh",
+    "address": "1595 Victoria St N",
+    "category": "Taraweeh",
+    "city": "Whitby",
+    "notes": "",
+    "attendance": "70",
+    "accommodations": "None",
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open",
+    "approved": true
   }
+
 ]
