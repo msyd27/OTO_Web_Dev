@@ -254,6 +254,22 @@
     "contactEmail": "",
     "available": "Open",
     "approved": true
+  },
+    {
+    "title": "Islamic Center of Socorro",
+    "description": "Huffadh needed for general Taraweeh",
+    "address": "1208 El Camino Real St #1204",
+    "category": "Taraweeh",
+    "city": "New Mexico USA",
+    "notes": "",
+    "attendance": "70",
+    "accommodations": "Travel, Food & Lodging",
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "5056043371",
+    "contactEmail": "mihoss0756@gmail.com",
+    "available": "Open",
+    "approved": true
   }
 
 ]
