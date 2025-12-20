@@ -270,6 +270,39 @@
     "contactEmail": "mihoss0756@gmail.com",
     "available": "Open",
     "approved": true
+  },
+    {
+    "title": "Waterdown Muslim Community Centre",
+    "description": "Huffadh needed for general Taraweeh (8 rakaats)",
+    "address": "20 Innovation Dr",
+    "category": "Taraweeh",
+    "city": "Waterdown/Dundas",
+    "notes": "Address may change as we are looking for a bigger location for Taraweeh, however it will be in a similar area.",
+    "attendance": "300",
+    "accommodations": "None",
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open",
+    "approved": true
+  },
+
+      {
+    "title": "Masjid Al Ezz",
+    "description": "Huffadh needed for general Taraweeh (8 rakaats)",
+    "address": "10 Falconer Dr #8",
+    "category": "Taraweeh",
+    "city": "Mississauga",
+    "notes": "",
+    "attendance": "100",
+    "accommodations": "None",
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open",
+    "approved": true
   }
 
 ]
