@@ -1,18 +1,13 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import dynamic from "next/dynamic";
 import type { LatLngExpression, LatLngBoundsExpression } from "leaflet";
-import { useMap, useMapEvents } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
 import type { FeatureCollection, Feature, Point } from "geojson";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import LibertyLayer from "./LibertyLayer";
 
-const MapContainer = dynamic(async () => (await import("react-leaflet")).MapContainer, { ssr: false });
-const TileLayer = dynamic(async () => (await import("react-leaflet")).TileLayer, { ssr: false });
-const Marker = dynamic(async () => (await import("react-leaflet")).Marker, { ssr: false });
-const Popup = dynamic(async () => (await import("react-leaflet")).Popup, { ssr: false });
 
 function crescentStarIcon(color: string) {
     const svg = encodeURIComponent(`
@@ -212,31 +207,12 @@ function getLeafletIconForPlace(place: Place): L.Icon {
     return crescentStarIcon("#1d4ed8");
 }
 
-type MarkerLike =
-    | L.Marker
-    | { instance?: L.Marker }
-    | { leafletElement?: L.Marker };
-
-function normalizeMarker(m: MarkerLike | null | undefined): L.Marker | null {
-    if (!m) return null;
-
-    if (m instanceof L.Marker) return m;
-
-    if ("instance" in m && m.instance instanceof L.Marker) {
-        return m.instance;
-    }
-
-    if ("leafletElement" in m && m.leafletElement instanceof L.Marker) {
-        return m.leafletElement;
-    }
-
-    return null;
-}
-
 export default function MapView() {
     const [places, setPlaces] = useState<Place[]>([]);
     const [userPos, setUserPos] = useState<LatLngExpression | null>(null);
     const mapRef = useRef<L.Map | null>(null);
+
+    const markerRefs = useRef<Record<string, L.Marker | null>>({});
 
     const highlightsRef = useRef<L.LayerGroup | null>(null);
     const [panelOpen, setPanelOpen] = useState(true);
@@ -247,9 +223,6 @@ export default function MapView() {
     const [searchQuery, setSearchQuery] = useState("");
     const [searchOpen, setSearchOpen] = useState(false);
 
-    const markerRefs = useRef<Record<string, L.Marker | null>>({});
-
-
     const searchMatches = useMemo(() => {
         const q = searchQuery.trim().toLowerCase();
         if (!q) return [];
@@ -258,21 +231,65 @@ export default function MapView() {
             .slice(0, 10);
     }, [searchQuery, places]);
 
+    const [activePlaceId, setActivePlaceId] = useState<string | null>(null);
+    const openRetryRef = useRef<number | null>(null);
+
+
     const handleSelectPlace = (place: Place) => {
-        if (mapRef.current) {
-            mapRef.current.setView([place.lat, place.lng], 13, { animate: true });
-        }
+        const map = mapRef.current;
+        if (!map) return;
 
-        const stored = markerRefs.current[place.id];
-        stored?.openPopup(); // L.Marker already has openPopup
-
-        // keep selected name in the box, but close the dropdown
-        setSearchQuery(place.name);
         setSearchOpen(false);
+        setSearchQuery(place.name);
+        setActivePlaceId(place.id);
+
+        // move map first
+        map.flyTo([place.lat, place.lng], 13, { animate: true });
+
+        requestAnimationFrame(() => map.invalidateSize());
     };
 
 
+    useEffect(() => {
+        const map = mapRef.current;
+        if (!map || !activePlaceId) return;
 
+        // clear any  retry loop
+        if (openRetryRef.current) {
+            window.clearTimeout(openRetryRef.current);
+            openRetryRef.current = null;
+        }
+
+        let tries = 0;
+
+        const tryOpen = () => {
+            tries += 1;
+
+            const marker = markerRefs.current[activePlaceId] as any;
+
+            // Conditions that must be true before opening
+            const mapReady = !!(map && (map as any)._loaded);
+            const markerOnMap = !!(marker && marker._map);
+
+            if (mapReady && markerOnMap) {
+                marker.openPopup();
+                return;
+            }
+
+            if (tries < 10) {
+                openRetryRef.current = window.setTimeout(tryOpen, 50);
+            }
+        };
+
+        tryOpen();
+
+        return () => {
+            if (openRetryRef.current) {
+                window.clearTimeout(openRetryRef.current);
+                openRetryRef.current = null;
+            }
+        };
+    }, [activePlaceId]);
 
 
 
@@ -554,13 +571,14 @@ export default function MapView() {
                             key={p.id}
                             position={[p.lat, p.lng]}
                             icon={getLeafletIconForPlace(p)}
-                            // whenCreated gives us the marker (or a wrapper) when it is mounted
-                            // @ts-expect-error: `whenCreated` exists on react-leaflet Marker at runtime but is missing in the TS types
-                            whenCreated={(m: MarkerLike) => {
-                                const leafletMarker = normalizeMarker(m);
-                                markerRefs.current[p.id] = leafletMarker;
+                            ref={(markerInstance) => {
+                                if (markerInstance) {
+                                    markerRefs.current[p.id] = markerInstance;
+                                }
                             }}
-
+                            eventHandlers={{
+                                click: () => setActivePlaceId(p.id),
+                            }}
                         >
                             <Popup>
                                 <div className="space-y-1">
@@ -604,6 +622,8 @@ export default function MapView() {
                             </Popup>
                         </Marker>
                     ))}
+
+
 
 
                 </MapContainer>
