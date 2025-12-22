@@ -80,6 +80,9 @@ type Place = {
     place_id?: string;
 };
 
+type LeafletMarkerWithMap = L.Marker & { _map?: L.Map };
+type LeafletMapWithLoaded = L.Map & { _loaded?: boolean };
+
 const TYPE_COLOR: Record<PlaceType, string> = {
     Masjid: "#0ea5e9",
     Musallah: "#a855f7",
@@ -265,11 +268,11 @@ export default function MapView() {
         const tryOpen = () => {
             tries += 1;
 
-            const marker = markerRefs.current[activePlaceId] as any;
+            const marker = markerRefs.current[activePlaceId] as LeafletMarkerWithMap | null;
 
-            // Conditions that must be true before opening
-            const mapReady = !!(map && (map as any)._loaded);
-            const markerOnMap = !!(marker && marker._map);
+            const mapReady = !!((map as LeafletMapWithLoaded)._loaded);
+            const markerOnMap = !!(marker?._map);
+
 
             if (mapReady && markerOnMap) {
                 marker.openPopup();
@@ -291,6 +294,19 @@ export default function MapView() {
         };
     }, [activePlaceId]);
 
+    const centerOnUser = () => {
+        const map = mapRef.current;
+        if (!map) return;
+
+        // if we already have userPos, just center
+        if (userPos) {
+            map.flyTo(userPos, 12, { animate: true });
+            return;
+        }
+
+        // otherwise ask for it
+        requestLocation();
+    };
 
 
 
@@ -629,6 +645,23 @@ export default function MapView() {
                 </MapContainer>
                 <MapLegend />
 
+                {/* 📍 Center on me button */}
+                <button
+                    type="button"
+                    onClick={centerOnUser}
+                    title="Center on my location"
+                    className="absolute bottom-4 right-4 z-[1950] pointer-events-auto rounded-full border bg-white/95 backdrop-blur shadow-lg p-3 hover:bg-[var(--brand-50)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+                >
+                    <svg viewBox="0 0 24 24" className="h-5 w-5 text-[var(--ink)]" fill="none" aria-hidden="true">
+                        <path
+                            d="M12 22s7-5 7-12a7 7 0 10-14 0c0 7 7 12 7 12z"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinejoin="round"
+                        />
+                        <circle cx="12" cy="10" r="2.5" stroke="currentColor" strokeWidth="1.5" />
+                    </svg>
+                </button>
 
 
                 {userPos && nearest3.length > 0 && (
@@ -655,10 +688,17 @@ export default function MapView() {
                                     <ul className="space-y-2">
                                         {nearest3.map(({ p, d }) => (
                                             <li key={p.id} className="flex items-start justify-between gap-3">
-                                                <div className="min-w-0">
-                                                    <div className="truncate font-medium text-[var(--ink)] text-sm">
+                                                <div className="min-w-0 flex-1 pr-2">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleSelectPlace(p)}
+                                                        className="block w-full text-left font-medium text-[var(--ink)] text-sm break-words hover:underline"
+                                                        title="Open on map"
+                                                    >
                                                         {p.name}
-                                                    </div>
+                                                    </button>
+
+
                                                     {p.address && (
                                                         <div className="truncate text-xs text-[var(--muted)]">
                                                             {p.address}
