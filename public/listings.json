@@ -17,7 +17,7 @@
   },
   {
     "title": "71 Musallah",
-    "description": "Huffadh needed for general Taraweeh",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "71 Thorncliffe Park Dr. Apt: 709",
     "category": "Taraweeh",
     "city": "Toronto",
@@ -113,7 +113,7 @@
   },
   {
     "title": "Masjid Ar Rahman",
-    "description": "Huffadh needed for general Taraweeh",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "33 Moira Street West",
     "category": "Taraweeh",
     "city": "Belleville",
@@ -129,7 +129,7 @@
   },
   {
     "title": "University of Toronto Scarborough Musallah",
-    "description": "Huffadh needed for general Taraweeh",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "1265 Military Trail",
     "category": "Taraweeh",
     "city": "",
@@ -145,7 +145,7 @@
   },
   {
     "title": "Meadowvale Islamic Center",
-    "description": "Huffadh needed for general Taraweeh",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "6508 Winston Churchill Rd",
     "category": "Taraweeh",
     "city": "Mississauga",
@@ -161,7 +161,7 @@
   },
   {
     "title": "Masjid Bilal",
-    "description": "Huffadh needed for general Taraweeh",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "726 Spruce St, Paris, ON",
     "category": "Taraweeh",
     "city": "Paris",
@@ -177,7 +177,7 @@
   },
   {
     "title": "Islamic Society of Stirling",
-    "description": "Huffadh needed for general Taraweeh",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "3245 Spring Brook Road",
     "category": "Taraweeh",
     "city": "",
@@ -193,7 +193,7 @@
   },
   {
     "title": "New Northern Community Services",
-    "description": "Huffadh needed for general Taraweeh",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "55 Forhan Avenue",
     "category": "Taraweeh",
     "city": "Newmarket",
@@ -209,7 +209,7 @@
   },
   {
     "title": "Gananoque Dr Musallah",
-    "description": "Huffadh needed for general Taraweeh",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "2779 Gananoque Dr",
     "category": "Taraweeh",
     "city": "Mississauga",
@@ -225,7 +225,7 @@
   },
   {
     "title": "Ontario Tech University Musallah",
-    "description": "Huffadh needed for general Taraweeh",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "2000 Simcoe St N",
     "category": "Taraweeh",
     "city": "Oshawa",
@@ -257,7 +257,7 @@
   },
   {
     "title": "Lakeridge Islamic Centre",
-    "description": "Huffadh needed for general Taraweeh",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "1595 Victoria St W",
     "category": "Taraweeh",
     "city": "Whitby",
@@ -273,7 +273,7 @@
   },
     {
     "title": "Islamic Center of Socorro",
-    "description": "Huffadh needed for general Taraweeh",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "1208 El Camino Real St #1204",
     "category": "Taraweeh",
     "city": "New Mexico USA",
@@ -307,7 +307,7 @@
     "title": "Waterdown Muslim Community Centre",
     "description": "Quraan Teacher needed",
     "address": "20 Innovation Dr",
-    "category": "Taraweeh",
+    "category": "Teaching",
     "city": "Waterdown/Dundas",
     "notes": "",
     "attendance": "",
@@ -338,7 +338,7 @@
   },
         {
     "title": "North York Muslim Association",
-    "description": "Huffadh needed for general Taraweeh",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "Concourse Level, North York Center, 5150 Yonge St Unit C37, North York, ON",
     "category": "Taraweeh",
     "city": "Toronto",
