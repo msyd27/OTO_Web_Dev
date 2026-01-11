@@ -351,6 +351,23 @@
     "contactEmail": "",
     "available": "Open",
     "approved": true
+  },
+
+          {
+    "title": "MYREC Centre",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
+    "address": "9395 Third Line",
+    "category": "Taraweeh",
+    "city": "Toronto",
+    "notes": "Strong memorization, decent recitation. Located at Barnscape Studios, which is an event space.",
+    "attendance": "40",
+    "accommodations": "None",
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open",
+    "approved": true
   }
 
 ]
