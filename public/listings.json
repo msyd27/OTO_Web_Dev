@@ -368,6 +368,24 @@
     "contactEmail": "",
     "available": "Open",
     "approved": true
+  },
+
+            {
+    "title": "House by Brock & Dundas",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
+    "address": "Downtown Whitby, Ontario",
+    "category": "Taraweeh",
+    "city": "Whitby",
+    "notes": "Looking for 1-2 more Huffadh",
+    "attendance": "20",
+    "accommodations": "None",
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open",
+    "approved": true
   }
+
 
 ]
