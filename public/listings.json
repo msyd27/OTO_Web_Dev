@@ -385,7 +385,23 @@
     "contactEmail": "",
     "available": "Open",
     "approved": true
-  }
+  },
 
+            {
+    "title": "Islamic Centre of Bowmanville",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
+    "address": "4 Division St, Bowmanville, ON",
+    "category": "Taraweeh",
+    "city": "",
+    "notes": "Should be able to lead 6-8 rakaats",
+    "attendance": "200",
+    "accommodations": "None",
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open",
+    "approved": true
+  }
 
 ]
