@@ -402,6 +402,22 @@
     "contactEmail": "",
     "available": "Open",
     "approved": true
+  },
+              {
+    "title": "136 Pinery Trail #15",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
+    "address": "136 Pinery Trail #15, Scarborough, ON",
+    "category": "Taraweeh",
+    "city": "Toronto - Scarborough",
+    "notes": "4-5 Huffadh needed.",
+    "attendance": "20",
+    "accommodations": "None",
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open",
+    "approved": true
   }
 
 ]
