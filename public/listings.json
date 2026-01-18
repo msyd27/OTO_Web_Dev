@@ -418,6 +418,23 @@
     "contactEmail": "",
     "available": "Open",
     "approved": true
+  },
+
+  {
+      "title": "North Valley Islamic Centre (NICE)",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
+    "address": "423 Wanless Dr, Brampton, ON",
+    "category": "Taraweeh",
+    "city": "Brampton",
+    "notes": "Strong, experienced Hafidh needed.",
+    "attendance": "100",
+    "accommodations": "Food",
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open",
+    "approved": true
   }
 
 ]
