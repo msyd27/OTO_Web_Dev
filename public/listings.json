@@ -140,7 +140,7 @@
     "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
-    "available": "Filled",
+    "available": "Open",
     "approved": true
   },
   {
@@ -435,6 +435,39 @@
     "contactEmail": "",
     "available": "Open",
     "approved": true
-  }
+  },
+  {
+        "title": "Fowler Place Musallah", 
+        "description": "Huffadh needed for general Taraweeh (20 rakaats)", 
+        "address": "1970 Fowler Dr", 
+        "category": "Taraweeh", 
+        "city": "Mississauga", 
+        "notes": "",
+        "attendance": "15-20",
+        "accommodations": "", 
+        "startDate": "",
+        "endDate": "",
+        "contactNumber": "",
+        "contactEmail": "",
+        "available": "Open", 
+        "approved": true 
+    },
+     {
+        "title": "Bayview Muslim Community", 
+        "description": "Huffadh needed for general & 10 day Taraweeh (20 rakaats)", 
+        "address": "648 Finch Ave East ", 
+        "category": "Taraweeh", 
+        "city": "Toronto - North York", 
+        "notes": "",
+        "attendance": "",
+        "accommodations": "", 
+        "startDate": "",
+        "endDate": "",
+        "contactNumber": "",
+        "contactEmail": "",
+        "available": "Open", 
+        "approved": true 
+    }
+
 
 ]
