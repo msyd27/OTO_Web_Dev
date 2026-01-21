@@ -9,7 +9,7 @@ export default function MapPage() {
                 Masjid & Musallah Map - Canada
             </h1>
             <p className="text-[var(--brand)] mb-6 max-w-5xl">
-                Find nearby Masajid, Musallahs, and Madaaris across Canada. You can open
+                Find nearby Masajid, Musallahs, and Madaris across Canada. You can open
                 directions in Google Maps to see those closest to you.
             </p>
             <MapView />
