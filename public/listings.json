@@ -349,7 +349,7 @@
     "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
-    "available": "Open",
+    "available": "Filled",
     "approved": true
   },
 
@@ -416,7 +416,7 @@
     "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
-    "available": "Open",
+    "available": "Filled",
     "approved": true
   },
 
@@ -453,8 +453,8 @@
         "approved": true 
     },
      {
-        "title": "Bayview Muslim Community", 
-        "description": "Huffadh needed for general & 10 day Taraweeh (20 rakaats)", 
+        "title": "Bayview Muslim Community (10-day)", 
+        "description": "Huffadh needed for 10 day Taraweeh (20 rakaats)", 
         "address": "648 Finch Ave East ", 
         "category": "Taraweeh", 
         "city": "Toronto - North York", 
