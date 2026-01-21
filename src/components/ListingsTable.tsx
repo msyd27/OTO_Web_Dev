@@ -70,6 +70,25 @@ export default function ListingsTable({ category, categories }: { category?: str
         return matchesText && matchesAcc;
       })
       .sort((a, b) => {
+        // 1. Primary Sort: Status (Open first, Filled last)
+        const statusOrderA = a.available === "Open" ? 0 : 1;
+        const statusOrderB = b.available === "Open" ? 0 : 1;
+
+        if (statusOrderA !== statusOrderB) {
+          return statusOrderA - statusOrderB;
+        }
+
+        // 2. Secondary Sort: Date Added (Newest first)
+        // We use the index in the original 'rows' array. 
+        // Higher index = added later = should be at the top.
+        const indexA = rows.indexOf(a);
+        const indexB = rows.indexOf(b);
+        
+        if (indexA !== indexB) {
+          return indexB - indexA; // Descending order (newest at top)
+        }
+
+        // 3. Final Fallback: City (Alphabetical)
         const A = (a[sort.key] ?? "").toString().toLowerCase();
         const B = (b[sort.key] ?? "").toString().toLowerCase();
         return A.localeCompare(B);
