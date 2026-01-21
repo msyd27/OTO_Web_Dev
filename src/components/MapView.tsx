@@ -7,7 +7,8 @@ import type { FeatureCollection, Feature, Point } from "geojson";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import LibertyLayer from "./LibertyLayer";
-
+import { FullscreenControl } from 'react-leaflet-fullscreen';
+import 'react-leaflet-fullscreen/styles.css';
 
 function crescentStarIcon(color: string) {
     const svg = encodeURIComponent(`
@@ -421,7 +422,7 @@ export default function MapView() {
             },
             () => {
                 setNeedsUserGesture(true);
-                setGeoMsg("Enable location to see the three closest masaajid near you.");
+                setGeoMsg("Enable location to see the three closest Masajid near you.");
             },
             { enableHighAccuracy: true, maximumAge: 30000, timeout: 8000 }
         );
@@ -573,6 +574,8 @@ export default function MapView() {
                     <SetMapRef onReady={(m) => { mapRef.current = m; }} />
 
                     <MapClickCloser onClick={() => setSearchOpen(false)} />
+
+                    <FullscreenControl position="topleft" />
 
                     <LibertyLayer />
 
