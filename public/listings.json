@@ -303,7 +303,7 @@
     "available": "Open",
     "approved": true
   },
-      {
+    {
     "title": "Waterdown Muslim Community Centre",
     "description": "Quraan Teacher needed",
     "address": "20 Innovation Dr",
@@ -320,7 +320,7 @@
     "approved": true
   },
 
-      {
+    {
     "title": "Masjid Al Ezz",
     "description": "Huffadh needed for general Taraweeh (8 rakaats)",
     "address": "10 Falconer Dr #8",
@@ -336,7 +336,7 @@
     "available": "Open",
     "approved": true
   },
-        {
+    {
     "title": "North York Muslim Association",
     "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "Concourse Level, North York Center, 5150 Yonge St Unit C37, North York, ON",
@@ -353,7 +353,7 @@
     "approved": true
   },
 
-          {
+    {
     "title": "MYREC Centre",
     "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "9395 Third Line",
@@ -370,7 +370,7 @@
     "approved": true
   },
 
-            {
+    {
     "title": "House by Brock & Dundas",
     "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "Downtown Whitby, Ontario",
@@ -387,7 +387,7 @@
     "approved": true
   },
 
-            {
+    {
     "title": "Islamic Centre of Bowmanville",
     "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "4 Division St, Bowmanville, ON",
@@ -403,7 +403,7 @@
     "available": "Open",
     "approved": true
   },
-              {
+    {
     "title": "136 Pinery Trail #15",
     "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "136 Pinery Trail #15, Scarborough, ON",
@@ -420,8 +420,8 @@
     "approved": true
   },
 
-  {
-      "title": "North Valley Islamic Centre (NICE)",
+    {
+    "title": "North Valley Islamic Centre (NICE)",
     "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "423 Wanless Dr, Brampton, ON",
     "category": "Taraweeh",
@@ -436,38 +436,37 @@
     "available": "Open",
     "approved": true
   },
-  {
-        "title": "Fowler Place Musallah", 
-        "description": "Huffadh needed for general Taraweeh (20 rakaats)", 
-        "address": "1970 Fowler Dr", 
-        "category": "Taraweeh", 
-        "city": "Mississauga", 
-        "notes": "",
-        "attendance": "15-20",
-        "accommodations": "", 
-        "startDate": "",
-        "endDate": "",
-        "contactNumber": "",
-        "contactEmail": "",
-        "available": "Open", 
-        "approved": true 
-    },
-     {
-        "title": "Bayview Muslim Community (10-day)", 
-        "description": "Huffadh needed for 10 day Taraweeh (20 rakaats)", 
-        "address": "648 Finch Ave East ", 
-        "category": "Taraweeh", 
-        "city": "Toronto - North York", 
-        "notes": "",
-        "attendance": "",
-        "accommodations": "", 
-        "startDate": "",
-        "endDate": "",
-        "contactNumber": "",
-        "contactEmail": "",
-        "available": "Open", 
-        "approved": true 
+    {
+    "title": "Fowler Place Musallah", 
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)", 
+    "address": "1970 Fowler Dr", 
+    "category": "Taraweeh", 
+    "city": "Mississauga", 
+    "notes": "",
+    "attendance": "15-20",
+    "accommodations": "", 
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open", 
+    "approved": true 
+  },
+    {
+    "title": "Bayview Muslim Community (10-day)", 
+    "description": "Huffadh needed for 10 day Taraweeh (20 rakaats)", 
+    "address": "648 Finch Ave East ", 
+    "category": "Taraweeh", 
+    "city": "Toronto - North York", 
+    "notes": "",
+    "attendance": "",
+    "accommodations": "", 
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open", 
+    "approved": true 
     }
-
-
+    
 ]
