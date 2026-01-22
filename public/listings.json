@@ -467,6 +467,38 @@
     "contactEmail": "",
     "available": "Open", 
     "approved": true 
+    },
+   {
+    "title": "Bradford Islamic Community Center", 
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)", 
+    "address": "136 Holland St ", 
+    "category": "Taraweeh", 
+    "city": "", 
+    "notes": "20 minutes north of Vaughan, 40 minutes from Markham",
+    "attendance": "100",
+    "accommodations": "", 
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open", 
+    "approved": true 
+    },
+       {
+    "title": "3025 The Credit Woodlands", 
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)", 
+    "address": "3025 The Credit Woodlands, Mississauga, ON", 
+    "category": "Taraweeh", 
+    "city": "Mississauga", 
+    "notes": "Hafidh should have strong Tajweed. Also preferred if he lives faily close due to traffic.",
+    "attendance": "50",
+    "accommodations": "", 
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open", 
+    "approved": true 
     }
     
 ]
