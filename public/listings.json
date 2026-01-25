@@ -499,6 +499,22 @@
     "contactEmail": "",
     "available": "Open", 
     "approved": true 
+    },
+       {
+    "title": "Okba Islamic Centre", 
+    "description": "Huffadh needed for general Taraweeh (8 rakaats)", 
+    "address": "2370 Midland Ave unit a5, Scarborough, ON", 
+    "category": "Taraweeh", 
+    "city": "Scarborough", 
+    "notes": "",
+    "attendance": "15",
+    "accommodations": "", 
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open", 
+    "approved": true 
     }
     
 ]
