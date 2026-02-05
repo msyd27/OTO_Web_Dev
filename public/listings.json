@@ -547,6 +547,22 @@
     "contactEmail": "",
     "available": "Filled", 
     "approved": true 
+    },
+    {
+    "title": "North Bay Mosque", 
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)", 
+    "address": "423 McPhail St, North Bay, ON P1B 5Z1", 
+    "category": "Taraweeh", 
+    "city": "North Bay", 
+    "notes": "",
+    "attendance": "20",
+    "accommodations": "Food & Lodging", 
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open", 
+    "approved": true 
     }
     
 ]
