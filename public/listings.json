@@ -501,6 +501,38 @@
     "approved": true 
     },
        {
+    "title": "Pembroke Islamic Centre", 
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)", 
+    "address": "360A Pembroke St W, Pembroke, ON K8A 4N8", 
+    "category": "Taraweeh", 
+    "city": "Pembroke", 
+    "notes": "",
+    "attendance": "15",
+    "accommodations": "Food & Lodging", 
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open", 
+    "approved": true 
+    },
+    {
+    "title": "Durham Muslim Community Centre (DMCC)", 
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)", 
+    "address": "99 Thornton Rd S, Oshawa, ON L1J 5Y1", 
+    "category": "Taraweeh", 
+    "city": "Oshawa", 
+    "notes": "",
+    "attendance": "5-40",
+    "accommodations": "", 
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open", 
+    "approved": true 
+    },
+    {
     "title": "Okba Islamic Centre", 
     "description": "Huffadh needed for general Taraweeh (8 rakaats)", 
     "address": "2370 Midland Ave unit a5, Scarborough, ON", 
