@@ -60,7 +60,7 @@
     "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
-    "available": "Filled",
+    "available": "Open",
     "approved": true
   },
   {
@@ -383,7 +383,7 @@
     "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
-    "available": "Filled",
+    "available": "Open",
     "approved": true
   },
 
@@ -400,7 +400,7 @@
     "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
-    "available": "Filled",
+    "available": "Open",
     "approved": true
   },
     {
@@ -449,7 +449,7 @@
     "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
-    "available": "Filled", 
+    "available": "Open", 
     "approved": true 
   },
     {
@@ -505,29 +505,13 @@
     "description": "Huffadh needed for general Taraweeh (8 rakaats)", 
     "address": "2370 Midland Ave unit a5, Scarborough, ON", 
     "category": "Taraweeh", 
-    "city": "Toronto - Scarborough", 
+    "city": "Scarborough", 
     "notes": "",
     "attendance": "15",
     "accommodations": "", 
     "startDate": "",
     "endDate": "",
     "contactNumber": "",
-    "contactEmail": "",
-    "available": "Open", 
-    "approved": true 
-    },
-       {
-    "title": "North York Islamic Community Centre", 
-    "description": "Huffadh needed for general Taraweeh (20 rakaats)", 
-    "address": "2879 Jane St, North York, ON", 
-    "category": "Taraweeh", 
-    "city": "Toronto - North York", 
-    "notes": "",
-    "attendance": "50",
-    "accommodations": "", 
-    "startDate": "",
-    "endDate": "",
-    "contactNumber": "6479948616",
     "contactEmail": "",
     "available": "Open", 
     "approved": true 
