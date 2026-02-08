@@ -563,6 +563,22 @@
     "contactEmail": "",
     "available": "Open", 
     "approved": true 
+    },
+    {
+    "title": "Ayr Islamic Center", 
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)", 
+    "address": "Rustic Oak Trail", 
+    "category": "Taraweeh", 
+    "city": "Ayr", 
+    "notes": "",
+    "attendance": "15",
+    "accommodations": "", 
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open", 
+    "approved": true 
     }
     
 ]
