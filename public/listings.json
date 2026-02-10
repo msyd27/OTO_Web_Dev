@@ -579,6 +579,22 @@
     "contactEmail": "",
     "available": "Open", 
     "approved": true 
+    },
+    {
+    "title": "East Gwillimbury Islamic Community", 
+    "description": "Huffadh needed for general Taraweeh (8 rakaats)", 
+    "address": "1914B Mt Albert Rd, Sharon, ON L0G 1V0", 
+    "category": "Taraweeh", 
+    "city": "East Gwillimbury", 
+    "notes": "Hafidh should be able to lead all 8 rakaats",
+    "attendance": "20-40",
+    "accommodations": "Travel", 
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open", 
+    "approved": true 
     }
     
 ]
