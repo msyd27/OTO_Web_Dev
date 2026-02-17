@@ -3,8 +3,8 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 export default function Header() {
-  const link =
-    "px-3 py-2 rounded-lg hover:bg-[var(--brand-50)] transition-colors text-[var(--ink)]";
+  // Renamed the variable to avoid collision with the HTML <link> tag
+  const navLinkClasses = "px-3 py-2 rounded-lg hover:bg-[var(--brand-50)] transition-colors text-[var(--ink)]";
 
   // Desktop dropdown
   const [openDesktopMenu, setOpenDesktopMenu] = useState(false);
@@ -37,7 +37,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="border-b z-[2000] border-[color:rgb(0_0_0_/_0.06)] bg-white sticky top-0 z-50">
+    <header className="border-b z-[2000] border-[color:rgb(0_0_0_/_0.06)] bg-white sticky top-0">
       <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
@@ -53,8 +53,8 @@ export default function Header() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-1 relative">
-            <Link className={link} href="/about">About</Link>
-            <Link className={link} href="/apply">Apply</Link>
+          <Link className={navLinkClasses} href="/about">About</Link>
+          <Link className={navLinkClasses} href="/apply">Apply</Link>
 
           {/* Listings dropdown (desktop) */}
           <div
@@ -67,7 +67,7 @@ export default function Header() {
               aria-haspopup="menu"
               aria-expanded={openDesktopMenu}
               onClick={() => setOpenDesktopMenu(o => !o)}
-              className={link + " flex items-center gap-1"}
+              className={navLinkClasses + " flex items-center gap-1"}
             >
               Listings
               <ChevronDown open={openDesktopMenu} />
@@ -90,7 +90,10 @@ export default function Header() {
             </div>
           </div>
 
-          <Link className={link} href="/contact">Contact</Link>
+          {/* Map Link */}
+          <Link className={navLinkClasses} href="/map">Map</Link>
+
+          <Link className={navLinkClasses} href="/contact">Contact</Link>
         </nav>
 
         {/* Mobile Hamburger */}
@@ -119,7 +122,6 @@ export default function Header() {
           <MobileLink href="/about" onClick={() => setMobileOpen(false)}>About</MobileLink>
           <MobileLink href="/apply" onClick={() => setMobileOpen(false)}>Apply</MobileLink>
 
-          {/* Mobile Listings */}
           <div>
             <button
               className="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-[var(--brand-50)] text-[var(--ink)]"
@@ -133,21 +135,14 @@ export default function Header() {
               className={`pl-2 transition-[max-height,opacity] duration-200 overflow-hidden
                 ${mobileListingsOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"}`}
             >
-              <MobileLink href="/listings/all" onClick={() => { setMobileOpen(false); setMobileListingsOpen(false); }}>
-                All Listings
-              </MobileLink>
-              <MobileLink href="/listings/jummah" onClick={() => { setMobileOpen(false); setMobileListingsOpen(false); }}>
-                Jummah
-              </MobileLink>
-              <MobileLink href="/listings/taraweeh" onClick={() => { setMobileOpen(false); setMobileListingsOpen(false); }}>
-                Taraweeh
-              </MobileLink>
-              <MobileLink href="/listings/teaching" onClick={() => { setMobileOpen(false); setMobileListingsOpen(false); }}>
-                Teaching
-              </MobileLink>
+              <MobileLink href="/listings/all" onClick={() => { setMobileOpen(false); setMobileListingsOpen(false); }}>All Listings</MobileLink>
+              <MobileLink href="/listings/jummah" onClick={() => { setMobileOpen(false); setMobileListingsOpen(false); }}>Jummah</MobileLink>
+              <MobileLink href="/listings/taraweeh" onClick={() => { setMobileOpen(false); setMobileListingsOpen(false); }}>Taraweeh</MobileLink>
+              <MobileLink href="/listings/teaching" onClick={() => { setMobileOpen(false); setMobileListingsOpen(false); }}>Teaching</MobileLink>
             </div>
           </div>
 
+          <MobileLink href="/map" onClick={() => setMobileOpen(false)}>Map</MobileLink>
           <MobileLink href="/contact" onClick={() => setMobileOpen(false)}>Contact</MobileLink>
         </div>
       </div>
@@ -155,64 +150,39 @@ export default function Header() {
   );
 }
 
+// Helper components remain the same
 function ChevronDown({ open }: { open: boolean }) {
   return (
-    <svg
-      className={`w-4 h-4 text-[var(--muted)] transition-transform duration-200 ${open ? "rotate-180" : ""}`}
-      fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"
-    >
+    <svg className={`w-4 h-4 text-[var(--muted)] transition-transform duration-200 ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
     </svg>
   );
 }
 
-/* Desktop dropdown link item */
 function MenuLink({ href, children }: { href: string; children: React.ReactNode }) {
+  const navLinkClasses = "block px-3 py-2 rounded-lg hover:bg-[var(--brand-50)] text-[var(--ink)]";
   return (
-    <Link
-      href={href}
-      role="menuitem"
-      className="block px-3 py-2 rounded-lg hover:bg-[var(--brand-50)] text-[var(--ink)]"
-    >
+    <Link href={href} role="menuitem" className={navLinkClasses}>
       {children}
     </Link>
   );
 }
 
-/* Mobile link style */
-function MobileLink({href,children,onClick,}: {
-  href: string;  children: React.ReactNode;  onClick?: () => void;}) {
+function MobileLink({ href, children, onClick }: { href: string; children: React.ReactNode; onClick?: () => void }) {
+  const navLinkClasses = "block px-3 py-2 rounded-lg hover:bg-[var(--brand-50)] text-[var(--ink)]";
   return (
-    <Link
-      href={href}
-      onClick={onClick}
-      className="block px-3 py-2 rounded-lg hover:bg-[var(--brand-50)] text-[var(--ink)]"
-    >
+    <Link href={href} onClick={onClick} className={navLinkClasses}>
       {children}
     </Link>
   );
 }
 
-/* Animated hamburger icon */
 function Hamburger({ open }: { open: boolean }) {
   return (
     <div className="w-6 h-6 flex flex-col justify-between items-center py-1.5">
-      <span
-        className={`h-0.5 w-full bg-[var(--ink)] rounded transition-transform duration-200 ${
-          open ? "rotate-45 translate-y-2" : ""
-        }`}
-      />
-      <span
-        className={`h-0.5 w-full bg-[var(--ink)] rounded transition-opacity duration-200 ${
-          open ? "opacity-0" : "opacity-100"
-        }`}
-      />
-      <span
-        className={`h-0.5 w-full bg-[var(--ink)] rounded transition-transform duration-200 ${
-          open ? "-rotate-45 -translate-y-2" : ""
-        }`}
-      />
+      <span className={`h-0.5 w-full bg-[var(--ink)] rounded transition-transform duration-200 ${open ? "rotate-45 translate-y-2" : ""}`} />
+      <span className={`h-0.5 w-full bg-[var(--ink)] rounded transition-opacity duration-200 ${open ? "opacity-0" : "opacity-100"}`} />
+      <span className={`h-0.5 w-full bg-[var(--ink)] rounded transition-transform duration-200 ${open ? "-rotate-45 -translate-y-2" : ""}`} />
     </div>
   );
 }
-
