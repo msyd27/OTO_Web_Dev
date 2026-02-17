@@ -7,7 +7,7 @@ on:
 permissions:
   contents: read
   pages: write
-  id-token: write
+  id-token: write 
 
 jobs:
   build:
@@ -33,3 +33,7 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
