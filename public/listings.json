@@ -449,7 +449,7 @@
     "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
-    "available": "Filled", 
+    "available": "Open", 
     "approved": true 
   },
     {
@@ -465,7 +465,7 @@
     "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
-    "available": "Open", 
+    "available": "Filled", 
     "approved": true 
     },
    {
