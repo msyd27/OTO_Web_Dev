@@ -9,18 +9,18 @@ export default function QuraanPage() {
       link: "https://www.aswaatulqurraa.com/downloads/quran-audio/quran-in-surahs" 
     },
     { 
-      title: "Quraan in Parahs", 
-      desc: "Access audio files organized by Juzz/Parah (30 Parts).", 
+      title: "Quraan in Ajzaa", 
+      desc: "Download or stream the Quraan organized by Juz.", 
       link: "https://www.aswaatulqurraa.com/downloads/quran-audio/quran-in-parahs" 
     },
     { 
       title: "Quraan in Quarters", 
-      desc: "Study and listen to the Quraan divided into quarters (Rub-el-Hizb).", 
+      desc: "Download or stream the Quraan organized by quarter Juz.", 
       link: "https://www.aswaatulqurraa.com/downloads/quran-audio/quran-in-quarters" 
     },
     { 
       title: "Quraan in Pages", 
-      desc: "Specific audio resources divided by page for precise memorization.", 
+      desc: "Download or stream the Quraan organized by pages", 
       link: "https://www.aswaatulqurraa.com/downloads/quran-audio/quran-in-pages" 
     },
   ];
@@ -34,7 +34,7 @@ export default function QuraanPage() {
 
       <div className="rounded-2xl border border-[color:rgb(0_0_0_/_0.15)] bg-white p-6 mb-8 shadow-sm">
         <p className="text-[var(--brand)]/90 leading-relaxed">
-          High-quality Quraan audio downloads provided by Aswaatul Qurraa. 
+          High-quality Quraan audio downloads of various reciters provided by the Aswaatul Qurraa team. 
           Select a format below to access the library.
         </p>
       </div>
@@ -73,13 +73,6 @@ export default function QuraanPage() {
           </a>
         ))}
       </div>
-
-      <div className="mt-12 text-center">
-        <Link href="/" className="text-sm font-medium text-[var(--muted)] hover:text-[var(--brand)] underline underline-offset-4">
-          Back to Homepage
-        </Link>
-      </div>
-
     </section>
   );
 }
