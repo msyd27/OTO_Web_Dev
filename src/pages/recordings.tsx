@@ -29,7 +29,7 @@ export default function QuraanPage() {
     <section className="mx-auto max-w-4xl px-4 pt-12 pb-12">
       
       <h1 className="text-3xl font-bold text-[var(--brand)] py-4">
-        Quraan Audio Resources
+        Quraan Recordings
       </h1>
 
       <div className="rounded-2xl border border-[color:rgb(0_0_0_/_0.15)] bg-white p-6 mb-8 shadow-sm">

@@ -55,6 +55,7 @@ export default function Header() {
         <nav className="hidden md:flex items-center gap-1 relative">
           <Link className={navLinkClasses} href="/about">About</Link>
           <Link className={navLinkClasses} href="/apply">Apply</Link>
+          
 
           {/* Listings dropdown (desktop) */}
           <div
@@ -90,7 +91,7 @@ export default function Header() {
             </div>
           </div>
 
-          {/* Map Link */}
+          <Link className={navLinkClasses} href="/recordings">Quraan Recordings</Link>
           <Link className={navLinkClasses} href="/map">Map</Link>
 
           <Link className={navLinkClasses} href="/contact">Contact</Link>
@@ -142,6 +143,7 @@ export default function Header() {
             </div>
           </div>
 
+          <MobileLink href="/recordings" onClick={() => setMobileOpen(false)}>Quraan Recordings</MobileLink>
           <MobileLink href="/map" onClick={() => setMobileOpen(false)}>Map</MobileLink>
           <MobileLink href="/contact" onClick={() => setMobileOpen(false)}>Contact</MobileLink>
         </div>
