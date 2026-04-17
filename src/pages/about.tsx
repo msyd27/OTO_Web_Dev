@@ -21,7 +21,7 @@
         <p className="mt-4 text-[var(--ink)]/80 leading-relaxed">
           Ontario Taraweeh Outreach was created to address a vital need within our communities by:
         </p>
-        <ul className="list-disc list-outside text-black/80 pl-6 mt-4 space-y-2">
+        <ul className="list-disc list-outside text-[var(--ink)]/80 pl-6 mt-4 space-y-2">
           <li>Connecting qualified Huffadh and Ulamaa with Masajid, Musallahs, and Madaaris through a simple and transparent platform</li>
           <li>Helping institutions find reliable individuals while giving service-minded individuals access to meaningful opportunities</li>
           <li>Strengthening and uniting the Muslim community by improving access to strong religious leadership and dedicated Huffadh of the Quraan</li>
