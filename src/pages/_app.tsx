@@ -20,7 +20,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           content="Connecting Huffadh and Masajid across Ontario and beyond."
         />
 
-        <link rel="icon" href="/favicon.png" />
+        <link rel="icon" href="/favicon.png" sizes="336x336"/>
+
+        <link rel="icon" href="/favicon-rounded.png" sizes="32x32" />
+
+        <link rel="apple-touch-icon" href="/favicon.png" />
 
         <meta name="theme-color" content="#021733" />
       </Head>
