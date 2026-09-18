@@ -45,7 +45,7 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Open",
-    "approved": true
+    "approved": false
   },
   {
     "title": "71 Musallah",
@@ -77,7 +77,7 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Open",
-    "approved": true
+    "approved": false
   },
   {
     "title": "New Northern Community Services",
@@ -93,7 +93,7 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Open",
-    "approved": true
+    "approved": false
   },
     {
     "title": "Masjid Ar Rahman",
@@ -109,7 +109,7 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Open",
-    "approved": true
+    "approved": false
   },
   {
     "title": "Masjid Ar Rahman",
@@ -317,7 +317,7 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Open",
-    "approved": true
+    "approved": false
   },
 
     {
