@@ -1,10 +1,15 @@
 [
   {
-    "title": "",
-    "description": "",
-    "address": "",
-    "category": "",
-    "city": "",
+    "_SECTION": "==================== [NEW LISTINGS FOR THIS YEAR] ====================",
+    "_INSTRUCTIONS": "Add new listings below this card, or copy the template below. Set 'approved': true when ready to publish.",
+    "approved": false
+  },
+  {
+    "title": "[TEMPLATE] Masjid / Organization Name",
+    "description": "Role description (e.g. Huffadh needed for general Taraweeh)",
+    "address": "Street Address",
+    "category": "Taraweeh",
+    "city": "City",
     "notes": "",
     "attendance": "",
     "accommodations": "",
@@ -12,7 +17,12 @@
     "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
-    "available": "",
+    "available": "Open",
+    "approved": false
+  },
+  {
+    "_SECTION": "==================== [ARCHIVE: LAST YEAR'S LISTINGS] ====================",
+    "_NOTE": "All listings below are from last year. They are preserved for reference with 'approved': false and 'archived': true.",
     "approved": false
   },
   {
@@ -29,7 +39,8 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Filled",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
   {
     "title": "71 Musallah",
@@ -45,7 +56,8 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Open",
-    "approved": false
+    "approved": false,
+    "archived": true
   },
   {
     "title": "71 Musallah",
@@ -61,7 +73,8 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Open",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
   {
     "title": "Markham Gateway Public School",
@@ -77,7 +90,8 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Open",
-    "approved": false
+    "approved": false,
+    "archived": true
   },
   {
     "title": "New Northern Community Services",
@@ -93,9 +107,10 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Open",
-    "approved": false
+    "approved": false,
+    "archived": true
   },
-    {
+  {
     "title": "Masjid Ar Rahman",
     "description": "Imam needed for Jummah",
     "address": "33 Moira Street West",
@@ -109,7 +124,8 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Open",
-    "approved": false
+    "approved": false,
+    "archived": true
   },
   {
     "title": "Masjid Ar Rahman",
@@ -125,7 +141,8 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Filled",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
   {
     "title": "University of Toronto Scarborough Musallah",
@@ -141,7 +158,8 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Open",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
   {
     "title": "Meadowvale Islamic Center",
@@ -157,7 +175,8 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Filled",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
   {
     "title": "Masjid Bilal",
@@ -173,7 +192,8 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Filled",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
   {
     "title": "Islamic Society of Stirling",
@@ -189,7 +209,8 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Filled",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
   {
     "title": "New Northern Community Services",
@@ -205,7 +226,8 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Filled",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
   {
     "title": "Gananoque Dr Musallah",
@@ -221,7 +243,8 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Open",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
   {
     "title": "Ontario Tech University Musallah",
@@ -237,9 +260,10 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Filled",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
-    {
+  {
     "title": "Masjid Quba",
     "description": "Huffadh needed for second Taraweeh",
     "address": "1501 Harwood Ave N",
@@ -253,7 +277,8 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Filled",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
   {
     "title": "Lakeridge Islamic Centre",
@@ -269,9 +294,10 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Filled",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
-    {
+  {
     "title": "Islamic Center of Socorro",
     "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "1208 El Camino Real St #1204",
@@ -285,9 +311,10 @@
     "contactNumber": "5056043371",
     "contactEmail": "mihoss0756@gmail.com",
     "available": "Filled",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
-    {
+  {
     "title": "Waterdown Muslim Community Centre",
     "description": "Huffadh needed for general Taraweeh (8 rakaats)",
     "address": "20 Innovation Dr",
@@ -301,9 +328,10 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Open",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
-    {
+  {
     "title": "Waterdown Muslim Community Centre",
     "description": "Quraan Teacher needed",
     "address": "20 Innovation Dr",
@@ -317,10 +345,10 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Open",
-    "approved": false
+    "approved": false,
+    "archived": true
   },
-
-    {
+  {
     "title": "Masjid Al Ezz",
     "description": "Huffadh needed for general Taraweeh (8 rakaats)",
     "address": "10 Falconer Dr #8",
@@ -334,9 +362,10 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Filled",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
-    {
+  {
     "title": "North York Muslim Association",
     "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "Concourse Level, North York Center, 5150 Yonge St Unit C37, North York, ON",
@@ -350,10 +379,10 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Filled",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
-
-    {
+  {
     "title": "MYREC Centre",
     "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "9395 Third Line",
@@ -367,10 +396,10 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Open",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
-
-    {
+  {
     "title": "House by Brock & Dundas",
     "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "Downtown Whitby, Ontario",
@@ -384,10 +413,10 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Filled",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
-
-    {
+  {
     "title": "Islamic Centre of Bowmanville",
     "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "4 Division St, Bowmanville, ON",
@@ -401,9 +430,10 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Filled",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
-    {
+  {
     "title": "136 Pinery Trail #15",
     "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "136 Pinery Trail #15, Scarborough, ON",
@@ -417,10 +447,10 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Filled",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
-
-    {
+  {
     "title": "North Valley Islamic Centre (NICE)",
     "description": "Huffadh needed for general Taraweeh (20 rakaats)",
     "address": "423 Wanless Dr, Brampton, ON",
@@ -434,167 +464,177 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Open",
-    "approved": true
+    "approved": false,
+    "archived": true
   },
-    {
-    "title": "Fowler Place Musallah", 
-    "description": "Huffadh needed for general Taraweeh (20 rakaats)", 
-    "address": "1970 Fowler Dr", 
-    "category": "Taraweeh", 
-    "city": "Mississauga", 
+  {
+    "title": "Fowler Place Musallah",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
+    "address": "1970 Fowler Dr",
+    "category": "Taraweeh",
+    "city": "Mississauga",
     "notes": "",
     "attendance": "15-20",
-    "accommodations": "", 
+    "accommodations": "",
     "startDate": "",
     "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
-    "available": "Open", 
-    "approved": true 
+    "available": "Open",
+    "approved": false,
+    "archived": true
   },
-    {
-    "title": "Bayview Muslim Community (10-day)", 
-    "description": "Huffadh needed for 10 day Taraweeh (20 rakaats)", 
-    "address": "648 Finch Ave East ", 
-    "category": "Taraweeh", 
-    "city": "Toronto - North York", 
+  {
+    "title": "Bayview Muslim Community (10-day)",
+    "description": "Huffadh needed for 10 day Taraweeh (20 rakaats)",
+    "address": "648 Finch Ave East ",
+    "category": "Taraweeh",
+    "city": "Toronto - North York",
     "notes": "",
     "attendance": "",
-    "accommodations": "", 
+    "accommodations": "",
     "startDate": "",
     "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
-    "available": "Filled", 
-    "approved": true 
-    },
-   {
-    "title": "Bradford Islamic Community Center", 
-    "description": "Huffadh needed for general Taraweeh (20 rakaats)", 
-    "address": "136 Holland St ", 
-    "category": "Taraweeh", 
-    "city": "", 
+    "available": "Filled",
+    "approved": false,
+    "archived": true
+  },
+  {
+    "title": "Bradford Islamic Community Center",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
+    "address": "136 Holland St ",
+    "category": "Taraweeh",
+    "city": "",
     "notes": "20 minutes north of Vaughan, 40 minutes from Markham",
     "attendance": "100",
-    "accommodations": "", 
+    "accommodations": "",
     "startDate": "",
     "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
-    "available": "Open", 
-    "approved": true 
-    },
-       {
-    "title": "3025 The Credit Woodlands", 
-    "description": "Huffadh needed for general Taraweeh (20 rakaats)", 
-    "address": "3025 The Credit Woodlands, Mississauga, ON", 
-    "category": "Taraweeh", 
-    "city": "Mississauga", 
+    "available": "Open",
+    "approved": false,
+    "archived": true
+  },
+  {
+    "title": "3025 The Credit Woodlands",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
+    "address": "3025 The Credit Woodlands, Mississauga, ON",
+    "category": "Taraweeh",
+    "city": "Mississauga",
     "notes": "Hafidh should have strong Tajweed. Also preferred if he lives fairly close due to traffic.",
     "attendance": "50",
-    "accommodations": "", 
+    "accommodations": "",
     "startDate": "",
     "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
-    "available": "Open", 
-    "approved": true 
-    },
-       {
-    "title": "Pembroke Islamic Centre", 
-    "description": "Huffadh needed for general Taraweeh (20 rakaats)", 
-    "address": "360A Pembroke St W, Pembroke, ON K8A 4N8", 
-    "category": "Taraweeh", 
-    "city": "Pembroke", 
+    "available": "Open",
+    "approved": false,
+    "archived": true
+  },
+  {
+    "title": "Pembroke Islamic Centre",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
+    "address": "360A Pembroke St W, Pembroke, ON K8A 4N8",
+    "category": "Taraweeh",
+    "city": "Pembroke",
     "notes": "",
     "attendance": "15",
-    "accommodations": "Food & Lodging", 
+    "accommodations": "Food & Lodging",
     "startDate": "",
     "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
-    "available": "Open", 
-    "approved": true 
-    },
-    {
-    "title": "Durham Muslim Community Centre (DMCC)", 
-    "description": "Huffadh needed for general Taraweeh (20 rakaats)", 
-    "address": "99 Thornton Rd S, Oshawa, ON L1J 5Y1", 
-    "category": "Taraweeh", 
-    "city": "Oshawa", 
+    "available": "Open",
+    "approved": false,
+    "archived": true
+  },
+  {
+    "title": "Durham Muslim Community Centre (DMCC)",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
+    "address": "99 Thornton Rd S, Oshawa, ON L1J 5Y1",
+    "category": "Taraweeh",
+    "city": "Oshawa",
     "notes": "",
     "attendance": "5-40",
-    "accommodations": "", 
+    "accommodations": "",
     "startDate": "",
     "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
-    "available": "Open", 
-    "approved": true 
-    },
-    {
-    "title": "Okba Islamic Centre", 
-    "description": "Huffadh needed for general Taraweeh (8 rakaats)", 
-    "address": "2370 Midland Ave unit a5, Scarborough, ON", 
-    "category": "Taraweeh", 
-    "city": "Scarborough", 
+    "available": "Open",
+    "approved": false,
+    "archived": true
+  },
+  {
+    "title": "Okba Islamic Centre",
+    "description": "Huffadh needed for general Taraweeh (8 rakaats)",
+    "address": "2370 Midland Ave unit a5, Scarborough, ON",
+    "category": "Taraweeh",
+    "city": "Scarborough",
     "notes": "",
     "attendance": "15",
-    "accommodations": "", 
+    "accommodations": "",
     "startDate": "",
     "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
-    "available": "Filled", 
-    "approved": true 
-    },
-    {
-    "title": "North Bay Mosque", 
-    "description": "Huffadh needed for general Taraweeh (20 rakaats)", 
-    "address": "423 McPhail St, North Bay, ON P1B 5Z1", 
-    "category": "Taraweeh", 
-    "city": "North Bay", 
+    "available": "Filled",
+    "approved": false,
+    "archived": true
+  },
+  {
+    "title": "North Bay Mosque",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
+    "address": "423 McPhail St, North Bay, ON P1B 5Z1",
+    "category": "Taraweeh",
+    "city": "North Bay",
     "notes": "Hafidh should be able to lead 10 rakaats",
     "attendance": "20",
-    "accommodations": "Food & Lodging", 
+    "accommodations": "Food & Lodging",
     "startDate": "",
     "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
-    "available": "Filled", 
-    "approved": true 
-    },
-    {
-    "title": "Ayr Islamic Center", 
-    "description": "Huffadh needed for general Taraweeh (20 rakaats)", 
-    "address": "45 Rustic Oak Trl, North Dumfries, ON N0B 1E0", 
-    "category": "Taraweeh", 
-    "city": "Ayr", 
+    "available": "Filled",
+    "approved": false,
+    "archived": true
+  },
+  {
+    "title": "Ayr Islamic Center",
+    "description": "Huffadh needed for general Taraweeh (20 rakaats)",
+    "address": "45 Rustic Oak Trl, North Dumfries, ON N0B 1E0",
+    "category": "Taraweeh",
+    "city": "Ayr",
     "notes": "Hafidh should be able to lead 6 rakaats or more",
     "attendance": "15",
-    "accommodations": "", 
+    "accommodations": "",
     "startDate": "",
     "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
-    "available": "Open", 
-    "approved": true 
-    },
-    {
-    "title": "East Gwillimbury Islamic Community", 
-    "description": "Huffadh needed for general Taraweeh (8 rakaats)", 
-    "address": "1914B Mt Albert Rd, Sharon, ON L0G 1V0", 
-    "category": "Taraweeh", 
-    "city": "East Gwillimbury", 
+    "available": "Open",
+    "approved": false,
+    "archived": true
+  },
+  {
+    "title": "East Gwillimbury Islamic Community",
+    "description": "Huffadh needed for general Taraweeh (8 rakaats)",
+    "address": "1914B Mt Albert Rd, Sharon, ON L0G 1V0",
+    "category": "Taraweeh",
+    "city": "East Gwillimbury",
     "notes": "Hafidh should be able to lead all 8 rakaats",
     "attendance": "20-40",
-    "accommodations": "Travel", 
+    "accommodations": "Travel",
     "startDate": "",
     "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
-    "available": "Open", 
-    "approved": true 
-    }
-    
+    "available": "Open",
+    "approved": false,
+    "archived": true
+  }
 ]

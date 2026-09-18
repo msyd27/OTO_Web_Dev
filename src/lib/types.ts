@@ -1,4 +1,4 @@
-﻿export type Listing = {
+export type Listing = {
   title: string;
   description: string;            
   address: string;
@@ -13,4 +13,5 @@
   contactEmail?: string;
   available: "Open" | "Filled";
   approved?: boolean;
+  archived?: boolean;
 };
