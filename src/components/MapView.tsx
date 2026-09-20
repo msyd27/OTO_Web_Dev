@@ -76,6 +76,7 @@ type Place = {
     lng: number;
     city: string[];
     province: string; 
+    region?: string[];
     address?: string;
     notes?: string;
     website?: string;
@@ -332,6 +333,7 @@ export default function MapView() {
     const [places, setPlaces] = useState<Place[]>([]);
     const [userPos, setUserPos] = useState<LatLngExpression | null>(null);
     const mapRef = useRef<L.Map | null>(null);
+    const isFirstMount = useRef(true);
 
     const markerRefs = useRef<Record<string, L.Marker | null>>({});
 
@@ -345,25 +347,24 @@ export default function MapView() {
     const [searchQuery, setSearchQuery] = useState("");
     const [searchOpen, setSearchOpen] = useState(false);
 
-    // --- NEW: Bottom Sheet Logic ---
-    const [visiblePlaces, setVisiblePlaces] = useState<Place[]>([]);
-    const [sheetState, setSheetState] = useState<"collapsed" | "expanded">("collapsed");
-    const touchStartY = useRef(0);
+    // --- Bottom Sheet Logic (Disabled until Mobile Bottom Sheet is active) ---
+    // const [visiblePlaces, setVisiblePlaces] = useState<Place[]>([]);
+    // const [sheetState, setSheetState] = useState<"collapsed" | "expanded">("collapsed");
+    // const touchStartY = useRef(0);
 
-    const handleSheetTouchStart = (e: React.TouchEvent) => {
-        touchStartY.current = e.touches[0].clientY;
-    };
+    // const handleSheetTouchStart = (e: React.TouchEvent) => {
+    //     touchStartY.current = e.touches[0].clientY;
+    // };
 
-    const handleSheetTouchEnd = (e: React.TouchEvent) => {
-        const touchEndY = e.changedTouches[0].clientY;
-        const distance = touchStartY.current - touchEndY;
-
-        if (distance > 40) {
-            setSheetState("expanded"); // Swiped Up
-        } else if (distance < -40) {
-            setSheetState("collapsed"); // Swiped Down
-        }
-    };
+    // const handleSheetTouchEnd = (e: React.TouchEvent) => {
+    //     const touchEndY = e.changedTouches[0].clientY;
+    //     const distance = touchStartY.current - touchEndY;
+    //     if (distance > 40) {
+    //         setSheetState("expanded");
+    //     } else if (distance < -40) {
+    //         setSheetState("collapsed");
+    //     }
+    // };
 
     // --- NEW: Mobile & Fullscreen Detection ---
     const [isMobile, setIsMobile] = useState(false);
@@ -646,8 +647,10 @@ export default function MapView() {
             (pos) => {
                 const coords: LatLngExpression = [pos.coords.latitude, pos.coords.longitude];
                 setUserPos(coords);
-                mapRef.current?.setView(coords, 12);
                 setSelectedProvince("Current Location");
+                if (mapRef.current) {
+                    mapRef.current.setView(coords, 12);
+                }
                 setNeedsUserGesture(false);
                 setGeoMsg(null);
             },
@@ -662,6 +665,12 @@ export default function MapView() {
     useEffect(() => {
         const map = mapRef.current;
         if (!map) return;
+
+        // Skip redundant flyToBounds on initial mount since MapContainer already starts with CANADA_BOUNDS
+        if (isFirstMount.current) {
+            isFirstMount.current = false;
+            if (selectedProvince === "All Provinces") return;
+        }
 
         // 1. If a specific province is selected, fly to its predefined bounds
         if (selectedProvince && selectedProvince !== "All Provinces" && selectedProvince !== "Current Location" && PROVINCE_BOUNDS[selectedProvince]) {
@@ -883,7 +892,12 @@ export default function MapView() {
                     worldCopyJump={false} 
                     attributionControl={false}
                 >
-                    <SetMapRef onReady={(m) => { mapRef.current = m; }} />
+                    <SetMapRef onReady={(m) => { 
+                        mapRef.current = m; 
+                        if (userPos && selectedProvince === "Current Location") {
+                            m.setView(userPos, 12);
+                        }
+                    }} />
 
                     <MapClickCloser onClick={() => setSearchOpen(false)} />
 
@@ -892,7 +906,7 @@ export default function MapView() {
                    
                     <LibertyLayer />
 
-                    <MapBoundsTracker places={filteredPlaces} onBoundsChange={setVisiblePlaces} />
+                    {/* <MapBoundsTracker places={filteredPlaces} onBoundsChange={setVisiblePlaces} /> */}
 
                     {userPos && (
                         <Marker position={userPos} icon={pinIcon("#ef4444")}>
@@ -912,6 +926,8 @@ export default function MapView() {
                                 ref={(markerInstance) => {
                                     if (markerInstance) {
                                         markerRefs.current[p.id] = markerInstance;
+                                    } else {
+                                        delete markerRefs.current[p.id];
                                     }
                                 }}
                                 eventHandlers={{
