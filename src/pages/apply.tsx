@@ -1,5 +1,6 @@
-﻿export default function ApplyPage() {
-  const link = "https://forms.gle/gzE8g8P56tbPpUcGA";
+export default function ApplyPage() {
+  const huffadhLink = "https://forms.gle/tKYuZgKEddMQ6m4e9";
+  const masajidLink = "https://forms.gle/qPeBBG9AjUKp4yiAA";
 
   return (
     <section className="mx-auto max-w-4xl px-4 py-12">
@@ -30,7 +31,7 @@
 
       <div className="mt-6 flex flex-col sm:flex-row sm:justify-center gap-4">
         <a
-          href="https://forms.gle/jE1vAGhyV41VpuBh6"
+          href={huffadhLink}
           target="_blank"
           rel="noreferrer"
           className="w-full sm:flex-1 sm:w-auto sm:min-w-[260px] text-center inline-flex justify-center items-center gap-2 rounded-lg bg-[var(--brand)] px-6 py-3 text-lg text-white font-semibold hover:bg-[var(--brand-700)] transition-colors"
@@ -39,7 +40,7 @@
         </a>
 
         <a
-          href="https://forms.gle/nrfsMoX8RGZ1uqBD8"
+          href={masajidLink}
           target="_blank"
           rel="noreferrer"
           className="w-full sm:flex-1 sm:w-auto sm:min-w-[260px] text-center inline-flex justify-center items-center gap-2 rounded-lg border border-[var(--brand)] bg-white text-[var(--brand)] text-lg font-semibold px-6 py-3 hover:bg-[var(--brand-50)] transition-colors"
