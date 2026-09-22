@@ -829,8 +829,8 @@ export default function MapView() {
                 <div className="py-2 text-xs font-medium text-[var(--muted)] border-b border-[color:rgb(0_0_0_/_0.05)]">
                 Showing {filteredPlaces.length} of {places.length} locations
                 </div>
-                {/* Filter Controls Row (Moved here) */}
-                <div className="flex flex-col sm:flex-row flex-wrap items-center justify-start gap-4 mt-4 mb-2 rounded-xl bg-[var(--brand)]/5 p-4 border border-[var(--brand)]/10">
+                {/* Filter Controls Row (Hidden for now) */}
+                <div style={{ display: "none" }} className="flex flex-col sm:flex-row flex-wrap items-center justify-start gap-4 mt-4 mb-2 rounded-xl bg-[var(--brand)]/5 p-4 border border-[var(--brand)]/10">
                     
                     {/* Province Filter */}
                     <div className="flex flex-col items-start gap-1 w-full sm:w-auto">
