@@ -312,9 +312,13 @@ export default function MapView() {
     const [places, setPlaces] = useState<Place[]>([]);
     const [userPos, setUserPos] = useState<LatLngExpression | null>(null);
     const mapRef = useRef<L.Map | null>(null);
-    const isFirstMount = useRef(true);
-
     const markerRefs = useRef<Record<string, L.Marker | null>>({});
+    const prevFiltersRef = useRef({
+        province: selectedProvince,
+        region: selectedRegion,
+        city: selectedCity
+    });
+    const prevPlacesLenRef = useRef(0);
 
     const highlightsRef = useRef<L.LayerGroup | null>(null);
     const [panelOpen, setPanelOpen] = useState(true);
@@ -645,31 +649,86 @@ export default function MapView() {
         const map = mapRef.current;
         if (!map) return;
 
-        // Skip redundant flyToBounds on initial mount since MapContainer already starts with CANADA_BOUNDS
-        if (isFirstMount.current) {
-            isFirstMount.current = false;
-            if (selectedProvince === "All Provinces") return;
-        }
+        const prev = prevFiltersRef.current;
+        const filterChanged =
+            prev.province !== selectedProvince ||
+            prev.region !== selectedRegion ||
+            prev.city !== selectedCity;
 
-        // 1. If a specific province is selected, fly to its predefined bounds
-        if (selectedProvince && selectedProvince !== "All Provinces" && selectedProvince !== "Current Location" && PROVINCE_BOUNDS[selectedProvince]) {
-            map.flyToBounds(PROVINCE_BOUNDS[selectedProvince], {
-                padding: [20, 20],
-                maxZoom: 8,
-                duration: 1.0
-            });
+        const placesJustLoaded = places.length > 0 && prevPlacesLenRef.current === 0;
+        prevPlacesLenRef.current = places.length;
+
+        prevFiltersRef.current = {
+            province: selectedProvince,
+            region: selectedRegion,
+            city: selectedCity
+        };
+
+        // Don't auto-fly if filters didn't change and places didn't just load with an active filter
+        if (!filterChanged && (!placesJustLoaded || selectedProvince === "All Provinces")) {
             return;
         }
 
-        // 2. If "All Provinces" is selected, snap to a fixed view of Canada
+        // If "Current Location" is selected, don't fly to province bounds (geolocation handles it)
+        if (selectedProvince === "Current Location") return;
+
+        // 1. If "All Provinces" is selected, snap to a fixed view of Canada
         if (selectedProvince === "All Provinces") {
             const CANADA_BOUNDS: L.LatLngBoundsExpression = [[40.0, -140.0], [65.0, -45.0]];
             map.flyToBounds(CANADA_BOUNDS, { 
                 padding: [20, 20],
                 duration: 1.5
             });
+            return;
         }
-    }, [selectedProvince]);
+
+        // 2. City Level Selected
+        if (selectedCity && selectedCity !== "All Cities" && selectedCity !== "All Areas") {
+            const cityPlaces = places.filter(p => 
+                p.province === selectedProvince &&
+                p.city && p.city.includes(selectedCity)
+            );
+            if (cityPlaces.length > 0) {
+                const bounds = L.latLngBounds(cityPlaces.map(p => [p.lat, p.lng]));
+                if (bounds.isValid()) {
+                    map.flyToBounds(bounds, {
+                        padding: [50, 50],
+                        maxZoom: 12.5,
+                        duration: 1.0
+                    });
+                    return;
+                }
+            }
+        }
+
+        // 3. Region Level Selected
+        if (selectedRegion && selectedRegion !== "All Regions") {
+            const regionPlaces = places.filter(p =>
+                p.province === selectedProvince &&
+                p.region && p.region.includes(selectedRegion)
+            );
+            if (regionPlaces.length > 0) {
+                const bounds = L.latLngBounds(regionPlaces.map(p => [p.lat, p.lng]));
+                if (bounds.isValid()) {
+                    map.flyToBounds(bounds, {
+                        padding: [40, 40],
+                        maxZoom: 10.5,
+                        duration: 1.0
+                    });
+                    return;
+                }
+            }
+        }
+
+        // 4. Province Level Selected
+        if (selectedProvince && PROVINCE_BOUNDS[selectedProvince]) {
+            map.flyToBounds(PROVINCE_BOUNDS[selectedProvince], {
+                padding: [30, 30],
+                maxZoom: 7.5,
+                duration: 1.0
+            });
+        }
+    }, [selectedProvince, selectedRegion, selectedCity, places]);
 
     const userPosTuple = userPos ? normPos(userPos) : null;
 
