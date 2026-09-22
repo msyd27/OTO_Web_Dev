@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 
+// Import MapView with dynamic loading to prevent SSR issues with Leaflet
 const MapView = dynamic(() => import("@/components/MapView"), { ssr: false });
 
 export default function MapPage() {
@@ -15,10 +16,8 @@ export default function MapPage() {
             <p className="text-[var(--brand)]/90 mb-4">
                 If you want to add any Masjid or Musallah or edit the information regarding a location please use the form below:
             </p>
-            {/* Form Link Section - Moved Above Map */}
+
             <div className="mb-8">
-                
-                
                 <div className="flex flex-col sm:flex-row sm:justify-start">
                     <a
                         href="https://forms.gle/o3zXp6qELFzEJtV66"
@@ -26,12 +25,17 @@ export default function MapPage() {
                         rel="noreferrer"
                         className="w-full sm:w-auto sm:min-w-[260px] text-center inline-flex justify-center items-center gap-2 rounded-lg bg-[var(--brand)] px-6 py-3 text-lg text-white font-semibold hover:bg-[var(--brand-700)] transition-colors"
                     >
-                       Map Edit/Addition Request Form
+                        Map Edit/Addition Request Form
                     </a>
                 </div>
             </div>
             
             <MapView />
+            <div className="text-center text-xs text-gray-400 mt-4">
+                <a href="https://openfreemap.org/" target="_blank" rel="noreferrer" className="hover:underline">OpenFreeMap</a> | 
+                <a href="https://openmaptiles.org/" target="_blank" rel="noreferrer" className="hover:underline"> © OpenMapTiles</a> | 
+                Data from <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer" className="hover:underline">OpenStreetMap</a>
+            </div>
         </section>
     );
 }
