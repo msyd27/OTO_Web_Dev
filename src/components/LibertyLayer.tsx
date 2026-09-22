@@ -8,7 +8,7 @@ export default function LibertyLayer() {
   const map = useMap();
 
   useEffect(() => {
-    const layer = (L as any).maplibreGL({
+    const layer = (L as unknown as { maplibreGL: (opts: Record<string, unknown>) => L.Layer }).maplibreGL({
       style: 'https://tiles.openfreemap.org/styles/liberty',
       noWrap: false,      // Background tiles repeat forever
       worldCopyJump: false, // MapLibre handles the wrap itself, no jump needed

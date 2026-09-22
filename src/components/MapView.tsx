@@ -9,6 +9,7 @@ import L from "leaflet";
 import LibertyLayer from "./LibertyLayer";
 import { FullscreenControl } from 'react-leaflet-fullscreen';
 import 'react-leaflet-fullscreen/styles.css';
+import { locationData } from "@/lib/locationData";
 
 function crescentStarIcon(color: string) {
     const svg = encodeURIComponent(`
@@ -87,29 +88,6 @@ type Place = {
 type LeafletMarkerWithMap = L.Marker & { _map?: L.Map };
 type LeafletMapWithLoaded = L.Map & { _loaded?: boolean };
 
-const locationData: Record<string, Record<string, string[]>> = {
-    "Alberta": {
-        "Calgary Region": ["Calgary", "Airdrie"],
-        "Edmonton Capital Region": ["Edmonton", "St. Albert", "Leduc", "Sherwood Park"],
-        "Wood Buffalo": ["Fort McMurray"]
-    },
-    "British Columbia": {},
-    "Manitoba": {},
-    "New Brunswick": {},
-    "Newfoundland and Labrador": {},
-    "Northwest Territories": {},
-    "Nova Scotia": {},
-    "Nunavut": {},
-    "Ontario": {
-        "Toronto": ["Scarborough"],
-        "York Region": ["Markham", "Vaughan"]
-    },
-    "Prince Edward Island": {},
-    "Quebec": {},
-    "Saskatchewan": {},
-    "Yukon": {}
-};
-
 const TYPE_COLOR: Record<PlaceType, string> = {
     Masjid: "#0ea5e9",
     Musallah: "#a855f7",
@@ -164,8 +142,9 @@ function MobileFullscreenExit({ isMobile }: { isMobile: boolean }) {
         <div style={{ position: "absolute", top: "120px", left: "24%", transform: "translateX(-50%)", zIndex: 10000, pointerEvents: "auto" }}>
             <button
                 onClick={() => {
-                    if ((map as any).toggleFullscreen) {
-                        (map as any).toggleFullscreen();
+                    const fsMap = map as unknown as { toggleFullscreen?: () => void };
+                    if (fsMap.toggleFullscreen) {
+                        fsMap.toggleFullscreen();
                     }
                 }}
                 className="bg-white px-5 py-2 rounded-full shadow-lg border border-[var(--brand)] text-sm font-extrabold text-[var(--brand)] hover:bg-[var(--brand-50)] flex items-center gap-2"
@@ -317,7 +296,7 @@ export default function MapView() {
             return (locationData[selectedProvince]?.[selectedRegion] || []).sort();
         }
         // Added a fallback (|| {}) just in case the dictionary lookup ever fails
-        return Object.values(locationData[selectedProvince] || {}).flat().sort();
+        return Array.from(new Set(Object.values(locationData[selectedProvince] || {}).flat())).sort();
     }, [selectedProvince, selectedRegion]);
 
     const handleProvinceChange = (val: string) => {
@@ -608,10 +587,10 @@ export default function MapView() {
                     .map((f) => {
                         const [lng, lat] = f.geometry.coordinates;
                         const p = (f.properties ?? {}) as Record<string, unknown>;
-                        const rawCity = p.city ?? "Other";
-                        const cityArray = Array.isArray(rawCity) ? rawCity : [rawCity.toString()];
-                        const rawRegion = p.region ?? "All Regions"; 
-                        const regionArray = Array.isArray(rawRegion) ? rawRegion : [rawRegion.toString()];
+                        const rawCity = (p.city as string) || "Other";
+                        const cityArray = Array.isArray(p.city) ? (p.city as string[]) : [rawCity];
+                        const rawRegion = (p.region as string) || "All Regions"; 
+                        const regionArray = Array.isArray(p.region) ? (p.region as string[]) : [rawRegion];
 
                         return {
                             id: (p.id ?? p.place_id ?? p.name ?? `${lat},${lng}`) as string,
