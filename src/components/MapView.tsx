@@ -115,7 +115,13 @@ const CANADA_BOUNDS: L.LatLngBoundsExpression = [[40.0, -140.0], [65.0, -45.0]];
 
 function SetMapRef({ onReady }: { onReady: (m: L.Map) => void }) {
     const map = useMap();
-    useEffect(() => { onReady(map); }, [map, onReady]);
+    const hasCalledRef = useRef(false);
+    useEffect(() => {
+        if (!hasCalledRef.current) {
+            hasCalledRef.current = true;
+            onReady(map);
+        }
+    }, [map, onReady]);
     return null;
 }
 
@@ -309,10 +315,19 @@ export default function MapView() {
     const [userPos, setUserPos] = useState<LatLngExpression | null>(null);
     const mapRef = useRef<L.Map | null>(null);
     const markerRefs = useRef<Record<string, L.Marker | null>>({});
-    const prevFiltersRef = useRef({
+    const initialLocatedRef = useRef(false);
+    const prevFiltersRef = useRef<{
+        province: string;
+        region: string;
+        city: string;
+        radius: number | "All";
+        refPos: string | null;
+    }>({
         province: selectedProvince,
         region: selectedRegion,
-        city: selectedCity
+        city: selectedCity,
+        radius: selectedRadius,
+        refPos: null
     });
     const prevPlacesLenRef = useRef(0);
 
@@ -374,7 +389,7 @@ export default function MapView() {
             source: "address"
         });
 
-        if (mapRef.current) {
+        if (selectedRadius === "All" && mapRef.current) {
             mapRef.current.flyTo(coords, 13, { animate: true });
         }
     };
@@ -723,7 +738,8 @@ export default function MapView() {
                     source: "gps"
                 });
                 setSelectedProvince("Current Location");
-                if (mapRef.current) {
+                if (mapRef.current && !initialLocatedRef.current) {
+                    initialLocatedRef.current = true;
                     mapRef.current.setView(coords, 12);
                 }
                 setNeedsUserGesture(false);
@@ -742,10 +758,13 @@ export default function MapView() {
         if (!map) return;
 
         const prev = prevFiltersRef.current;
+        const currentRefPos = refLocation ? `${refLocation.pos[0].toFixed(5)},${refLocation.pos[1].toFixed(5)}` : null;
         const filterChanged =
             prev.province !== selectedProvince ||
             prev.region !== selectedRegion ||
-            prev.city !== selectedCity;
+            prev.city !== selectedCity ||
+            prev.radius !== selectedRadius ||
+            prev.refPos !== currentRefPos;
 
         const placesJustLoaded = places.length > 0 && prevPlacesLenRef.current === 0;
         prevPlacesLenRef.current = places.length;
@@ -753,18 +772,40 @@ export default function MapView() {
         prevFiltersRef.current = {
             province: selectedProvince,
             region: selectedRegion,
-            city: selectedCity
+            city: selectedCity,
+            radius: selectedRadius,
+            refPos: currentRefPos
         };
 
         // Don't auto-fly if filters didn't change and places didn't just load with an active filter
-        if (!filterChanged && (!placesJustLoaded || selectedProvince === "All Provinces")) {
+        if (!filterChanged && (!placesJustLoaded || (selectedProvince === "All Provinces" && selectedRadius === "All"))) {
             return;
         }
 
-        // If "Current Location" is selected, don't fly to province bounds (geolocation handles it)
-        if (selectedProvince === "Current Location") return;
+        // 1. Distance Radius Selected (highest specificity)
+        if (selectedRadius && selectedRadius !== "All" && refLocation) {
+            const latDelta = selectedRadius / 111.32;
+            const lngDelta = selectedRadius / (111.32 * Math.cos((refLocation.pos[0] * Math.PI) / 180));
+            const radiusBounds = L.latLngBounds(
+                [refLocation.pos[0] - latDelta, refLocation.pos[1] - lngDelta],
+                [refLocation.pos[0] + latDelta, refLocation.pos[1] + lngDelta]
+            );
+            map.flyToBounds(radiusBounds, {
+                padding: [30, 30],
+                duration: 1.0
+            });
+            return;
+        }
 
-        // 1. If "All Provinces" is selected, snap to a fixed view of Canada
+        // If "Current Location" is selected and radius is "All", snap to userPos if radius was just cleared
+        if (selectedProvince === "Current Location") {
+            if (userPos && prev.radius !== "All") {
+                map.flyTo(userPos, 12, { animate: true });
+            }
+            return;
+        }
+
+        // 2. If "All Provinces" is selected, snap to a fixed view of Canada
         if (selectedProvince === "All Provinces") {
             const CANADA_BOUNDS: L.LatLngBoundsExpression = [[40.0, -140.0], [65.0, -45.0]];
             map.flyToBounds(CANADA_BOUNDS, { 
@@ -774,7 +815,7 @@ export default function MapView() {
             return;
         }
 
-        // 2. City Level Selected
+        // 3. City Level Selected
         if (selectedCity && selectedCity !== "All Cities" && selectedCity !== "All Areas") {
             const cityPlaces = places.filter(p => 
                 p.province === selectedProvince &&
@@ -793,7 +834,7 @@ export default function MapView() {
             }
         }
 
-        // 3. Region Level Selected
+        // 4. Region Level Selected
         if (selectedRegion && selectedRegion !== "All Regions") {
             const regionPlaces = places.filter(p =>
                 p.province === selectedProvince &&
@@ -812,7 +853,7 @@ export default function MapView() {
             }
         }
 
-        // 4. Province Level Selected
+        // 5. Province Level Selected
         if (selectedProvince && PROVINCE_BOUNDS[selectedProvince]) {
             map.flyToBounds(PROVINCE_BOUNDS[selectedProvince], {
                 padding: [30, 30],
@@ -820,7 +861,7 @@ export default function MapView() {
                 duration: 1.0
             });
         }
-    }, [selectedProvince, selectedRegion, selectedCity, places]);
+    }, [selectedProvince, selectedRegion, selectedCity, selectedRadius, refLocation, places, userPos]);
 
     return (
         <div className="rounded-2xl border border-[color:rgb(0_0_0_/_0.06)] overflow-hidden">
@@ -829,8 +870,8 @@ export default function MapView() {
                 <div className="py-2 text-xs font-medium text-[var(--muted)] border-b border-[color:rgb(0_0_0_/_0.05)]">
                 Showing {filteredPlaces.length} of {places.length} locations
                 </div>
-                {/* Filter Controls Row (Hidden for now) */}
-                <div style={{ display: "none" }} className="flex flex-col sm:flex-row flex-wrap items-center justify-start gap-4 mt-4 mb-2 rounded-xl bg-[var(--brand)]/5 p-4 border border-[var(--brand)]/10">
+                {/* Filter Controls Row */}
+                <div className="flex flex-col sm:flex-row flex-wrap items-center justify-start gap-4 mt-4 mb-2 rounded-xl bg-[var(--brand)]/5 p-4 border border-[var(--brand)]/10">
                     
                     {/* Province Filter */}
                     <div className="flex flex-col items-start gap-1 w-full sm:w-auto">
@@ -936,7 +977,13 @@ export default function MapView() {
                         <span className="text-xs font-bold text-[var(--brand)] uppercase tracking-wider pl-1">Distance</span>
                         <select
                             value={selectedRadius}
-                            onChange={(e) => setSelectedRadius(e.target.value === "All" ? "All" : Number(e.target.value))}
+                            onChange={(e) => {
+                                const val = e.target.value === "All" ? "All" : Number(e.target.value);
+                                setSelectedRadius(val);
+                                if (val !== "All" && !refLocation) {
+                                    requestLocation();
+                                }
+                            }}
                             className="w-full sm:w-36 rounded-lg border border-[color:rgb(0_0_0_/_0.15)] bg-white px-3 py-2 text-sm text-[var(--ink)] outline-none focus:ring-2 focus:ring-[var(--brand)] transition-all cursor-pointer shadow-sm"
                         >
                             <option value="All">Any Distance</option>
@@ -1077,7 +1124,8 @@ export default function MapView() {
                 >
                     <SetMapRef onReady={(m) => { 
                         mapRef.current = m; 
-                        if (userPos && selectedProvince === "Current Location") {
+                        if (userPos && !initialLocatedRef.current) {
+                            initialLocatedRef.current = true;
                             m.setView(userPos, 12);
                         }
                     }} />
