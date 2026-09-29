@@ -867,158 +867,171 @@ export default function MapView() {
         <div className="rounded-2xl border border-[color:rgb(0_0_0_/_0.06)] overflow-hidden">
             <div className="p-3 bg-white">
                 <div className="text-[var(--ink)] font-semibold">Masjid & Musallah Map</div>
-                <div className="py-2 text-xs font-medium text-[var(--muted)] border-b border-[color:rgb(0_0_0_/_0.05)]">
-                Showing {filteredPlaces.length} of {places.length} locations
-                </div>
-                {/* Filter Controls Row */}
-                <div className="flex flex-col sm:flex-row flex-wrap items-center justify-start gap-4 mt-4 mb-2 rounded-xl bg-[var(--brand)]/5 p-4 border border-[var(--brand)]/10">
-                    
-                    {/* Province Filter */}
-                    <div className="flex flex-col items-start gap-1 w-full sm:w-auto">
-                        <span className="text-xs font-bold text-[var(--brand)] uppercase tracking-wider pl-1">Province</span>
-                        <select
-                            value={selectedProvince}
-                            onChange={(e) => handleProvinceChange(e.target.value)}
-                            className="w-full sm:w-40 rounded-lg border border-[color:rgb(0_0_0_/_0.15)] bg-white px-3 py-2 text-sm text-[var(--ink)] outline-none focus:ring-2 focus:ring-[var(--brand)] transition-all cursor-pointer shadow-sm"
-                        >
-                            <option value="Current Location" hidden>📍 Auto-Located</option>
-                            <option value="All Provinces">All Provinces</option>
-                            {Object.keys(locationData).sort().map((prov) => (
-                                <option key={prov} value={prov}>{prov}</option>
-                            ))}
-                        </select>
+                <div className="flex flex-wrap items-center justify-between gap-2 py-2 text-xs font-medium text-[var(--muted)] border-b border-[color:rgb(0_0_0_/_0.05)]">
+                    <div>
+                        Showing <span className="font-bold text-[var(--ink)]">{filteredPlaces.length}</span> of {places.length} locations
                     </div>
-
-                    {/* Region Filter */}
-                    <div className="flex flex-col items-start gap-1 w-full sm:w-auto">
-                        <span className="text-xs font-bold text-[var(--brand)] uppercase tracking-wider pl-1">Region</span>
-                        <select
-                            value={selectedRegion}
-                            onChange={(e) => handleRegionChange(e.target.value)}
-                            disabled={selectedProvince === "All Provinces"}
-                            className="w-full sm:w-40 rounded-lg border border-[color:rgb(0_0_0_/_0.15)] bg-white px-3 py-2 text-sm text-[var(--ink)] outline-none focus:ring-2 focus:ring-[var(--brand)] transition-all cursor-pointer shadow-sm disabled:bg-gray-50 disabled:cursor-not-allowed"
-                        >
-                            <option value="All Regions">All Regions</option>
-                            {availableRegions.map((reg) => (
-                                <option key={reg} value={reg}>{reg}</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    {/* City Filter */}
-                    <div className="flex flex-col items-start gap-1 w-full sm:w-auto">
-                        <span className="text-xs font-bold text-[var(--brand)] uppercase tracking-wider pl-1">City / Area</span>
-                        <select
-                            value={selectedCity}
-                            onChange={(e) => setSelectedCity(e.target.value)}
-                            disabled={selectedProvince === "All Provinces"}
-                            className="w-full sm:w-40 rounded-lg border border-[color:rgb(0_0_0_/_0.15)] bg-white px-3 py-2 text-sm text-[var(--ink)] outline-none focus:ring-2 focus:ring-[var(--brand)] transition-all cursor-pointer shadow-sm disabled:bg-gray-50 disabled:cursor-not-allowed"
-                        >
-                            <option value="All Cities">All Cities</option>
-                            {availableCities.map((city) => (
-                                <option key={city} value={city}>{city}</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    {/* Address / Postal Code Master Location Filter */}
-                    <div ref={addressBoxRef} className="relative flex flex-col items-start gap-1 w-full sm:w-60">
-                        <span className="text-xs font-bold text-[var(--brand)] uppercase tracking-wider pl-1">
-                            Address / Postal Code
-                        </span>
-                        <div className="relative w-full">
-                            <input
-                                type="text"
-                                value={addressInput}
-                                onChange={(e) => {
-                                    setAddressInput(e.target.value);
-                                    setShowAddressDropdown(true);
-                                }}
-                                onFocus={() => setShowAddressDropdown(true)}
-                                placeholder="e.g. L3S 0B5 or Markham"
-                                className="w-full rounded-lg border border-[color:rgb(0_0_0_/_0.15)] bg-white pl-3 pr-7 py-2 text-sm text-[var(--ink)] outline-none focus:ring-2 focus:ring-[var(--brand)] transition-all shadow-sm placeholder:text-[var(--muted)]"
-                            />
-                            {addressInput && (
-                                <button
-                                    type="button"
-                                    onClick={handleClearAddress}
-                                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 font-bold text-xs"
-                                    title="Clear address"
-                                >
-                                    ✕
-                                </button>
-                            )}
-                        </div>
-
-                        {/* Autocomplete suggestions dropdown */}
-                        {showAddressDropdown && addressSuggestions.length > 0 && (
-                            <ul className="absolute top-full left-0 right-0 z-[1100] mt-1 max-h-48 overflow-y-auto rounded-lg border border-[color:rgb(0_0_0_/_0.15)] bg-white p-1 text-xs shadow-lg divide-y divide-gray-100">
-                                {addressSuggestions.map((item, idx) => (
-                                    <li
-                                        key={idx}
-                                        onClick={() => handleSelectAddress(item)}
-                                        className="cursor-pointer rounded-md p-2 hover:bg-[var(--brand)]/10 text-left text-gray-800 transition-colors"
-                                    >
-                                        <div className="font-semibold text-[var(--ink)]">{item.shortName}</div>
-                                        <div className="text-[10px] text-[var(--muted)] truncate">{item.displayName}</div>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                        {showAddressDropdown && isGeocoding && (
-                            <div className="absolute top-full left-0 right-0 z-[1100] mt-1 rounded-lg border border-gray-200 bg-white p-2 text-xs text-[var(--muted)] text-center shadow-lg">
-                                Searching address...
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Distance Filter */}
-                    <div className="flex flex-col items-start gap-1 w-full sm:w-auto">
-                        <span className="text-xs font-bold text-[var(--brand)] uppercase tracking-wider pl-1">Distance</span>
-                        <select
-                            value={selectedRadius}
-                            onChange={(e) => {
-                                const val = e.target.value === "All" ? "All" : Number(e.target.value);
-                                setSelectedRadius(val);
-                                if (val !== "All" && !refLocation) {
-                                    requestLocation();
-                                }
-                            }}
-                            className="w-full sm:w-36 rounded-lg border border-[color:rgb(0_0_0_/_0.15)] bg-white px-3 py-2 text-sm text-[var(--ink)] outline-none focus:ring-2 focus:ring-[var(--brand)] transition-all cursor-pointer shadow-sm"
-                        >
-                            <option value="All">Any Distance</option>
-                            <option value={5}>Within 5 km</option>
-                            <option value={10}>Within 10 km</option>
-                            <option value={25}>Within 25 km</option>
-                            <option value={50}>Within 50 km</option>
-                        </select>
-                    </div>
-
-                    {/* Location / Center on Me Button */}
-                    <div className="flex flex-col items-start sm:items-end w-full sm:w-auto sm:ml-auto mt-2 sm:mt-0">
-                        <button
-                            type="button"
-                            onClick={centerOnUser}
-                            className="flex items-center justify-center gap-2 rounded-lg border border-[var(--brand)] bg-white px-4 py-2.5 text-sm font-bold text-[var(--brand)] shadow-sm hover:bg-[var(--brand-50)] outline-none focus:ring-2 focus:ring-[var(--brand)] transition-all w-full sm:w-auto"
-                        >
-                            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden="true" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M12 22s7-5 7-12a7 7 0 10-14 0c0 7 7 12 7 12z" />
-                                <circle cx="12" cy="10" r="3" />
-                            </svg>
-                            Center on me
-                        </button>
-                        {!refLocation && (
-                            <span className="text-xs font-semibold text-red-500 mt-1 max-w-[200px] text-left sm:text-right leading-tight">
-                                {geoMsg === "Enable location to see the three closest Masajid near you." || !geoMsg
-                                    ? "Location is not enabled"
-                                    : geoMsg}
-                            </span>
-                        )}
+                    <div className="flex items-center gap-2">
                         {refLocation && refLocation.source === "address" && (
-                            <span className="text-xs font-semibold text-emerald-600 mt-1 max-w-[220px] text-left sm:text-right leading-tight truncate">
+                            <span className="inline-flex items-center gap-1 font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200/80 text-[11px]">
                                 📍 Ref: {refLocation.label}
                             </span>
                         )}
+                        {refLocation && refLocation.source === "gps" && (
+                            <span className="inline-flex items-center gap-1 font-semibold text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200/80 text-[11px]">
+                                📍 Ref: Your GPS Location
+                            </span>
+                        )}
+                        {!refLocation && (
+                            <span className="inline-flex items-center gap-1 font-semibold text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200/80 text-[11px]">
+                                ⚠️ {geoMsg === "Enable location to see the three closest Masajid near you." || !geoMsg
+                                    ? "Location not enabled"
+                                    : geoMsg}
+                            </span>
+                        )}
+                    </div>
+                </div>
+                {/* Filter Controls Row */}
+                <div className="mt-3 mb-2 rounded-xl bg-[var(--brand)]/5 p-3 sm:p-3.5 border border-[var(--brand)]/10">
+                    <div className="flex flex-wrap lg:flex-nowrap items-end gap-2.5">
+                        
+                        {/* Province Filter */}
+                        <div className="flex flex-col gap-1 w-full sm:w-[calc(50%-5px)] md:w-[calc(33.333%-7px)] lg:w-auto lg:flex-1 min-w-0">
+                            <span className="text-[11px] font-bold text-[var(--brand)] uppercase tracking-wider pl-0.5 truncate">Province</span>
+                            <select
+                                value={selectedProvince}
+                                onChange={(e) => handleProvinceChange(e.target.value)}
+                                className="w-full rounded-lg border border-[color:rgb(0_0_0_/_0.15)] bg-white px-2.5 py-2 text-xs sm:text-sm text-[var(--ink)] outline-none focus:ring-2 focus:ring-[var(--brand)] transition-all cursor-pointer shadow-sm h-[38px] truncate"
+                            >
+                                <option value="Current Location" hidden>📍 Auto-Located</option>
+                                <option value="All Provinces">All Provinces</option>
+                                {Object.keys(locationData).sort().map((prov) => (
+                                    <option key={prov} value={prov}>{prov}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        {/* Region Filter */}
+                        <div className="flex flex-col gap-1 w-full sm:w-[calc(50%-5px)] md:w-[calc(33.333%-7px)] lg:w-auto lg:flex-1 min-w-0">
+                            <span className="text-[11px] font-bold text-[var(--brand)] uppercase tracking-wider pl-0.5 truncate">Region</span>
+                            <select
+                                value={selectedRegion}
+                                onChange={(e) => handleRegionChange(e.target.value)}
+                                disabled={selectedProvince === "All Provinces"}
+                                className="w-full rounded-lg border border-[color:rgb(0_0_0_/_0.15)] bg-white px-2.5 py-2 text-xs sm:text-sm text-[var(--ink)] outline-none focus:ring-2 focus:ring-[var(--brand)] transition-all cursor-pointer shadow-sm disabled:bg-gray-50 disabled:cursor-not-allowed h-[38px] truncate"
+                            >
+                                <option value="All Regions">All Regions</option>
+                                {availableRegions.map((reg) => (
+                                    <option key={reg} value={reg}>{reg}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        {/* City Filter */}
+                        <div className="flex flex-col gap-1 w-full sm:w-[calc(50%-5px)] md:w-[calc(33.333%-7px)] lg:w-auto lg:flex-1 min-w-0">
+                            <span className="text-[11px] font-bold text-[var(--brand)] uppercase tracking-wider pl-0.5 truncate">City / Area</span>
+                            <select
+                                value={selectedCity}
+                                onChange={(e) => setSelectedCity(e.target.value)}
+                                disabled={selectedProvince === "All Provinces"}
+                                className="w-full rounded-lg border border-[color:rgb(0_0_0_/_0.15)] bg-white px-2.5 py-2 text-xs sm:text-sm text-[var(--ink)] outline-none focus:ring-2 focus:ring-[var(--brand)] transition-all cursor-pointer shadow-sm disabled:bg-gray-50 disabled:cursor-not-allowed h-[38px] truncate"
+                            >
+                                <option value="All Cities">All Cities</option>
+                                {availableCities.map((city) => (
+                                    <option key={city} value={city}>{city}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        {/* Address / Postal Code Master Location Filter */}
+                        <div ref={addressBoxRef} className="relative flex flex-col gap-1 w-full sm:w-[calc(50%-5px)] md:w-[calc(33.333%-7px)] lg:w-auto lg:flex-[1.25] min-w-0">
+                            <span className="text-[11px] font-bold text-[var(--brand)] uppercase tracking-wider pl-0.5 truncate">
+                                Address / Postal Code
+                            </span>
+                            <div className="relative w-full">
+                                <input
+                                    type="text"
+                                    value={addressInput}
+                                    onChange={(e) => {
+                                        setAddressInput(e.target.value);
+                                        setShowAddressDropdown(true);
+                                    }}
+                                    onFocus={() => setShowAddressDropdown(true)}
+                                    placeholder="e.g. L3S 0B5 or Markham"
+                                    className="w-full rounded-lg border border-[color:rgb(0_0_0_/_0.15)] bg-white pl-2.5 pr-7 py-2 text-xs sm:text-sm text-[var(--ink)] outline-none focus:ring-2 focus:ring-[var(--brand)] transition-all shadow-sm placeholder:text-[var(--muted)] h-[38px]"
+                                />
+                                {addressInput && (
+                                    <button
+                                        type="button"
+                                        onClick={handleClearAddress}
+                                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 font-bold text-xs"
+                                        title="Clear address"
+                                    >
+                                        ✕
+                                    </button>
+                                )}
+                            </div>
+
+                            {/* Autocomplete suggestions dropdown */}
+                            {showAddressDropdown && addressSuggestions.length > 0 && (
+                                <ul className="absolute top-full left-0 right-0 sm:right-auto sm:min-w-[240px] z-[1100] mt-1 max-h-48 overflow-y-auto rounded-lg border border-[color:rgb(0_0_0_/_0.15)] bg-white p-1 text-xs shadow-lg divide-y divide-gray-100">
+                                    {addressSuggestions.map((item, idx) => (
+                                        <li
+                                            key={idx}
+                                            onClick={() => handleSelectAddress(item)}
+                                            className="cursor-pointer rounded-md p-2 hover:bg-[var(--brand)]/10 text-left text-gray-800 transition-colors"
+                                        >
+                                            <div className="font-semibold text-[var(--ink)]">{item.shortName}</div>
+                                            <div className="text-[10px] text-[var(--muted)] truncate">{item.displayName}</div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                            {showAddressDropdown && isGeocoding && (
+                                <div className="absolute top-full left-0 right-0 sm:right-auto sm:min-w-[200px] z-[1100] mt-1 rounded-lg border border-gray-200 bg-white p-2 text-xs text-[var(--muted)] text-center shadow-lg">
+                                    Searching address...
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Distance Filter */}
+                        <div className="flex flex-col gap-1 w-full sm:w-[calc(50%-5px)] md:w-[calc(33.333%-7px)] lg:w-auto lg:flex-1 min-w-0">
+                            <span className="text-[11px] font-bold text-[var(--brand)] uppercase tracking-wider pl-0.5 truncate">Distance</span>
+                            <select
+                                value={selectedRadius}
+                                onChange={(e) => {
+                                    const val = e.target.value === "All" ? "All" : Number(e.target.value);
+                                    setSelectedRadius(val);
+                                    if (val !== "All" && !refLocation) {
+                                        requestLocation();
+                                    }
+                                }}
+                                className="w-full rounded-lg border border-[color:rgb(0_0_0_/_0.15)] bg-white px-2.5 py-2 text-xs sm:text-sm text-[var(--ink)] outline-none focus:ring-2 focus:ring-[var(--brand)] transition-all cursor-pointer shadow-sm h-[38px] truncate"
+                            >
+                                <option value="All">Any Distance</option>
+                                <option value={5}>Within 5 km</option>
+                                <option value={10}>Within 10 km</option>
+                                <option value={25}>Within 25 km</option>
+                                <option value={50}>Within 50 km</option>
+                            </select>
+                        </div>
+
+                        {/* Location / Center on Me Button */}
+                        <div className="flex flex-col gap-1 w-full sm:w-[calc(50%-5px)] md:w-[calc(33.333%-7px)] lg:w-auto lg:flex-1 min-w-0">
+                            <span className="text-[11px] font-bold text-transparent select-none uppercase tracking-wider pl-0.5 hidden sm:block">Action</span>
+                            <button
+                                type="button"
+                                onClick={centerOnUser}
+                                className="flex items-center justify-center gap-1.5 rounded-lg border border-[var(--brand)] bg-white px-2.5 py-2 text-xs sm:text-sm font-bold text-[var(--brand)] shadow-sm hover:bg-[var(--brand-50)] outline-none focus:ring-2 focus:ring-[var(--brand)] transition-all h-[38px] w-full whitespace-nowrap"
+                            >
+                                <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0" fill="none" aria-hidden="true" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M12 22s7-5 7-12a7 7 0 10-14 0c0 7 7 12 7 12z" />
+                                    <circle cx="12" cy="10" r="3" />
+                                </svg>
+                                <span className="truncate">Center on me</span>
+                            </button>
+                        </div>
+
                     </div>
                 </div>
                 {/* 🔍 Search bar under heading */}
