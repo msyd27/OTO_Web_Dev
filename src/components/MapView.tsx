@@ -165,31 +165,6 @@ function MobileFullscreenExit({ isMobile }: { isMobile: boolean }) {
     );
 }
 
-function FullscreenTracker({ onFullscreenChange }: { onFullscreenChange: (isFs: boolean) => void }) {
-    const map = useMap();
-
-    useEffect(() => {
-        const handleEnter = () => onFullscreenChange(true);
-        const handleExit = () => onFullscreenChange(false);
-
-        map.on('enterFullscreen', handleEnter);
-        map.on('exitFullscreen', handleExit);
-
-        const handleDocChange = () => {
-            onFullscreenChange(Boolean(document.fullscreenElement));
-        };
-        document.addEventListener('fullscreenchange', handleDocChange);
-
-        return () => {
-            map.off('enterFullscreen', handleEnter);
-            map.off('exitFullscreen', handleExit);
-            document.removeEventListener('fullscreenchange', handleDocChange);
-        };
-    }, [map, onFullscreenChange]);
-
-    return null;
-}
-
 function MapClickCloser({ onClick }: { onClick: () => void }) {
     useMapEvents({
         click() {
@@ -227,14 +202,7 @@ function extractWebsite(props: Record<string, unknown>): string | undefined {
 
 function MapLegend() {
     return (
-        <div 
-            className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 z-[1000] bg-white p-2 sm:p-3 rounded-lg border border-[color:rgb(0_0_0_/_0.15)] shadow-sm text-[10px] sm:text-xs pointer-events-auto"
-            onMouseDown={(e) => e.stopPropagation()}
-            onClick={(e) => e.stopPropagation()}
-            onDoubleClick={(e) => e.stopPropagation()}
-            onTouchStart={(e) => e.stopPropagation()}
-            onWheel={(e) => e.stopPropagation()}
-        >
+        <div className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 z-[1000] bg-white p-2 sm:p-3 rounded-lg border border-[color:rgb(0_0_0_/_0.15)] shadow-sm text-[10px] sm:text-xs">
             <div className="flex items-center gap-1.5 sm:gap-2">
                 <img
                     src={MASJID_ICON_BLUE.options.iconUrl!} 
@@ -345,7 +313,6 @@ export default function MapView() {
     };
     const [places, setPlaces] = useState<Place[]>([]);
     const [userPos, setUserPos] = useState<LatLngExpression | null>(null);
-    const [isFullscreen, setIsFullscreen] = useState(false);
     const mapRef = useRef<L.Map | null>(null);
     const markerRefs = useRef<Record<string, L.Marker | null>>({});
     const initialLocatedRef = useRef(false);
@@ -1250,81 +1217,6 @@ export default function MapView() {
 
                     <FullscreenControl position="topleft" />
                     <MobileFullscreenExit isMobile={isMobile} />
-                    <FullscreenTracker onFullscreenChange={setIsFullscreen} />
-
-                    {/* Fullscreen Search Bar */}
-                    {isFullscreen && (
-                        <div 
-                            className="absolute top-2.5 left-12 sm:left-14 z-[1000] w-[clamp(190px,36%,320px)]"
-                            onMouseDown={(e) => e.stopPropagation()}
-                            onClick={(e) => e.stopPropagation()}
-                            onDoubleClick={(e) => e.stopPropagation()}
-                            onTouchStart={(e) => e.stopPropagation()}
-                            onWheel={(e) => e.stopPropagation()}
-                        >
-                            <div className="rounded-xl border bg-white/95 shadow-md backdrop-blur overflow-hidden">
-                                <div className="flex items-center gap-2 px-2.5 py-1.5">
-                                    <svg className="h-4 w-4 shrink-0 text-[var(--muted)]" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                        <path d="M15.5 15.5 20 20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                        <circle cx="11" cy="11" r="5" stroke="currentColor" strokeWidth="1.5" />
-                                    </svg>
-                                    <input
-                                        type="search"
-                                        value={searchQuery}
-                                        onFocus={() => setSearchOpen(true)}
-                                        onChange={(e) => {
-                                            setSearchQuery(e.target.value);
-                                            setSearchOpen(true);
-                                        }}
-                                        placeholder="Search by name…"
-                                        className="w-full bg-transparent text-xs sm:text-sm text-[var(--ink)] placeholder:text-[var(--muted)] outline-none"
-                                    />
-                                    {searchQuery && (
-                                        <button
-                                            type="button"
-                                            onClick={() => {
-                                                setSearchQuery("");
-                                                setSearchOpen(false);
-                                            }}
-                                            className="text-xs text-gray-400 hover:text-gray-600 px-1 font-bold"
-                                        >
-                                            ✕
-                                        </button>
-                                    )}
-                                </div>
-
-                                {/* Dropdown results in fullscreen */}
-                                {searchOpen && searchQuery && (
-                                    <div className="border-t border-gray-100 max-h-60 overflow-y-auto px-2 py-1.5 space-y-1 text-xs text-left bg-white">
-                                        {searchMatches.length > 0 ? (
-                                            searchMatches.map((p) => {
-                                                const distanceKm =
-                                                    refLocation != null
-                                                        ? haversineKm(refLocation.pos, [p.lat, p.lng])
-                                                        : null;
-
-                                                return (
-                                                    <div
-                                                        key={p.id}
-                                                        className="rounded-md px-2 py-1.5 hover:bg-[var(--brand-50)]/50 cursor-pointer"
-                                                        onClick={() => handleSelectPlace(p)}
-                                                    >
-                                                        <div className="font-semibold text-[var(--ink)] truncate">{p.name}</div>
-                                                        {p.address && <div className="text-[11px] text-[var(--muted)] truncate">{p.address}</div>}
-                                                        <div className="text-[10px] text-[var(--muted)]">
-                                                            {distanceKm !== null ? `${p.type} • ${distanceKm.toFixed(1)} km away` : p.type}
-                                                        </div>
-                                                    </div>
-                                                );
-                                            })
-                                        ) : (
-                                            <div className="p-2 text-center text-gray-400 text-xs">No locations found.</div>
-                                        )}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    )}
                    
                     <LibertyLayer />
 
@@ -1418,124 +1310,109 @@ export default function MapView() {
                             </Marker>
                         );
                     })}
-
-                    <MapLegend />
-
-                    {/* Closest to you / Closest to address Panel */}
-                    {refLocation && nearest3.length > 0 && (
-                        <div 
-                            className="pointer-events-none absolute top-3 right-3 z-[900] w-[clamp(200px,65%,420px)]"
-                            onMouseDown={(e) => e.stopPropagation()}
-                            onClick={(e) => e.stopPropagation()}
-                            onDoubleClick={(e) => e.stopPropagation()}
-                            onTouchStart={(e) => e.stopPropagation()}
-                            onWheel={(e) => e.stopPropagation()}
-                        >
-                            <div className="pointer-events-auto rounded-2xl border bg-white/95 backdrop-blur shadow-lg overflow-hidden">
-                                <button
-                                    type="button"
-                                    onClick={() => setPanelOpen(o => !o)}
-                                    aria-expanded={panelOpen}
-                                    aria-controls="closest-panel"
-                                    className="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-[var(--brand-50)]/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
-                                >
-                                    <span className="text-sm font-semibold text-[var(--ink)]">
-                                        {refLocation.source === "address" ? "Closest to address" : "Closest to you"}
-                                    </span>
-                                    <svg
-                                        className={`h-4 w-4 text-[var(--muted)] transition-transform ${panelOpen ? "" : "-rotate-90"}`}
-                                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
-                                    >
-                                        <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-                                    </svg>
-                                </button>
-
-                                {panelOpen && (
-                                    <div id="closest-panel" className="px-3 py-3">
-                                        <ul className="space-y-2">
-                                            {nearest3.map(({ p, d }) => (
-                                                <li key={p.id} className="flex items-start justify-between gap-3">
-                                                    <div className="min-w-0 flex-1 pr-2">
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => handleSelectPlace(p)}
-                                                            className="block w-full text-left font-medium text-[var(--ink)] text-sm break-words hover:underline"
-                                                            title="Open on map"
-                                                        >
-                                                            {p.name}
-                                                        </button>
-
-                                                        {p.address && (
-                                                            <div className="truncate text-xs text-[var(--muted)]">
-                                                                {p.address}
-                                                            </div>
-                                                        )}
-                                                        <div className="text-xs text-[var(--muted)] text-left">
-                                                            {d.toFixed(1)} km away - {p.type}
-                                                        </div>
-
-                                                    </div>
-                                                    <a
-                                                        className="shrink-0 rounded-lg border px-2 py-1 text-xs text-[var(--brand)] hover:bg-[var(--brand-50)]"
-                                                        href={`https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`}
-                                                        target="_blank" rel="noreferrer"
-                                                        title="Open in Google Maps"
-                                                    >
-                                                        Directions
-                                                    </a>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    )}
-
-                    {!refLocation && (
-                        <div
-                            className="pointer-events-none absolute top-2 right-2 sm:top-3 sm:right-3 z-[900] w-[clamp(160px,45%,280px)] sm:w-[clamp(200px,40%,420px)]"
-                            onMouseDown={(e) => e.stopPropagation()}
-                            onClick={(e) => e.stopPropagation()}
-                            onDoubleClick={(e) => e.stopPropagation()}
-                            onTouchStart={(e) => e.stopPropagation()}
-                            onWheel={(e) => e.stopPropagation()}
-                        >
-                            <div className="pointer-events-auto rounded-xl sm:rounded-2xl border bg-white/95 backdrop-blur shadow-lg overflow-hidden">
-                                <button
-                                    type="button"
-                                    onClick={() => setLocPanelOpen(o => !o)}
-                                    className="w-full flex items-center justify-between px-2.5 py-2 sm:px-3 sm:py-2.5 text-left hover:bg-[var(--brand-50)]/40 focus:outline-none"
-                                >
-                                    <span className="text-xs sm:text-sm font-semibold text-[var(--ink)]">
-                                        Location Access
-                                    </span>
-                                    <svg
-                                        className={`h-3 w-3 sm:h-4 sm:w-4 text-[var(--muted)] transition-transform ${locPanelOpen ? "" : "-rotate-90"}`}
-                                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
-                                    >
-                                        <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-                                    </svg>
-                                </button>
-
-                                {locPanelOpen && (
-                                    <div className="px-2.5 pb-2.5 sm:px-3 sm:pb-3">
-                                        <p className="text-[11px] sm:text-sm text-[var(--muted)] leading-snug mb-2.5">
-                                            {geoMsg || "Enable location to see the three closest Masajid near you."}
-                                        </p>
-                                        <button
-                                            type="button"
-                                            onClick={requestLocation}
-                                            className="text-[11px] sm:text-sm font-bold text-white bg-[var(--brand)] px-3 py-1.5 rounded-lg hover:bg-[var(--brand-700)] transition-colors w-full text-center shadow-sm"
-                                        >
-                                            Request Access
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    )}
                 </MapContainer>
+                <MapLegend />
+
+                {userPos && nearest3.length > 0 && (
+                    <div className="pointer-events-none absolute top-3 right-3 z-[900] w-[clamp(200px,65%,420px)]">
+                        <div className="pointer-events-auto rounded-2xl border bg-white/95 backdrop-blur shadow-lg overflow-hidden">
+                            <button
+                                type="button"
+                                onClick={() => setPanelOpen(o => !o)}
+                                aria-expanded={panelOpen}
+                                aria-controls="closest-panel"
+                                className="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-[var(--brand-50)]/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+                            >
+                                <span className="text-sm font-semibold text-[var(--ink)]">Closest to you</span>
+                                <svg
+                                    className={`h-4 w-4 text-[var(--muted)] transition-transform ${panelOpen ? "" : "-rotate-90"}`}
+                                    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                                >
+                                    <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                                </svg>
+                            </button>
+
+                            {panelOpen && (
+                                <div id="closest-panel" className="px-3 py-3">
+                                    <ul className="space-y-2">
+                                        {nearest3.map(({ p, d }) => (
+                                            <li key={p.id} className="flex items-start justify-between gap-3">
+                                                <div className="min-w-0 flex-1 pr-2">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleSelectPlace(p)}
+                                                        className="block w-full text-left font-medium text-[var(--ink)] text-sm break-words hover:underline"
+                                                        title="Open on map"
+                                                    >
+                                                        {p.name}
+                                                    </button>
+
+
+                                                    {p.address && (
+                                                        <div className="truncate text-xs text-[var(--muted)]">
+                                                            {p.address}
+                                                        </div>
+                                                    )}
+                                                    <div className="text-xs text-[var(--muted)] text-left">
+                                                        {d.toFixed(1)} km away - {p.type}
+                                                    </div>
+
+                                                </div>
+                                                <a
+                                                    className="shrink-0 rounded-lg border px-2 py-1 text-xs text-[var(--brand)] hover:bg-[var(--brand-50)]"
+                                                    href={`https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`}
+                                                    target="_blank" rel="noreferrer"
+                                                    title="Open in Google Maps"
+                                                >
+                                                    Directions
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+
+                {!userPos && (
+                    <div
+                        className="pointer-events-none absolute top-2 right-2 sm:top-3 sm:right-3 z-[900] w-[clamp(160px,45%,280px)] sm:w-[clamp(200px,40%,420px)]"
+                    >
+                        <div className="pointer-events-auto rounded-xl sm:rounded-2xl border bg-white/95 backdrop-blur shadow-lg overflow-hidden">
+                            <button
+                                type="button"
+                                onClick={() => setLocPanelOpen(o => !o)}
+                                className="w-full flex items-center justify-between px-2.5 py-2 sm:px-3 sm:py-2.5 text-left hover:bg-[var(--brand-50)]/40 focus:outline-none"
+                            >
+                                <span className="text-xs sm:text-sm font-semibold text-[var(--ink)]">
+                                    Location Access
+                                </span>
+                                <svg
+                                    className={`h-3 w-3 sm:h-4 sm:w-4 text-[var(--muted)] transition-transform ${locPanelOpen ? "" : "-rotate-90"}`}
+                                    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                                >
+                                    <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                                </svg>
+                            </button>
+
+                            {locPanelOpen && (
+                                <div className="px-2.5 pb-2.5 sm:px-3 sm:pb-3">
+                                    <p className="text-[11px] sm:text-sm text-[var(--muted)] leading-snug mb-2.5">
+                                        {geoMsg || "Enable location to see the three closest Masajid near you."}
+                                    </p>
+                                    <button
+                                        type="button"
+                                        onClick={requestLocation}
+                                        className="text-[11px] sm:text-sm font-bold text-white bg-[var(--brand)] px-3 py-1.5 rounded-lg hover:bg-[var(--brand-700)] transition-colors w-full text-center shadow-sm"
+                                    >
+                                        Request Access
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
             </div>
             {/* --- MOBILE BOTTOM SHEET (Will work on later)--- */}
             {/* <div
