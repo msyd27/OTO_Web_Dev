@@ -389,8 +389,40 @@ export default function MapView() {
             source: "address"
         });
 
-        if (selectedRadius === "All" && mapRef.current) {
-            mapRef.current.flyTo(coords, 13, { animate: true });
+        if (mapRef.current) {
+            if (selectedRadius && selectedRadius !== "All") {
+                const latDelta = selectedRadius / 111.32;
+                const lngDelta = selectedRadius / (111.32 * Math.cos((coords[0] * Math.PI) / 180));
+                const radiusBounds = L.latLngBounds(
+                    [coords[0] - latDelta, coords[1] - lngDelta],
+                    [coords[0] + latDelta, coords[1] + lngDelta]
+                );
+                mapRef.current.flyToBounds(radiusBounds, { padding: [30, 30], duration: 1.0 });
+            } else {
+                mapRef.current.flyTo(coords, 13.5, { animate: true });
+            }
+        }
+    };
+
+    const handleAddressSubmit = async (queryText?: string) => {
+        const query = (queryText ?? addressInput).trim();
+        if (!query || query.length < 3) return;
+
+        if (addressSuggestions.length > 0) {
+            handleSelectAddress(addressSuggestions[0]);
+            return;
+        }
+
+        setIsGeocoding(true);
+        try {
+            const results = await searchCanadianAddress(query);
+            if (results.length > 0) {
+                handleSelectAddress(results[0]);
+            }
+        } catch (err) {
+            console.warn("Geocoding failed on submit:", err);
+        } finally {
+            setIsGeocoding(false);
         }
     };
 
@@ -778,11 +810,30 @@ export default function MapView() {
         };
 
         // Don't auto-fly if filters didn't change and places didn't just load with an active filter
-        if (!filterChanged && (!placesJustLoaded || (selectedProvince === "All Provinces" && selectedRadius === "All"))) {
+        if (!filterChanged && (!placesJustLoaded || (selectedProvince === "All Provinces" && selectedRadius === "All" && (!refLocation || refLocation.source !== "address")))) {
             return;
         }
 
-        // 1. Distance Radius Selected (highest specificity)
+        // 1. If an Address Reference Location is active
+        if (refLocation && refLocation.source === "address") {
+            if (selectedRadius && selectedRadius !== "All") {
+                const latDelta = selectedRadius / 111.32;
+                const lngDelta = selectedRadius / (111.32 * Math.cos((refLocation.pos[0] * Math.PI) / 180));
+                const radiusBounds = L.latLngBounds(
+                    [refLocation.pos[0] - latDelta, refLocation.pos[1] - lngDelta],
+                    [refLocation.pos[0] + latDelta, refLocation.pos[1] + lngDelta]
+                );
+                map.flyToBounds(radiusBounds, {
+                    padding: [30, 30],
+                    duration: 1.0
+                });
+            } else if (prev.refPos !== currentRefPos) {
+                map.flyTo(refLocation.pos, 13.5, { animate: true });
+            }
+            return;
+        }
+
+        // 2. Distance Radius Selected with GPS (highest specificity)
         if (selectedRadius && selectedRadius !== "All" && refLocation) {
             const latDelta = selectedRadius / 111.32;
             const lngDelta = selectedRadius / (111.32 * Math.cos((refLocation.pos[0] * Math.PI) / 180));
@@ -805,7 +856,7 @@ export default function MapView() {
             return;
         }
 
-        // 2. If "All Provinces" is selected, snap to a fixed view of Canada
+        // 3. If "All Provinces" is selected, snap to a fixed view of Canada
         if (selectedProvince === "All Provinces") {
             const CANADA_BOUNDS: L.LatLngBoundsExpression = [[40.0, -140.0], [65.0, -45.0]];
             map.flyToBounds(CANADA_BOUNDS, { 
@@ -957,19 +1008,38 @@ export default function MapView() {
                                         setShowAddressDropdown(true);
                                     }}
                                     onFocus={() => setShowAddressDropdown(true)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                            e.preventDefault();
+                                            handleAddressSubmit();
+                                        }
+                                    }}
                                     placeholder="e.g. L3S 0B5 or Markham"
-                                    className="w-full rounded-lg border border-[color:rgb(0_0_0_/_0.15)] bg-white pl-2.5 pr-7 py-2 text-xs sm:text-sm text-[var(--ink)] outline-none focus:ring-2 focus:ring-[var(--brand)] transition-all shadow-sm placeholder:text-[var(--muted)] h-[38px]"
+                                    className="w-full rounded-lg border border-[color:rgb(0_0_0_/_0.15)] bg-white pl-2.5 pr-14 py-2 text-xs sm:text-sm text-[var(--ink)] outline-none focus:ring-2 focus:ring-[var(--brand)] transition-all shadow-sm placeholder:text-[var(--muted)] h-[38px]"
                                 />
-                                {addressInput && (
+                                <div className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center gap-0.5">
+                                    {addressInput && (
+                                        <button
+                                            type="button"
+                                            onClick={handleClearAddress}
+                                            className="p-1 text-gray-400 hover:text-gray-600 font-bold text-xs"
+                                            title="Clear address"
+                                        >
+                                            ✕
+                                        </button>
+                                    )}
                                     <button
                                         type="button"
-                                        onClick={handleClearAddress}
-                                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 font-bold text-xs"
-                                        title="Clear address"
+                                        onClick={() => handleAddressSubmit()}
+                                        disabled={isGeocoding || !addressInput.trim()}
+                                        className="p-1 text-[var(--brand)] hover:text-[var(--brand)]/80 disabled:opacity-30 disabled:cursor-not-allowed"
+                                        title="Search address"
                                     >
-                                        ✕
+                                        <svg viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5">
+                                            <path fillRule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clipRule="evenodd" />
+                                        </svg>
                                     </button>
-                                )}
+                                </div>
                             </div>
 
                             {/* Autocomplete suggestions dropdown */}
