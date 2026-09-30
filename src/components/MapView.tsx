@@ -237,9 +237,9 @@ function SearchBarUI({
             onDoubleClick={(e) => e.stopPropagation()}
             onWheel={(e) => e.stopPropagation()}
         >
-            <div className="flex items-center gap-2 px-3 py-2 font-sans">
+            <div className="flex items-center gap-2 px-3 h-12 font-sans">
                 <svg
-                    className="h-4 w-4 text-[var(--muted)]"
+                    className="h-4 w-4 text-[var(--muted)] shrink-0"
                     viewBox="0 0 24 24"
                     fill="none"
                     aria-hidden="true"
@@ -278,7 +278,7 @@ function SearchBarUI({
                         e.nativeEvent.stopImmediatePropagation();
                     }}
                     placeholder="Search by name…"
-                    className="w-full rounded-md border border-[color:rgb(0_0_0_/_0.06)] bg-white/90 px-2.5 py-1.5 text-base sm:text-sm text-[var(--ink)] shadow-sm placeholder:text-[var(--muted)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] font-sans"
+                    className="w-full h-9 rounded-md border border-[color:rgb(0_0_0_/_0.06)] bg-white/90 px-2.5 text-base sm:text-sm text-[var(--ink)] shadow-sm placeholder:text-[var(--muted)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] font-sans"
                 />
             </div>
 
@@ -399,10 +399,12 @@ function extractWebsite(props: Record<string, unknown>): string | undefined {
     return m?.[1];
 }
 
-function MapLegend() {
+function MapLegend({ isMapFullscreen }: { isMapFullscreen?: boolean } = {}) {
     return (
         <div
-            className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 z-[1000] bg-white p-2 sm:p-3 rounded-lg border border-[color:rgb(0_0_0_/_0.15)] shadow-sm text-[10px] sm:text-xs pointer-events-auto"
+            className={`absolute bottom-2 left-2 sm:bottom-3 sm:left-3 z-[1000] bg-white p-2 sm:p-3 rounded-lg border border-[color:rgb(0_0_0_/_0.15)] shadow-sm text-[10px] sm:text-xs pointer-events-auto ${
+                isMapFullscreen ? "hidden sm:block" : ""
+            }`}
             onMouseDown={(e) => e.stopPropagation()}
             onClick={(e) => e.stopPropagation()}
             onDoubleClick={(e) => e.stopPropagation()}
@@ -674,7 +676,7 @@ export default function MapView() {
     };
 
     const highlightsRef = useRef<L.LayerGroup | null>(null);
-    const [panelOpen, setPanelOpen] = useState(true);
+    const [panelOpen, setPanelOpen] = useState(false);
     const [locPanelOpen, setLocPanelOpen] = useState(true);
     const [isMapFullscreen, setIsMapFullscreen] = useState(false);
 
@@ -1387,7 +1389,7 @@ export default function MapView() {
 
                     <MapClickCloser onClick={() => setSearchOpen(false)} />
 
-                    <FullscreenControl position="topleft" />
+                    {!isMapFullscreen && <FullscreenControl position="topleft" />}
                     <FullscreenTracker onFullscreenChange={setIsMapFullscreen} />
                     <MobileFullscreenExit isMobile={isMobile} />
                    
@@ -1537,7 +1539,7 @@ export default function MapView() {
                                     }}
                                     onMouseDown={(e) => e.stopPropagation()}
                                     onTouchStart={(e) => e.stopPropagation()}
-                                    className="shrink-0 h-[38px] px-2.5 rounded-xl border border-[var(--brand)] bg-white/95 shadow-md text-xs font-bold text-[var(--brand)] hover:bg-[var(--brand-50)] flex items-center gap-1 pointer-events-auto font-sans"
+                                    className="shrink-0 h-12 px-3.5 rounded-2xl border border-[var(--brand)] bg-white/95 shadow-md text-xs font-bold text-[var(--brand)] hover:bg-[var(--brand-50)] flex items-center justify-center gap-1.5 pointer-events-auto font-sans"
                                     title="Exit Fullscreen"
                                 >
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-3.5 h-3.5">
@@ -1547,131 +1549,166 @@ export default function MapView() {
                                 </button>
                             </div>
 
-                            {/* Mobile Fullscreen Bottom: Closest to you / Location Access */}
-                            <div className="flex flex-col items-end w-full pointer-events-none max-w-[320px] self-end pb-14">
-                                {userPos && nearest3.length > 0 && (
-                                    <div
-                                        ref={(el) => {
-                                            if (el) {
-                                                L.DomEvent.disableClickPropagation(el);
-                                                L.DomEvent.disableScrollPropagation(el);
-                                            }
-                                        }}
-                                        className="pointer-events-auto rounded-2xl border bg-white/95 backdrop-blur shadow-lg overflow-hidden font-sans w-full"
-                                        onMouseDown={(e) => e.stopPropagation()}
-                                        onClick={(e) => e.stopPropagation()}
-                                        onDoubleClick={(e) => e.stopPropagation()}
-                                        onWheel={(e) => e.stopPropagation()}
-                                    >
-                                        <button
-                                            type="button"
-                                            onClick={() => setPanelOpen(o => !o)}
-                                            aria-expanded={panelOpen}
-                                            aria-controls="closest-panel-mobile"
-                                            className="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-[var(--brand-50)]/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] font-sans"
-                                        >
-                                            <span className="text-sm font-semibold text-[var(--ink)] font-sans">Closest to you</span>
-                                            <svg
-                                                className={`h-4 w-4 text-[var(--muted)] transition-transform ${panelOpen ? "" : "-rotate-90"}`}
-                                                viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
-                                            >
-                                                <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-                                            </svg>
-                                        </button>
+                            {/* Mobile Fullscreen Bottom: Unified Row with Legend (Left) + Closest / Location Access (Right) */}
+                            <div className="relative w-full flex justify-between items-end pointer-events-none gap-2">
+                                {/* Left: Map Legend */}
+                                <div
+                                    className="pointer-events-auto bg-white/95 backdrop-blur-sm p-2 rounded-xl border border-[color:rgb(0_0_0_/_0.15)] shadow-md text-[10px] font-sans shrink-0"
+                                    onMouseDown={(e) => e.stopPropagation()}
+                                    onClick={(e) => e.stopPropagation()}
+                                    onDoubleClick={(e) => e.stopPropagation()}
+                                    onWheel={(e) => e.stopPropagation()}
+                                >
+                                    <div className="flex items-center gap-1.5">
+                                        <img
+                                            src={MASJID_ICON_BLUE.options.iconUrl!}
+                                            className="w-3.5 h-3.5"
+                                            alt="Masjid Icon"
+                                        />
+                                        <span>Masjid / Musallah</span>
+                                    </div>
+                                    <div className="flex items-center gap-1.5 mt-1">
+                                        <img
+                                            src={MADRASAH_ICON_ORANGE.options.iconUrl!}
+                                            className="w-3.5 h-3.5"
+                                            alt="Madrasah Icon"
+                                        />
+                                        <span>Madrasah</span>
+                                    </div>
+                                </div>
 
-                                        {panelOpen && (
-                                            <div id="closest-panel-mobile" className="px-3 py-3 font-sans">
-                                                <ul
-                                                    className="space-y-2 max-h-56 overflow-y-auto font-sans pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full"
-                                                    onWheel={(e) => e.stopPropagation()}
+                                {/* Right: Closest to you / Location Access */}
+                                <div className={`pointer-events-none flex flex-col items-end transition-all ${
+                                    (userPos ? panelOpen : locPanelOpen)
+                                        ? "absolute right-0 bottom-0 z-10 w-[min(320px,calc(100vw-1rem))]"
+                                        : "w-auto"
+                                }`}>
+                                    {userPos && nearest3.length > 0 && (
+                                        <div
+                                            ref={(el) => {
+                                                if (el) {
+                                                    L.DomEvent.disableClickPropagation(el);
+                                                    L.DomEvent.disableScrollPropagation(el);
+                                                }
+                                            }}
+                                            className="pointer-events-auto rounded-2xl border bg-white/95 backdrop-blur shadow-lg overflow-hidden font-sans w-full"
+                                            onMouseDown={(e) => e.stopPropagation()}
+                                            onClick={(e) => e.stopPropagation()}
+                                            onDoubleClick={(e) => e.stopPropagation()}
+                                            onWheel={(e) => e.stopPropagation()}
+                                        >
+                                            <button
+                                                type="button"
+                                                onClick={() => setPanelOpen(o => !o)}
+                                                aria-expanded={panelOpen}
+                                                aria-controls="closest-panel-mobile"
+                                                className="w-full flex items-center justify-between gap-2 px-3 py-2 text-left hover:bg-[var(--brand-50)]/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] font-sans"
+                                            >
+                                                <span className="text-xs sm:text-sm font-semibold text-[var(--ink)] font-sans whitespace-nowrap">
+                                                    Closest to you
+                                                </span>
+                                                <svg
+                                                    className={`h-4 w-4 text-[var(--muted)] transition-transform shrink-0 ${panelOpen ? "" : "-rotate-90"}`}
+                                                    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
                                                 >
-                                                    {nearest3.map(({ p, d }) => (
-                                                        <li key={p.id} className="flex items-start justify-between gap-3 font-sans">
-                                                            <div className="min-w-0 flex-1 pr-2 font-sans">
-                                                                <button
-                                                                    type="button"
-                                                                    onClick={() => handleSelectPlace(p)}
-                                                                    className="block w-full text-left font-medium text-[var(--ink)] text-sm break-words hover:underline font-sans"
-                                                                    title="Open on map"
-                                                                >
-                                                                    {p.name}
-                                                                </button>
-                                                                {p.address && (
-                                                                    <div className="truncate text-xs text-[var(--muted)] font-sans">
-                                                                        {p.address}
+                                                    <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                                                </svg>
+                                            </button>
+
+                                            {panelOpen && (
+                                                <div id="closest-panel-mobile" className="px-3 py-3 font-sans">
+                                                    <ul
+                                                        className="space-y-2 max-h-56 overflow-y-auto font-sans pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full"
+                                                        onWheel={(e) => e.stopPropagation()}
+                                                    >
+                                                        {nearest3.map(({ p, d }) => (
+                                                            <li key={p.id} className="flex items-start justify-between gap-3 font-sans">
+                                                                <div className="min-w-0 flex-1 pr-2 font-sans">
+                                                                    <button
+                                                                        type="button"
+                                                                        onClick={() => handleSelectPlace(p)}
+                                                                        className="block w-full text-left font-medium text-[var(--ink)] text-sm break-words hover:underline font-sans"
+                                                                        title="Open on map"
+                                                                    >
+                                                                        {p.name}
+                                                                    </button>
+                                                                    {p.address && (
+                                                                        <div className="truncate text-xs text-[var(--muted)] font-sans">
+                                                                            {p.address}
+                                                                        </div>
+                                                                    )}
+                                                                    <div className="text-xs text-[var(--muted)] text-left font-sans">
+                                                                        {d.toFixed(1)} km away - {p.type}
                                                                     </div>
-                                                                )}
-                                                                <div className="text-xs text-[var(--muted)] text-left font-sans">
-                                                                    {d.toFixed(1)} km away - {p.type}
                                                                 </div>
-                                                            </div>
-                                                            <a
-                                                                className="shrink-0 rounded-lg border px-2 py-1 text-xs text-[var(--brand)] hover:bg-[var(--brand-50)] font-sans"
-                                                                href={googleDirectionsUrl(p)}
-                                                                target="_blank" rel="noreferrer"
-                                                                title="Open in Google Maps"
-                                                            >
-                                                                Directions
-                                                            </a>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
+                                                                <a
+                                                                    className="shrink-0 rounded-lg border px-2 py-1 text-xs text-[var(--brand)] hover:bg-[var(--brand-50)] font-sans"
+                                                                    href={googleDirectionsUrl(p)}
+                                                                    target="_blank" rel="noreferrer"
+                                                                    title="Open in Google Maps"
+                                                                >
+                                                                    Directions
+                                                                </a>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
 
-                                {!userPos && (
-                                    <div
-                                        ref={(el) => {
-                                            if (el) {
-                                                L.DomEvent.disableClickPropagation(el);
-                                                L.DomEvent.disableScrollPropagation(el);
-                                            }
-                                        }}
-                                        className="pointer-events-auto rounded-xl border bg-white/95 backdrop-blur shadow-lg overflow-hidden font-sans w-full"
-                                        onMouseDown={(e) => e.stopPropagation()}
-                                        onClick={(e) => e.stopPropagation()}
-                                        onDoubleClick={(e) => e.stopPropagation()}
-                                        onWheel={(e) => e.stopPropagation()}
-                                    >
-                                        <button
-                                            type="button"
-                                            onClick={() => setLocPanelOpen(o => !o)}
-                                            className="w-full flex items-center justify-between px-2.5 py-2 text-left hover:bg-[var(--brand-50)]/40 focus:outline-none font-sans"
+                                    {!userPos && (
+                                        <div
+                                            ref={(el) => {
+                                                if (el) {
+                                                    L.DomEvent.disableClickPropagation(el);
+                                                    L.DomEvent.disableScrollPropagation(el);
+                                                }
+                                            }}
+                                            className="pointer-events-auto rounded-xl border bg-white/95 backdrop-blur shadow-lg overflow-hidden font-sans w-full"
+                                            onMouseDown={(e) => e.stopPropagation()}
+                                            onClick={(e) => e.stopPropagation()}
+                                            onDoubleClick={(e) => e.stopPropagation()}
+                                            onWheel={(e) => e.stopPropagation()}
                                         >
-                                            <span className="text-xs font-semibold text-[var(--ink)]">
-                                                Location Access
-                                            </span>
-                                            <svg
-                                                className={`h-3 w-3 text-[var(--muted)] transition-transform ${locPanelOpen ? "" : "-rotate-90"}`}
-                                                viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                                            <button
+                                                type="button"
+                                                onClick={() => setLocPanelOpen(o => !o)}
+                                                className="w-full flex items-center justify-between gap-2 px-2.5 py-2 text-left hover:bg-[var(--brand-50)]/40 focus:outline-none font-sans"
                                             >
-                                                <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-                                            </svg>
-                                        </button>
-
-                                        {locPanelOpen && (
-                                            <div className="px-2.5 pb-2.5">
-                                                <p className="text-[11px] text-[var(--muted)] leading-snug mb-2.5">
-                                                    {geoMsg || "Enable location to see the three closest Masajid near you."}
-                                                </p>
-                                                <button
-                                                    type="button"
-                                                    onClick={requestLocation}
-                                                    className="text-[11px] font-bold text-white bg-[var(--brand)] px-3 py-1.5 rounded-lg hover:bg-[var(--brand-700)] transition-colors w-full text-center shadow-sm"
+                                                <span className="text-xs font-semibold text-[var(--ink)] whitespace-nowrap">
+                                                    Location Access
+                                                </span>
+                                                <svg
+                                                    className={`h-3 w-3 text-[var(--muted)] transition-transform shrink-0 ${locPanelOpen ? "" : "-rotate-90"}`}
+                                                    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
                                                 >
-                                                    Request Access
-                                                </button>
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
+                                                    <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                                                </svg>
+                                            </button>
+
+                                            {locPanelOpen && (
+                                                <div className="px-2.5 pb-2.5">
+                                                    <p className="text-[11px] text-[var(--muted)] leading-snug mb-2.5">
+                                                        {geoMsg || "Enable location to see the three closest Masajid near you."}
+                                                    </p>
+                                                    <button
+                                                        type="button"
+                                                        onClick={requestLocation}
+                                                        className="text-[11px] font-bold text-white bg-[var(--brand)] px-3 py-1.5 rounded-lg hover:bg-[var(--brand-700)] transition-colors w-full text-center shadow-sm"
+                                                    >
+                                                        Request Access
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     )}
 
-                    <MapLegend />
+                    <MapLegend isMapFullscreen={isMapFullscreen} />
 
                     {/* Closest to you / Location Access Panel (Desktop and Mobile Non-Fullscreen) */}
                     {userPos && nearest3.length > 0 && (
