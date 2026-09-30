@@ -1548,7 +1548,7 @@ export default function MapView() {
                             </div>
 
                             {/* Mobile Fullscreen Bottom: Closest to you / Location Access */}
-                            <div className="flex flex-col items-end w-full pointer-events-none max-w-[280px] self-end">
+                            <div className="flex flex-col items-end w-full pointer-events-none max-w-[320px] self-end pb-14">
                                 {userPos && nearest3.length > 0 && (
                                     <div
                                         ref={(el) => {
@@ -1675,7 +1675,7 @@ export default function MapView() {
 
                     {/* Closest to you / Location Access Panel (Desktop and Mobile Non-Fullscreen) */}
                     {userPos && nearest3.length > 0 && (
-                        <div className={`pointer-events-none absolute ${isMapFullscreen ? "hidden sm:block sm:top-3" : "top-2 sm:top-3"} right-2 sm:right-3 z-[100000] w-[clamp(160px,50%,280px)] sm:w-[clamp(200px,65%,420px)] font-sans`}>
+                        <div className={`pointer-events-none absolute ${isMapFullscreen ? "hidden sm:block sm:top-3" : "top-2 sm:top-3"} right-1/2 translate-x-1/2 sm:right-4 sm:translate-x-0 z-[100000] w-[90vw] max-w-[320px] sm:w-80 font-sans`}>
                             <div
                                 ref={(el) => {
                                     if (el) {
@@ -1753,7 +1753,7 @@ export default function MapView() {
 
                     {!userPos && (
                         <div
-                            className={`pointer-events-none absolute ${isMapFullscreen ? "hidden sm:block sm:top-3" : "top-2 sm:top-3"} right-2 sm:right-3 z-[100000] w-[clamp(160px,45%,280px)] sm:w-[clamp(200px,40%,420px)] font-sans`}
+                            className={`pointer-events-none absolute ${isMapFullscreen ? "hidden sm:block sm:top-3" : "top-2 sm:top-3"} right-1/2 translate-x-1/2 sm:right-4 sm:translate-x-0 z-[100000] w-[90vw] max-w-[320px] sm:w-80 font-sans`}
                         >
                             <div
                                 ref={(el) => {
