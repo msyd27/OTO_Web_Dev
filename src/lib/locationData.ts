@@ -85,6 +85,7 @@ export const locationData: Record<string, Record<string, string[]>> = {
         ],
         "Metro Vancouver": [
             "Burnaby",
+            "Coquitlam",
             "Delta",
             "Langley",
             "Maple Ridge",
@@ -153,6 +154,9 @@ export const locationData: Record<string, Record<string, string[]>> = {
         ],
         "Cape Breton Region": [
             "Sydney"
+        ],
+        "Colchester County": [
+            "Truro"
         ],
         "Halifax Region": [
             "Bedford",
@@ -269,6 +273,7 @@ export const locationData: Record<string, Record<string, string[]>> = {
             "West Ottawa"
         ],
         "Oxford County": [
+            "Tillsonburg",
             "Woodstock"
         ],
         "Peel Region": [
@@ -297,6 +302,9 @@ export const locationData: Record<string, Record<string, string[]>> = {
         ],
         "Thunder Bay District": [
             "Thunder Bay"
+        ],
+        "Tillsonburg": [
+            "Tillsonburg"
         ],
         "Toronto": [
             "Downtown Toronto",

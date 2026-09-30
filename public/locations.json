@@ -13833,6 +13833,139 @@
         "website": "http://infomtj.ca/",
         "address": "3450 Bd du Chanoine Moreau, Trois-Rivières, QC G8Y 0K2"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -80.728837,
+          42.861294,
+          0
+        ]
+      },
+      "properties": {
+        "name": "Muslim Association of Tillsonburg",
+        "styleUrl": "#icon-1673-0288D1-nodesc",
+        "styleHash": "-ae0e09f",
+        "province": "Ontario",
+        "region": [
+          "Oxford County",
+          "Tillsonburg"
+        ],
+        "city": "Tillsonburg",
+        "styleMapHash": {
+          "normal": "#icon-1673-0288D1-nodesc-normal",
+          "highlight": "#icon-1673-0288D1-nodesc-highlight"
+        },
+        "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+        "website": "https://muslimassociationtillsonburg.ca/",
+        "address": "169 Broadway St Unit C, Tillsonburg, ON N4G 3P9"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.780364,
+          46.112484,
+          0
+        ]
+      },
+      "properties": {
+        "name": "Masjid Yusuf Moncton",
+        "styleUrl": "#icon-1673-0288D1-nodesc",
+        "styleHash": "-ae0e09f",
+        "province": "New Brunswick",
+        "region": "Westmorland County",
+        "city": "Moncton",
+        "styleMapHash": {
+          "normal": "#icon-1673-0288D1-nodesc-normal",
+          "highlight": "#icon-1673-0288D1-nodesc-highlight"
+        },
+        "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+        "website": "https://masjidyusuf.ca/",
+        "address": "229 McLaughlin Dr, Moncton, NB E1A 4P8"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -64.821376,
+          46.096134,
+          0
+        ]
+      },
+      "properties": {
+        "name": "Hassnain-E-Karimain Masjid",
+        "styleUrl": "#icon-1673-0288D1-nodesc",
+        "styleHash": "-ae0e09f",
+        "province": "New Brunswick",
+        "region": "Westmorland County",
+        "city": "Moncton",
+        "styleMapHash": {
+          "normal": "#icon-1673-0288D1-nodesc-normal",
+          "highlight": "#icon-1673-0288D1-nodesc-highlight"
+        },
+        "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+        "website": "https://hkmasjid.ca/",
+        "address": "222 Killam Dr, Moncton, NB E1C 3S4"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -122.892426,
+          49.25861,
+          0
+        ]
+      },
+      "properties": {
+        "name": "Coquitlam Islamic Center - Al Hikmah Foundation",
+        "styleUrl": "#icon-1673-0288D1-nodesc",
+        "styleHash": "-ae0e09f",
+        "province": "British Columbia",
+        "region": "Metro Vancouver",
+        "city": "Coquitlam",
+        "styleMapHash": {
+          "normal": "#icon-1673-0288D1-nodesc-normal",
+          "highlight": "#icon-1673-0288D1-nodesc-highlight"
+        },
+        "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+        "website": "https://www.alhikmahfoundation.ca/",
+        "address": "504 Cottonwood Ave Unit 202, Coquitlam, BC V3J 2R5"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.215814,
+          45.39213,
+          0
+        ]
+      },
+      "properties": {
+        "name": "Truro Masjid (Truro Mosque)",
+        "styleUrl": "#icon-1673-0288D1-nodesc",
+        "styleHash": "-ae0e09f",
+        "province": "Nova Scotia",
+        "region": "Colchester County",
+        "city": "Truro",
+        "styleMapHash": {
+          "normal": "#icon-1673-0288D1-nodesc-normal",
+          "highlight": "#icon-1673-0288D1-nodesc-highlight"
+        },
+        "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+        "website": "https://www.islamnovascotia.ca/Truro.aspx",
+        "address": "533 Pictou Rd, Truro, NS B2N 2V2"
+      }
     }
   ]
 }
