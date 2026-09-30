@@ -125,45 +125,10 @@ function SetMapRef({ onReady }: { onReady: (m: L.Map) => void }) {
     return null;
 }
 
-function MobileFullscreenExit({ isMobile }: { isMobile: boolean }) {
-    const map = useMap();
-    const [isFs, setIsFs] = useState(false);
-
-    useEffect(() => {
-        const handleEnter = () => setIsFs(true);
-        const handleExit = () => setIsFs(false);
-
-        // Leaflet.fullscreen specifically uses these two events
-        map.on('enterFullscreen', handleEnter);
-        map.on('exitFullscreen', handleExit);
-
-        return () => {
-            map.off('enterFullscreen', handleEnter);
-            map.off('exitFullscreen', handleExit);
-        };
-    }, [map]);
-
-    if (!isFs || !isMobile) return null;
-
-    return (
-        <div style={{ position: "absolute", top: "120px", left: "24%", transform: "translateX(-50%)", zIndex: 100000, pointerEvents: "auto" }}>
-            <button
-                onClick={() => {
-                    const fsMap = map as unknown as { toggleFullscreen?: () => void };
-                    if (fsMap.toggleFullscreen) {
-                        fsMap.toggleFullscreen();
-                    }
-                }}
-                className="bg-white px-5 py-2 rounded-full shadow-lg border border-[var(--brand)] text-sm font-extrabold text-[var(--brand)] hover:bg-[var(--brand-50)] flex items-center gap-2"
-            >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4 h-4">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 21m0 0h6m-6 0v-6M15 9l6-6m0 0h-6m6 0v6" />
-                </svg>
-                Exit Fullscreen
-            </button>
-        </div>
-    );
+function MobileFullscreenExit(_props: { isMobile?: boolean }) {
+    return null;
 }
+
 
 function MapClickCloser({ onClick }: { onClick: () => void }) {
     useMapEvents({
@@ -495,6 +460,32 @@ function googlePlaceUrl(p: Place) {
     return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
 }
 
+function googleDirectionsUrl(p: Place): string {
+    const cityName = Array.isArray(p.city)
+        ? p.city.filter((c) => c && c !== "Other" && c !== "All Cities" && c !== "All Areas").join(", ")
+        : (p.city || "");
+    const provName = p.province && p.province !== "Other" && p.province !== "All Provinces" ? p.province : "";
+
+    let destinationQuery = "";
+
+    if (p.address && p.address.trim()) {
+        const parts = [p.name, p.address.trim(), cityName, provName].filter(Boolean);
+        destinationQuery = parts.join(", ");
+    } else if (p.name && (cityName || provName)) {
+        const parts = [p.name, cityName, provName].filter(Boolean);
+        destinationQuery = parts.join(", ");
+    } else if (p.name) {
+        destinationQuery = p.name;
+    }
+
+    if (!destinationQuery.trim()) {
+        destinationQuery = `${p.lat},${p.lng}`;
+    }
+
+    return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destinationQuery)}`;
+}
+
+
 
 function inferType(p: Record<string, unknown>): PlaceType {
     const name = (p.name ?? "").toString().toLowerCase();
@@ -804,6 +795,17 @@ export default function MapView() {
         map.flyTo([place.lat, place.lng], 13, { animate: true, duration });
 
         requestAnimationFrame(() => map.invalidateSize());
+    };
+
+    const handleExitFullscreen = () => {
+        const map = mapRef.current;
+        if (!map) return;
+        const fsMap = map as unknown as { toggleFullscreen?: () => void };
+        if (fsMap.toggleFullscreen) {
+            fsMap.toggleFullscreen();
+        } else if (typeof document !== "undefined" && document.fullscreenElement) {
+            document.exitFullscreen().catch(() => {});
+        }
     };
 
 
@@ -1447,7 +1449,7 @@ export default function MapView() {
                                         <div className="pt-2 flex items-center gap-2 text-xs">
                                             <a
                                                 className="font-bold underline text-[var(--brand)]"
-                                                href={`https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`}
+                                                href={googleDirectionsUrl(p)}
                                                 target="_blank"
                                                 rel="noreferrer"
                                             >
@@ -1482,7 +1484,7 @@ export default function MapView() {
                         );
                     })}
 
-                    {/* Fullscreen Search Bar */}
+                    {/* Fullscreen Search Bar (Desktop) */}
                     {isMapFullscreen && (
                         <div
                             ref={(el) => {
@@ -1491,7 +1493,7 @@ export default function MapView() {
                                     L.DomEvent.disableScrollPropagation(el);
                                 }
                             }}
-                            className="absolute top-3 left-3 right-3 sm:left-14 sm:right-auto sm:w-[clamp(280px,32vw,420px)] z-[100000] pointer-events-auto font-sans"
+                            className="hidden sm:block absolute top-3 left-14 z-[100000] pointer-events-auto font-sans sm:w-[clamp(280px,32vw,420px)]"
                             onMouseDown={(e) => e.stopPropagation()}
                             onClick={(e) => e.stopPropagation()}
                             onDoubleClick={(e) => e.stopPropagation()}
@@ -1510,10 +1512,170 @@ export default function MapView() {
                         </div>
                     )}
 
+                    {/* Dedicated Mobile-only Fullscreen Overlay Wrapper */}
+                    {isMapFullscreen && (
+                        <div className="absolute inset-0 z-[100000] flex flex-col justify-between h-full pointer-events-none p-2 sm:hidden font-sans">
+                            {/* Compact Top Row: Search Bar (flex-1) + Exit Fullscreen (shrink-0) */}
+                            <div className="w-full flex items-start gap-1.5 pointer-events-none">
+                                <div className="flex-1 min-w-0 pointer-events-auto">
+                                    <SearchBarUI
+                                        searchQuery={searchQuery}
+                                        setSearchQuery={setSearchQuery}
+                                        searchOpen={searchOpen}
+                                        setSearchOpen={setSearchOpen}
+                                        searchMatches={searchMatches}
+                                        refLocation={refLocation}
+                                        onSelectPlace={handleSelectPlace}
+                                        className="shadow-md border-[color:rgb(0_0_0_/_0.15)]"
+                                    />
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleExitFullscreen();
+                                    }}
+                                    onMouseDown={(e) => e.stopPropagation()}
+                                    onTouchStart={(e) => e.stopPropagation()}
+                                    className="shrink-0 h-[38px] px-2.5 rounded-xl border border-[var(--brand)] bg-white/95 shadow-md text-xs font-bold text-[var(--brand)] hover:bg-[var(--brand-50)] flex items-center gap-1 pointer-events-auto font-sans"
+                                    title="Exit Fullscreen"
+                                >
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-3.5 h-3.5">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 21m0 0h6m-6 0v-6M15 9l6-6m0 0h-6m6 0v6" />
+                                    </svg>
+                                    <span>Exit</span>
+                                </button>
+                            </div>
+
+                            {/* Mobile Fullscreen Bottom: Closest to you / Location Access */}
+                            <div className="flex flex-col items-end w-full pointer-events-none max-w-[280px] self-end">
+                                {userPos && nearest3.length > 0 && (
+                                    <div
+                                        ref={(el) => {
+                                            if (el) {
+                                                L.DomEvent.disableClickPropagation(el);
+                                                L.DomEvent.disableScrollPropagation(el);
+                                            }
+                                        }}
+                                        className="pointer-events-auto rounded-2xl border bg-white/95 backdrop-blur shadow-lg overflow-hidden font-sans w-full"
+                                        onMouseDown={(e) => e.stopPropagation()}
+                                        onClick={(e) => e.stopPropagation()}
+                                        onDoubleClick={(e) => e.stopPropagation()}
+                                        onWheel={(e) => e.stopPropagation()}
+                                    >
+                                        <button
+                                            type="button"
+                                            onClick={() => setPanelOpen(o => !o)}
+                                            aria-expanded={panelOpen}
+                                            aria-controls="closest-panel-mobile"
+                                            className="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-[var(--brand-50)]/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] font-sans"
+                                        >
+                                            <span className="text-sm font-semibold text-[var(--ink)] font-sans">Closest to you</span>
+                                            <svg
+                                                className={`h-4 w-4 text-[var(--muted)] transition-transform ${panelOpen ? "" : "-rotate-90"}`}
+                                                viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                                            >
+                                                <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                                            </svg>
+                                        </button>
+
+                                        {panelOpen && (
+                                            <div id="closest-panel-mobile" className="px-3 py-3 font-sans">
+                                                <ul
+                                                    className="space-y-2 max-h-56 overflow-y-auto font-sans pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full"
+                                                    onWheel={(e) => e.stopPropagation()}
+                                                >
+                                                    {nearest3.map(({ p, d }) => (
+                                                        <li key={p.id} className="flex items-start justify-between gap-3 font-sans">
+                                                            <div className="min-w-0 flex-1 pr-2 font-sans">
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => handleSelectPlace(p)}
+                                                                    className="block w-full text-left font-medium text-[var(--ink)] text-sm break-words hover:underline font-sans"
+                                                                    title="Open on map"
+                                                                >
+                                                                    {p.name}
+                                                                </button>
+                                                                {p.address && (
+                                                                    <div className="truncate text-xs text-[var(--muted)] font-sans">
+                                                                        {p.address}
+                                                                    </div>
+                                                                )}
+                                                                <div className="text-xs text-[var(--muted)] text-left font-sans">
+                                                                    {d.toFixed(1)} km away - {p.type}
+                                                                </div>
+                                                            </div>
+                                                            <a
+                                                                className="shrink-0 rounded-lg border px-2 py-1 text-xs text-[var(--brand)] hover:bg-[var(--brand-50)] font-sans"
+                                                                href={googleDirectionsUrl(p)}
+                                                                target="_blank" rel="noreferrer"
+                                                                title="Open in Google Maps"
+                                                            >
+                                                                Directions
+                                                            </a>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
+                                {!userPos && (
+                                    <div
+                                        ref={(el) => {
+                                            if (el) {
+                                                L.DomEvent.disableClickPropagation(el);
+                                                L.DomEvent.disableScrollPropagation(el);
+                                            }
+                                        }}
+                                        className="pointer-events-auto rounded-xl border bg-white/95 backdrop-blur shadow-lg overflow-hidden font-sans w-full"
+                                        onMouseDown={(e) => e.stopPropagation()}
+                                        onClick={(e) => e.stopPropagation()}
+                                        onDoubleClick={(e) => e.stopPropagation()}
+                                        onWheel={(e) => e.stopPropagation()}
+                                    >
+                                        <button
+                                            type="button"
+                                            onClick={() => setLocPanelOpen(o => !o)}
+                                            className="w-full flex items-center justify-between px-2.5 py-2 text-left hover:bg-[var(--brand-50)]/40 focus:outline-none font-sans"
+                                        >
+                                            <span className="text-xs font-semibold text-[var(--ink)]">
+                                                Location Access
+                                            </span>
+                                            <svg
+                                                className={`h-3 w-3 text-[var(--muted)] transition-transform ${locPanelOpen ? "" : "-rotate-90"}`}
+                                                viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                                            >
+                                                <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                                            </svg>
+                                        </button>
+
+                                        {locPanelOpen && (
+                                            <div className="px-2.5 pb-2.5">
+                                                <p className="text-[11px] text-[var(--muted)] leading-snug mb-2.5">
+                                                    {geoMsg || "Enable location to see the three closest Masajid near you."}
+                                                </p>
+                                                <button
+                                                    type="button"
+                                                    onClick={requestLocation}
+                                                    className="text-[11px] font-bold text-white bg-[var(--brand)] px-3 py-1.5 rounded-lg hover:bg-[var(--brand-700)] transition-colors w-full text-center shadow-sm"
+                                                >
+                                                    Request Access
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
                     <MapLegend />
 
+                    {/* Closest to you / Location Access Panel (Desktop and Mobile Non-Fullscreen) */}
                     {userPos && nearest3.length > 0 && (
-                        <div className={`pointer-events-none absolute ${isMapFullscreen ? "top-16 sm:top-3" : "top-3"} right-3 z-[100000] w-[clamp(200px,65%,420px)] font-sans`}>
+                        <div className={`pointer-events-none absolute ${isMapFullscreen ? "hidden sm:block sm:top-3" : "top-2 sm:top-3"} right-2 sm:right-3 z-[100000] w-[clamp(160px,50%,280px)] sm:w-[clamp(200px,65%,420px)] font-sans`}>
                             <div
                                 ref={(el) => {
                                     if (el) {
@@ -1545,7 +1707,10 @@ export default function MapView() {
 
                                 {panelOpen && (
                                     <div id="closest-panel" className="px-3 py-3 font-sans">
-                                        <ul className="space-y-2 max-h-64 overflow-y-auto font-sans" onWheel={(e) => e.stopPropagation()}>
+                                        <ul
+                                            className="space-y-2 max-h-64 overflow-y-auto font-sans pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full"
+                                            onWheel={(e) => e.stopPropagation()}
+                                        >
                                         {nearest3.map(({ p, d }) => (
                                             <li key={p.id} className="flex items-start justify-between gap-3 font-sans">
                                                 <div className="min-w-0 flex-1 pr-2 font-sans">
@@ -1571,7 +1736,7 @@ export default function MapView() {
                                                 </div>
                                                 <a
                                                     className="shrink-0 rounded-lg border px-2 py-1 text-xs text-[var(--brand)] hover:bg-[var(--brand-50)] font-sans"
-                                                    href={`https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`}
+                                                    href={googleDirectionsUrl(p)}
                                                     target="_blank" rel="noreferrer"
                                                     title="Open in Google Maps"
                                                 >
@@ -1588,7 +1753,7 @@ export default function MapView() {
 
                     {!userPos && (
                         <div
-                            className={`pointer-events-none absolute ${isMapFullscreen ? "top-16 sm:top-3" : "top-2 sm:top-3"} right-2 sm:right-3 z-[100000] w-[clamp(160px,45%,280px)] sm:w-[clamp(200px,40%,420px)] font-sans`}
+                            className={`pointer-events-none absolute ${isMapFullscreen ? "hidden sm:block sm:top-3" : "top-2 sm:top-3"} right-2 sm:right-3 z-[100000] w-[clamp(160px,45%,280px)] sm:w-[clamp(200px,40%,420px)] font-sans`}
                         >
                             <div
                                 ref={(el) => {
@@ -1688,7 +1853,7 @@ export default function MapView() {
                                         <div className="flex items-center gap-3 text-xs">
                                             <a
                                                 className="font-semibold text-[var(--brand)] hover:underline flex items-center gap-1"
-                                                href={`https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`}
+                                                href={googleDirectionsUrl(p)}
                                                 target="_blank" rel="noreferrer"
                                             >
                                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-3 h-3"><path strokeLinecap="round" strokeLinejoin="round" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z" /></svg>
