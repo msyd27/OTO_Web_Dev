@@ -21,7 +21,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: 'Nunito Sans', sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
@@ -33,7 +33,11 @@ html,body{ background:#fff; color:var(--ink); }
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Nunito Sans' sans-serif;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+.leaflet-container {
+  font-family: 'Nunito Sans', sans-serif !important;
 }
 
 *:focus-visible{
@@ -47,4 +51,29 @@ body {
   .leaflet-control-fullscreen {
     display: none !important;
   }
+}
+
+/* Mobile Fullscreen & Pseudo-fullscreen Overrides */
+html.is-fullscreen header,
+body.is-fullscreen header {
+  display: none !important;
+}
+
+html.is-fullscreen .leaflet-pseudo-fullscreen,
+body.is-fullscreen .leaflet-pseudo-fullscreen {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  z-index: 99999 !important;
+  margin: 0 !important;
+}
+
+html.is-fullscreen main,
+body.is-fullscreen main {
+  padding: 0 !important;
+  max-width: 100% !important;
 }

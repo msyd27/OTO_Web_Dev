@@ -146,7 +146,7 @@ function MobileFullscreenExit({ isMobile }: { isMobile: boolean }) {
     if (!isFs || !isMobile) return null;
 
     return (
-        <div style={{ position: "absolute", top: "120px", left: "24%", transform: "translateX(-50%)", zIndex: 10000, pointerEvents: "auto" }}>
+        <div style={{ position: "absolute", top: "120px", left: "24%", transform: "translateX(-50%)", zIndex: 100000, pointerEvents: "auto" }}>
             <button
                 onClick={() => {
                     const fsMap = map as unknown as { toggleFullscreen?: () => void };
@@ -174,6 +174,206 @@ function MapClickCloser({ onClick }: { onClick: () => void }) {
     return null;
 }
 
+function FullscreenTracker({ onFullscreenChange }: { onFullscreenChange: (isFs: boolean) => void }) {
+    const map = useMap();
+
+    useEffect(() => {
+        const updateState = (active: boolean) => {
+            onFullscreenChange(active);
+            if (typeof document !== "undefined") {
+                document.documentElement.classList.toggle("is-fullscreen", active);
+                document.body.classList.toggle("is-fullscreen", active);
+            }
+        };
+
+        const handleEnter = () => updateState(true);
+        const handleExit = () => updateState(false);
+        const handleDocChange = () => {
+            const isPseudo = !!map.getContainer()?.classList.contains("leaflet-pseudo-fullscreen");
+            // In mobile pseudo-fullscreen, document.fullscreenElement is null, so don't let it reset state to false
+            if (!isPseudo) {
+                const fsEl = document.fullscreenElement || (document as unknown as { webkitFullscreenElement?: Element }).webkitFullscreenElement;
+                updateState(!!fsEl);
+            }
+        };
+
+        map.on("enterFullscreen", handleEnter);
+        map.on("exitFullscreen", handleExit);
+        document.addEventListener("fullscreenchange", handleDocChange);
+        document.addEventListener("webkitfullscreenchange", handleDocChange);
+
+        return () => {
+            map.off("enterFullscreen", handleEnter);
+            map.off("exitFullscreen", handleExit);
+            document.removeEventListener("fullscreenchange", handleDocChange);
+            document.removeEventListener("webkitfullscreenchange", handleDocChange);
+            if (typeof document !== "undefined") {
+                document.documentElement.classList.remove("is-fullscreen");
+                document.body.classList.remove("is-fullscreen");
+            }
+        };
+    }, [map, onFullscreenChange]);
+
+    return null;
+}
+
+function SearchBarUI({
+    searchQuery,
+    setSearchQuery,
+    searchOpen,
+    setSearchOpen,
+    searchMatches,
+    refLocation,
+    onSelectPlace,
+    className = ""
+}: {
+    searchQuery: string;
+    setSearchQuery: (q: string) => void;
+    searchOpen: boolean;
+    setSearchOpen: (open: boolean) => void;
+    searchMatches: Place[];
+    refLocation: { pos: [number, number]; label: string; source: "gps" | "address" } | null;
+    onSelectPlace: (place: Place) => void;
+    className?: string;
+}) {
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const inputRef = useRef<HTMLInputElement | null>(null);
+
+    useEffect(() => {
+        const el = containerRef.current;
+        if (!el) return;
+        L.DomEvent.disableClickPropagation(el);
+        L.DomEvent.disableScrollPropagation(el);
+    }, []);
+
+    useEffect(() => {
+        const input = inputRef.current;
+        if (!input) return;
+        const stopKey = (e: KeyboardEvent) => {
+            e.stopPropagation();
+        };
+        input.addEventListener("keydown", stopKey);
+        input.addEventListener("keyup", stopKey);
+        input.addEventListener("keypress", stopKey);
+        return () => {
+            input.removeEventListener("keydown", stopKey);
+            input.removeEventListener("keyup", stopKey);
+            input.removeEventListener("keypress", stopKey);
+        };
+    }, []);
+
+    return (
+        <div
+            ref={containerRef}
+            className={`rounded-2xl border bg-white/95 shadow-sm overflow-hidden font-sans ${className}`}
+            onMouseDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
+            onDoubleClick={(e) => e.stopPropagation()}
+            onWheel={(e) => e.stopPropagation()}
+        >
+            <div className="flex items-center gap-2 px-3 py-2 font-sans">
+                <svg
+                    className="h-4 w-4 text-[var(--muted)]"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden="true"
+                >
+                    <path
+                        d="M15.5 15.5 20 20"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                    <circle
+                        cx="11"
+                        cy="11"
+                        r="5"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                    />
+                </svg>
+
+                <input
+                    ref={inputRef}
+                    type="search"
+                    value={searchQuery}
+                    onFocus={() => setSearchOpen(true)}
+                    onChange={(e) => {
+                        setSearchQuery(e.target.value);
+                        setSearchOpen(true);
+                    }}
+                    onKeyDown={(e) => {
+                        e.stopPropagation();
+                        e.nativeEvent.stopImmediatePropagation();
+                    }}
+                    onKeyUp={(e) => {
+                        e.stopPropagation();
+                        e.nativeEvent.stopImmediatePropagation();
+                    }}
+                    placeholder="Search by name…"
+                    className="w-full rounded-md border border-[color:rgb(0_0_0_/_0.06)] bg-white/90 px-2.5 py-1.5 text-sm text-[var(--ink)] shadow-sm placeholder:text-[var(--muted)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] font-sans"
+                />
+            </div>
+
+            {/* Dropdown results */}
+            {searchOpen && searchQuery && (
+                <>
+                    {searchMatches.length > 0 ? (
+                        <ul
+                            className="max-h-64 overflow-y-auto px-3 pb-2 space-y-1 text-sm text-left font-sans"
+                            onWheel={(e) => e.stopPropagation()}
+                        >
+                            {searchMatches.map((p) => {
+                                const distanceKm =
+                                    refLocation != null
+                                        ? haversineKm(refLocation.pos, [p.lat, p.lng])
+                                        : null;
+
+                                return (
+                                    <li
+                                        key={p.id}
+                                        className="rounded-lg px-2 py-1.5 hover:bg-[var(--brand-50)]/40 cursor-pointer text-left font-sans"
+                                        onMouseDown={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                        }}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            onSelectPlace(p);
+                                        }}
+                                    >
+                                        <div className="min-w-0 font-sans">
+                                            <div className="truncate font-medium text-[var(--ink)] font-sans">
+                                                {p.name}
+                                            </div>
+                                            {p.address && (
+                                                <div className="truncate text-xs text-[var(--muted)] font-sans">
+                                                    {p.address}
+                                                </div>
+                                            )}
+                                            <div className="text-xs text-[var(--muted)] text-left font-sans">
+                                                {distanceKm !== null
+                                                    ? `${p.type} - ${distanceKm.toFixed(1)} km away`
+                                                    : p.type}
+                                            </div>
+                                        </div>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    ) : (
+                        <div className="px-3 pb-2 text-xs text-[var(--muted)] text-left font-sans">
+                            No locations found.
+                        </div>
+                    )}
+                </>
+            )}
+        </div>
+    );
+}
+
 
 function normPos(pos: L.LatLngExpression): [number, number] {
     const p = L.latLng(pos);
@@ -189,6 +389,40 @@ function haversineKm(a: [number, number], b: [number, number]) {
     return 2 * R * Math.asin(Math.sqrt(h));
 }
 
+function getFlyToDuration(map: L.Map, targetCenter: L.LatLngExpression, targetZoom: number, speedMultiplier = 1.5): number {
+    try {
+        const size = map.getSize();
+        const startZoom = map.getZoom();
+        const from = map.project(map.getCenter());
+        const to = map.project(targetCenter);
+        const w0 = Math.max(size.x, size.y);
+        const w1 = w0 * map.getZoomScale(startZoom, targetZoom);
+        const u1 = to.distanceTo(from) || 1;
+        const rho = 1.42;
+        const rho2 = rho * rho;
+
+        const r = (i: number) => {
+            const s1 = i ? -1 : 1;
+            const s2 = i ? w1 : w0;
+            const t1 = w1 * w1 - w0 * w0 + s1 * rho2 * rho2 * u1 * u1;
+            const b1 = 2 * s2 * rho2 * u1;
+            const b = t1 / b1;
+            const sq = Math.sqrt(b * b + 1) - b;
+            return sq < 0.000000001 ? -18 : Math.log(sq);
+        };
+
+        const r0 = r(0);
+        const S = (r(1) - r0) / rho;
+        const defaultSec = S * 0.8;
+        if (!isNaN(defaultSec) && defaultSec > 0) {
+            return Math.max(0.2, defaultSec / speedMultiplier);
+        }
+    } catch {
+        // Fallback
+    }
+    return 1.0 / speedMultiplier;
+}
+
 function extractWebsite(props: Record<string, unknown>): string | undefined {
     const direct = (props.website ?? props.Website ?? props.url ?? props.URL) as string | undefined;
     if (direct) return direct;
@@ -202,7 +436,13 @@ function extractWebsite(props: Record<string, unknown>): string | undefined {
 
 function MapLegend() {
     return (
-        <div className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 z-[1000] bg-white p-2 sm:p-3 rounded-lg border border-[color:rgb(0_0_0_/_0.15)] shadow-sm text-[10px] sm:text-xs">
+        <div
+            className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 z-[1000] bg-white p-2 sm:p-3 rounded-lg border border-[color:rgb(0_0_0_/_0.15)] shadow-sm text-[10px] sm:text-xs pointer-events-auto"
+            onMouseDown={(e) => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
+            onDoubleClick={(e) => e.stopPropagation()}
+            onWheel={(e) => e.stopPropagation()}
+        >
             <div className="flex items-center gap-1.5 sm:gap-2">
                 <img
                     src={MASJID_ICON_BLUE.options.iconUrl!} 
@@ -445,6 +685,7 @@ export default function MapView() {
     const highlightsRef = useRef<L.LayerGroup | null>(null);
     const [panelOpen, setPanelOpen] = useState(true);
     const [locPanelOpen, setLocPanelOpen] = useState(true);
+    const [isMapFullscreen, setIsMapFullscreen] = useState(false);
 
     const [needsUserGesture, setNeedsUserGesture] = useState(false);
     const [geoMsg, setGeoMsg] = useState<string | null>(null);
@@ -558,8 +799,9 @@ export default function MapView() {
         setSearchQuery(place.name);
         setActivePlaceId(place.id);
 
-        // move map first
-        map.flyTo([place.lat, place.lng], 13, { animate: true });
+        // move map first (1.5x faster animation)
+        const duration = getFlyToDuration(map, [place.lat, place.lng], 13, 1.5);
+        map.flyTo([place.lat, place.lng], 13, { animate: true, duration });
 
         requestAnimationFrame(() => map.invalidateSize());
     };
@@ -1106,87 +1348,15 @@ export default function MapView() {
                 </div>
                 {/* 🔍 Search bar under heading */}
                 <div className="mt-3">
-                    <div className="rounded-2xl border bg-white/95 shadow-sm overflow-hidden">
-                        <div className="flex items-center gap-2 px-3 py-2">
-                            <svg
-                                className="h-4 w-4 text-[var(--muted)]"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    d="M15.5 15.5 20 20"
-                                    stroke="currentColor"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                />
-                                <circle
-                                    cx="11"
-                                    cy="11"
-                                    r="5"
-                                    stroke="currentColor"
-                                    strokeWidth="1.5"
-                                />
-                            </svg>
-
-                            <input
-                                type="search"
-                                value={searchQuery}
-                                onFocus={() => setSearchOpen(true)}
-                                onChange={(e) => {
-                                    setSearchQuery(e.target.value);
-                                    setSearchOpen(true);
-                                }}
-                                placeholder="Search by name…"
-                                className="w-full rounded-md border border-[color:rgb(0_0_0_/_0.06)] bg-white/90 px-2.5 py-1.5 text-sm text-[var(--ink)] shadow-sm placeholder:text-[var(--muted)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
-                            />
-                        </div>
-
-                        {/* Dropdown results */}
-                        {searchOpen && searchQuery && (
-                            <>
-                                {searchMatches.length > 0 ? (
-                                    <ul className="max-h-64 overflow-y-auto px-3 pb-2 space-y-1 text-sm text-left">
-                                        {searchMatches.map((p) => {
-                                            const distanceKm =
-                                                refLocation != null
-                                                    ? haversineKm(refLocation.pos, [p.lat, p.lng])
-                                                    : null;
-
-                                            return (
-                                                <li
-                                                    key={p.id}
-                                                    className="rounded-lg px-2 py-1.5 hover:bg-[var(--brand-50)]/40 cursor-pointer text-left"
-                                                    onClick={() => handleSelectPlace(p)}
-                                                >
-                                                    <div className="min-w-0">
-                                                        <div className="truncate font-medium text-[var(--ink)]">
-                                                            {p.name}
-                                                        </div>
-                                                        {p.address && (
-                                                            <div className="truncate text-xs text-[var(--muted)]">
-                                                                {p.address}
-                                                            </div>
-                                                        )}
-                                                        <div className="text-xs text-[var(--muted)] text-left">
-                                                            {distanceKm !== null
-                                                                ? `${p.type} - ${distanceKm.toFixed(1)} km away`
-                                                                : p.type}
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            );
-                                        })}
-                                    </ul>
-                                ) : (
-                                    <div className="px-3 pb-2 text-xs text-[var(--muted)] text-left">
-                                        No locations found.
-                                    </div>
-                                )}
-                            </>
-                        )}
-                    </div>
+                    <SearchBarUI
+                        searchQuery={searchQuery}
+                        setSearchQuery={setSearchQuery}
+                        searchOpen={searchOpen}
+                        setSearchOpen={setSearchOpen}
+                        searchMatches={searchMatches}
+                        refLocation={refLocation}
+                        onSelectPlace={handleSelectPlace}
+                    />
                 </div>
 
             </div>
@@ -1216,6 +1386,7 @@ export default function MapView() {
                     <MapClickCloser onClick={() => setSearchOpen(false)} />
 
                     <FullscreenControl position="topleft" />
+                    <FullscreenTracker onFullscreenChange={setIsMapFullscreen} />
                     <MobileFullscreenExit isMobile={isMobile} />
                    
                     <LibertyLayer />
@@ -1310,38 +1481,78 @@ export default function MapView() {
                             </Marker>
                         );
                     })}
-                </MapContainer>
-                <MapLegend />
 
-                {userPos && nearest3.length > 0 && (
-                    <div className="pointer-events-none absolute top-3 right-3 z-[900] w-[clamp(200px,65%,420px)]">
-                        <div className="pointer-events-auto rounded-2xl border bg-white/95 backdrop-blur shadow-lg overflow-hidden">
-                            <button
-                                type="button"
-                                onClick={() => setPanelOpen(o => !o)}
-                                aria-expanded={panelOpen}
-                                aria-controls="closest-panel"
-                                className="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-[var(--brand-50)]/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+                    {/* Fullscreen Search Bar */}
+                    {isMapFullscreen && (
+                        <div
+                            ref={(el) => {
+                                if (el) {
+                                    L.DomEvent.disableClickPropagation(el);
+                                    L.DomEvent.disableScrollPropagation(el);
+                                }
+                            }}
+                            className="absolute top-3 left-3 right-3 sm:left-14 sm:right-auto sm:w-[clamp(280px,32vw,420px)] z-[100000] pointer-events-auto font-sans"
+                            onMouseDown={(e) => e.stopPropagation()}
+                            onClick={(e) => e.stopPropagation()}
+                            onDoubleClick={(e) => e.stopPropagation()}
+                            onWheel={(e) => e.stopPropagation()}
+                        >
+                            <SearchBarUI
+                                searchQuery={searchQuery}
+                                setSearchQuery={setSearchQuery}
+                                searchOpen={searchOpen}
+                                setSearchOpen={setSearchOpen}
+                                searchMatches={searchMatches}
+                                refLocation={refLocation}
+                                onSelectPlace={handleSelectPlace}
+                                className="shadow-md border-[color:rgb(0_0_0_/_0.15)]"
+                            />
+                        </div>
+                    )}
+
+                    <MapLegend />
+
+                    {userPos && nearest3.length > 0 && (
+                        <div className={`pointer-events-none absolute ${isMapFullscreen ? "top-16 sm:top-3" : "top-3"} right-3 z-[100000] w-[clamp(200px,65%,420px)] font-sans`}>
+                            <div
+                                ref={(el) => {
+                                    if (el) {
+                                        L.DomEvent.disableClickPropagation(el);
+                                        L.DomEvent.disableScrollPropagation(el);
+                                    }
+                                }}
+                                className="pointer-events-auto rounded-2xl border bg-white/95 backdrop-blur shadow-lg overflow-hidden font-sans"
+                                onMouseDown={(e) => e.stopPropagation()}
+                                onClick={(e) => e.stopPropagation()}
+                                onDoubleClick={(e) => e.stopPropagation()}
+                                onWheel={(e) => e.stopPropagation()}
                             >
-                                <span className="text-sm font-semibold text-[var(--ink)]">Closest to you</span>
-                                <svg
-                                    className={`h-4 w-4 text-[var(--muted)] transition-transform ${panelOpen ? "" : "-rotate-90"}`}
-                                    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                                <button
+                                    type="button"
+                                    onClick={() => setPanelOpen(o => !o)}
+                                    aria-expanded={panelOpen}
+                                    aria-controls="closest-panel"
+                                    className="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-[var(--brand-50)]/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] font-sans"
                                 >
-                                    <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-                                </svg>
-                            </button>
+                                    <span className="text-sm font-semibold text-[var(--ink)] font-sans">Closest to you</span>
+                                    <svg
+                                        className={`h-4 w-4 text-[var(--muted)] transition-transform ${panelOpen ? "" : "-rotate-90"}`}
+                                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                                    >
+                                        <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                                    </svg>
+                                </button>
 
-                            {panelOpen && (
-                                <div id="closest-panel" className="px-3 py-3">
-                                    <ul className="space-y-2">
+                                {panelOpen && (
+                                    <div id="closest-panel" className="px-3 py-3 font-sans">
+                                        <ul className="space-y-2 max-h-64 overflow-y-auto font-sans" onWheel={(e) => e.stopPropagation()}>
                                         {nearest3.map(({ p, d }) => (
-                                            <li key={p.id} className="flex items-start justify-between gap-3">
-                                                <div className="min-w-0 flex-1 pr-2">
+                                            <li key={p.id} className="flex items-start justify-between gap-3 font-sans">
+                                                <div className="min-w-0 flex-1 pr-2 font-sans">
                                                     <button
                                                         type="button"
                                                         onClick={() => handleSelectPlace(p)}
-                                                        className="block w-full text-left font-medium text-[var(--ink)] text-sm break-words hover:underline"
+                                                        className="block w-full text-left font-medium text-[var(--ink)] text-sm break-words hover:underline font-sans"
                                                         title="Open on map"
                                                     >
                                                         {p.name}
@@ -1349,17 +1560,17 @@ export default function MapView() {
 
 
                                                     {p.address && (
-                                                        <div className="truncate text-xs text-[var(--muted)]">
+                                                        <div className="truncate text-xs text-[var(--muted)] font-sans">
                                                             {p.address}
                                                         </div>
                                                     )}
-                                                    <div className="text-xs text-[var(--muted)] text-left">
+                                                    <div className="text-xs text-[var(--muted)] text-left font-sans">
                                                         {d.toFixed(1)} km away - {p.type}
                                                     </div>
 
                                                 </div>
                                                 <a
-                                                    className="shrink-0 rounded-lg border px-2 py-1 text-xs text-[var(--brand)] hover:bg-[var(--brand-50)]"
+                                                    className="shrink-0 rounded-lg border px-2 py-1 text-xs text-[var(--brand)] hover:bg-[var(--brand-50)] font-sans"
                                                     href={`https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`}
                                                     target="_blank" rel="noreferrer"
                                                     title="Open in Google Maps"
@@ -1375,44 +1586,57 @@ export default function MapView() {
                     </div>
                 )}
 
-                {!userPos && (
-                    <div
-                        className="pointer-events-none absolute top-2 right-2 sm:top-3 sm:right-3 z-[900] w-[clamp(160px,45%,280px)] sm:w-[clamp(200px,40%,420px)]"
-                    >
-                        <div className="pointer-events-auto rounded-xl sm:rounded-2xl border bg-white/95 backdrop-blur shadow-lg overflow-hidden">
-                            <button
-                                type="button"
-                                onClick={() => setLocPanelOpen(o => !o)}
-                                className="w-full flex items-center justify-between px-2.5 py-2 sm:px-3 sm:py-2.5 text-left hover:bg-[var(--brand-50)]/40 focus:outline-none"
+                    {!userPos && (
+                        <div
+                            className={`pointer-events-none absolute ${isMapFullscreen ? "top-16 sm:top-3" : "top-2 sm:top-3"} right-2 sm:right-3 z-[100000] w-[clamp(160px,45%,280px)] sm:w-[clamp(200px,40%,420px)] font-sans`}
+                        >
+                            <div
+                                ref={(el) => {
+                                    if (el) {
+                                        L.DomEvent.disableClickPropagation(el);
+                                        L.DomEvent.disableScrollPropagation(el);
+                                    }
+                                }}
+                                className="pointer-events-auto rounded-xl sm:rounded-2xl border bg-white/95 backdrop-blur shadow-lg overflow-hidden font-sans"
+                                onMouseDown={(e) => e.stopPropagation()}
+                                onClick={(e) => e.stopPropagation()}
+                                onDoubleClick={(e) => e.stopPropagation()}
+                                onWheel={(e) => e.stopPropagation()}
                             >
-                                <span className="text-xs sm:text-sm font-semibold text-[var(--ink)]">
-                                    Location Access
-                                </span>
-                                <svg
-                                    className={`h-3 w-3 sm:h-4 sm:w-4 text-[var(--muted)] transition-transform ${locPanelOpen ? "" : "-rotate-90"}`}
-                                    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+                                <button
+                                    type="button"
+                                    onClick={() => setLocPanelOpen(o => !o)}
+                                    className="w-full flex items-center justify-between px-2.5 py-2 sm:px-3 sm:py-2.5 text-left hover:bg-[var(--brand-50)]/40 focus:outline-none font-sans"
                                 >
-                                    <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-                                </svg>
-                            </button>
-
-                            {locPanelOpen && (
-                                <div className="px-2.5 pb-2.5 sm:px-3 sm:pb-3">
-                                    <p className="text-[11px] sm:text-sm text-[var(--muted)] leading-snug mb-2.5">
-                                        {geoMsg || "Enable location to see the three closest Masajid near you."}
-                                    </p>
-                                    <button
-                                        type="button"
-                                        onClick={requestLocation}
-                                        className="text-[11px] sm:text-sm font-bold text-white bg-[var(--brand)] px-3 py-1.5 rounded-lg hover:bg-[var(--brand-700)] transition-colors w-full text-center shadow-sm"
+                                    <span className="text-xs sm:text-sm font-semibold text-[var(--ink)]">
+                                        Location Access
+                                    </span>
+                                    <svg
+                                        className={`h-3 w-3 sm:h-4 sm:w-4 text-[var(--muted)] transition-transform ${locPanelOpen ? "" : "-rotate-90"}`}
+                                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
                                     >
-                                        Request Access
-                                    </button>
-                                </div>
-                            )}
+                                        <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                                    </svg>
+                                </button>
+
+                                {locPanelOpen && (
+                                    <div className="px-2.5 pb-2.5 sm:px-3 sm:pb-3">
+                                        <p className="text-[11px] sm:text-sm text-[var(--muted)] leading-snug mb-2.5">
+                                            {geoMsg || "Enable location to see the three closest Masajid near you."}
+                                        </p>
+                                        <button
+                                            type="button"
+                                            onClick={requestLocation}
+                                            className="text-[11px] sm:text-sm font-bold text-white bg-[var(--brand)] px-3 py-1.5 rounded-lg hover:bg-[var(--brand-700)] transition-colors w-full text-center shadow-sm"
+                                        >
+                                            Request Access
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )}
+                </MapContainer>
             </div>
             {/* --- MOBILE BOTTOM SHEET (Will work on later)--- */}
             {/* <div
