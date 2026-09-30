@@ -9046,13 +9046,13 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -79.8718785,
-          43.5199323,
+          -79.8809886,
+          43.503076,
           0
         ]
       },
       "properties": {
-        "name": "Masjid Khadijah (mosque)",
+        "name": "Masjid Khadijah (Khadijah Mosque)",
         "styleUrl": "#icon-1673-0288D1-nodesc",
         "styleHash": "-ae0e09f",
         "province": "Ontario",
@@ -9064,7 +9064,7 @@
         },
         "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
         "website": "https://www.masjidkhadijah.ca/",
-        "address": "100 Nipissing Rd, Units 7/8, Milton, ON L9T 5B2"
+        "address": "290 Bronte St. S, Milton, ON L9T 1Y8"
       }
     },
     {
