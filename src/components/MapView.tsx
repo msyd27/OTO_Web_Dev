@@ -153,25 +153,29 @@ function FullscreenTracker({ onFullscreenChange }: { onFullscreenChange: (isFs: 
 
         const handleEnter = () => updateState(true);
         const handleExit = () => updateState(false);
-        const handleDocChange = () => {
-            const isPseudo = !!map.getContainer()?.classList.contains("leaflet-pseudo-fullscreen");
-            // In mobile pseudo-fullscreen, document.fullscreenElement is null, so don't let it reset state to false
-            if (!isPseudo) {
-                const fsEl = document.fullscreenElement || (document as unknown as { webkitFullscreenElement?: Element }).webkitFullscreenElement;
-                updateState(!!fsEl);
-            }
+
+        const checkFullscreen = () => {
+            const container = typeof map.getContainer === "function" ? map.getContainer() : null;
+            const isPseudo = !!container?.classList.contains("leaflet-pseudo-fullscreen");
+            const fsEl = typeof document !== "undefined"
+                ? (document.fullscreenElement || (document as unknown as { webkitFullscreenElement?: Element }).webkitFullscreenElement)
+                : null;
+            const isFs = Boolean(fsEl || isPseudo);
+            updateState(isFs);
         };
 
         map.on("enterFullscreen", handleEnter);
         map.on("exitFullscreen", handleExit);
-        document.addEventListener("fullscreenchange", handleDocChange);
-        document.addEventListener("webkitfullscreenchange", handleDocChange);
+        map.on("fullscreenchange", checkFullscreen);
+        document.addEventListener("fullscreenchange", checkFullscreen);
+        document.addEventListener("webkitfullscreenchange", checkFullscreen);
 
         return () => {
             map.off("enterFullscreen", handleEnter);
             map.off("exitFullscreen", handleExit);
-            document.removeEventListener("fullscreenchange", handleDocChange);
-            document.removeEventListener("webkitfullscreenchange", handleDocChange);
+            map.off("fullscreenchange", checkFullscreen);
+            document.removeEventListener("fullscreenchange", checkFullscreen);
+            document.removeEventListener("webkitfullscreenchange", checkFullscreen);
             if (typeof document !== "undefined") {
                 document.documentElement.classList.remove("is-fullscreen");
                 document.body.classList.remove("is-fullscreen");
@@ -800,31 +804,40 @@ export default function MapView() {
     };
 
     const handleExitFullscreen = () => {
+        setIsMapFullscreen(false);
+        if (typeof document !== "undefined") {
+            document.documentElement.classList.remove("is-fullscreen");
+            document.body.classList.remove("is-fullscreen");
+        }
+
         const map = mapRef.current as (L.Map & { toggleFullscreen?: () => void; fullscreenControl?: { toggleFullScreen?: () => void } }) | null;
         if (!map) return;
+
         try {
             if (typeof map.toggleFullscreen === "function") {
                 map.toggleFullscreen();
-                return;
-            }
-            if (map.fullscreenControl && typeof map.fullscreenControl.toggleFullScreen === "function") {
+            } else if (map.fullscreenControl && typeof map.fullscreenControl.toggleFullScreen === "function") {
                 map.fullscreenControl.toggleFullScreen();
-                return;
             }
         } catch {
             // Fall through to DOM fallback
         }
 
-        if (typeof document !== "undefined" && document.fullscreenElement) {
-            document.exitFullscreen().catch(() => {});
-        } else if (map && typeof map.getContainer === "function") {
+        if (typeof document !== "undefined" && (document.fullscreenElement || (document as unknown as { webkitFullscreenElement?: Element }).webkitFullscreenElement)) {
+            const doc = document as unknown as { exitFullscreen?: () => Promise<void>; webkitExitFullscreen?: () => Promise<void> };
+            const exitFn = doc.exitFullscreen || doc.webkitExitFullscreen;
+            if (exitFn) exitFn.call(document).catch(() => {});
+        }
+
+        if (typeof map.getContainer === "function") {
             const container = map.getContainer();
             if (container) {
                 container.classList.remove("leaflet-pseudo-fullscreen");
-                map.invalidateSize();
-                map.fire("exitFullscreen");
             }
         }
+
+        map.invalidateSize();
+        map.fire("exitFullscreen");
     };
 
 
@@ -1504,7 +1517,7 @@ export default function MapView() {
                     })}
 
                     {/* Fullscreen Search Bar (Desktop) */}
-                    {isMapFullscreen && (
+                    {isMapFullscreen ? (
                         <div
                             ref={(el) => {
                                 if (el) {
@@ -1529,10 +1542,10 @@ export default function MapView() {
                                 className="shadow-md border-[color:rgb(0_0_0_/_0.15)]"
                             />
                         </div>
-                    )}
+                    ) : null}
 
                     {/* Dedicated Mobile-only Fullscreen Overlay Wrapper */}
-                    {isMapFullscreen && (
+                    {isMapFullscreen ? (
                         <div className="absolute inset-0 z-[100000] flex flex-col justify-between h-full pointer-events-none p-2 sm:hidden font-sans">
                             {/* Compact Top Row: Search Bar (flex-1) + Exit Fullscreen (shrink-0) */}
                             <div className="w-full flex items-start gap-1.5 pointer-events-none">
@@ -1731,7 +1744,7 @@ export default function MapView() {
                                 </div>
                             </div>
                         </div>
-                    )}
+                    ) : null}
 
                     <MapLegend isMapFullscreen={isMapFullscreen} />
 
