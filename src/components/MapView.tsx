@@ -278,7 +278,7 @@ function SearchBarUI({
                         e.nativeEvent.stopImmediatePropagation();
                     }}
                     placeholder="Search by name…"
-                    className="w-full rounded-md border border-[color:rgb(0_0_0_/_0.06)] bg-white/90 px-2.5 py-1.5 text-sm text-[var(--ink)] shadow-sm placeholder:text-[var(--muted)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] font-sans"
+                    className="w-full rounded-md border border-[color:rgb(0_0_0_/_0.06)] bg-white/90 px-2.5 py-1.5 text-base sm:text-sm text-[var(--ink)] shadow-sm placeholder:text-[var(--muted)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] font-sans"
                 />
             </div>
 
@@ -1259,7 +1259,7 @@ export default function MapView() {
                                         }
                                     }}
                                     placeholder="e.g. L3S 0B5 or Markham"
-                                    className="w-full rounded-lg border border-[color:rgb(0_0_0_/_0.15)] bg-white pl-2.5 pr-14 py-2 text-xs sm:text-sm text-[var(--ink)] outline-none focus:ring-2 focus:ring-[var(--brand)] transition-all shadow-sm placeholder:text-[var(--muted)] h-[38px]"
+                                    className="w-full rounded-lg border border-[color:rgb(0_0_0_/_0.15)] bg-white pl-2.5 pr-14 py-2 text-base sm:text-sm text-[var(--ink)] outline-none focus:ring-2 focus:ring-[var(--brand)] transition-all shadow-sm placeholder:text-[var(--muted)] h-[38px]"
                                 />
                                 <div className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center gap-0.5">
                                     {addressInput && (

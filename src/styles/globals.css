@@ -47,11 +47,24 @@ body {
 
 /* In your global CSS file */
 @media (max-width: 767px) {
-  .leaflet-control-zoom,
-  .leaflet-control-fullscreen {
+  .leaflet-control-zoom {
+    display: none !important;
+  }
+  .leaflet-top.leaflet-left {
+    top: 50px !important;
+  }
+  .leaflet-control-fullscreen a {
+    width: 36px !important;
+    height: 36px !important;
+    line-height: 36px !important;
+    border-radius: 8px !important;
+  }
+  html.is-fullscreen .leaflet-control-fullscreen,
+  body.is-fullscreen .leaflet-control-fullscreen {
     display: none !important;
   }
 }
+
 
 /* Mobile Fullscreen & Pseudo-fullscreen Overrides */
 html.is-fullscreen header,
