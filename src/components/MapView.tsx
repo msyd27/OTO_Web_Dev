@@ -139,7 +139,13 @@ function MapClickCloser({ onClick }: { onClick: () => void }) {
     return null;
 }
 
-function FullscreenTracker({ onFullscreenChange }: { onFullscreenChange: (isFs: boolean) => void }) {
+function FullscreenTracker({
+    onFullscreenChange,
+    mapSectionRef,
+}: {
+    onFullscreenChange: (isFs: boolean) => void;
+    mapSectionRef?: React.RefObject<HTMLDivElement | null>;
+}) {
     const map = useMap();
 
     useEffect(() => {
@@ -148,6 +154,12 @@ function FullscreenTracker({ onFullscreenChange }: { onFullscreenChange: (isFs: 
             if (typeof document !== "undefined") {
                 document.documentElement.classList.toggle("is-fullscreen", active);
                 document.body.classList.toggle("is-fullscreen", active);
+            }
+            if (!active) {
+                (map as unknown as { _isFullscreen?: boolean })._isFullscreen = false;
+                setTimeout(() => {
+                    mapSectionRef?.current?.scrollIntoView({ behavior: "instant", block: "center" });
+                }, 50);
             }
         };
 
@@ -181,7 +193,7 @@ function FullscreenTracker({ onFullscreenChange }: { onFullscreenChange: (isFs: 
                 document.body.classList.remove("is-fullscreen");
             }
         };
-    }, [map, onFullscreenChange]);
+    }, [map, onFullscreenChange, mapSectionRef]);
 
     return null;
 }
@@ -680,6 +692,7 @@ export default function MapView() {
     };
 
     const highlightsRef = useRef<L.LayerGroup | null>(null);
+    const mapSectionRef = useRef<HTMLDivElement | null>(null);
     const [panelOpen, setPanelOpen] = useState(false);
     const [locPanelOpen, setLocPanelOpen] = useState(true);
     const [isMapFullscreen, setIsMapFullscreen] = useState(false);
@@ -803,41 +816,51 @@ export default function MapView() {
         requestAnimationFrame(() => map.invalidateSize());
     };
 
-    const handleExitFullscreen = () => {
+    const handleExitFullscreen = (e?: React.MouseEvent) => {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        const map = mapRef.current as (L.Map & { toggleFullscreen?: () => void; fullscreenControl?: { toggleFullScreen?: () => void }; _isFullscreen?: boolean }) | null;
+        if (map) {
+            try {
+                if (typeof map.toggleFullscreen === "function") {
+                    map.toggleFullscreen();
+                } else if (map.fullscreenControl && typeof map.fullscreenControl.toggleFullScreen === "function") {
+                    map.fullscreenControl.toggleFullScreen();
+                }
+            } catch {
+                // Fall through to DOM fallback
+            }
+            map._isFullscreen = false;
+        }
+
         setIsMapFullscreen(false);
+
         if (typeof document !== "undefined") {
             document.documentElement.classList.remove("is-fullscreen");
             document.body.classList.remove("is-fullscreen");
-        }
-
-        const map = mapRef.current as (L.Map & { toggleFullscreen?: () => void; fullscreenControl?: { toggleFullScreen?: () => void } }) | null;
-        if (!map) return;
-
-        try {
-            if (typeof map.toggleFullscreen === "function") {
-                map.toggleFullscreen();
-            } else if (map.fullscreenControl && typeof map.fullscreenControl.toggleFullScreen === "function") {
-                map.fullscreenControl.toggleFullScreen();
+            if (document.fullscreenElement || (document as unknown as { webkitFullscreenElement?: Element }).webkitFullscreenElement) {
+                const doc = document as unknown as { exitFullscreen?: () => Promise<void>; webkitExitFullscreen?: () => Promise<void> };
+                const exitFn = doc.exitFullscreen || doc.webkitExitFullscreen;
+                if (exitFn) exitFn.call(document).catch(() => {});
             }
-        } catch {
-            // Fall through to DOM fallback
         }
 
-        if (typeof document !== "undefined" && (document.fullscreenElement || (document as unknown as { webkitFullscreenElement?: Element }).webkitFullscreenElement)) {
-            const doc = document as unknown as { exitFullscreen?: () => Promise<void>; webkitExitFullscreen?: () => Promise<void> };
-            const exitFn = doc.exitFullscreen || doc.webkitExitFullscreen;
-            if (exitFn) exitFn.call(document).catch(() => {});
-        }
-
-        if (typeof map.getContainer === "function") {
-            const container = map.getContainer();
+        if (map) {
+            const container = typeof map.getContainer === "function" ? map.getContainer() : null;
             if (container) {
                 container.classList.remove("leaflet-pseudo-fullscreen");
             }
+            map._isFullscreen = false;
+            map.invalidateSize();
+            map.fire("exitFullscreen");
         }
 
-        map.invalidateSize();
-        map.fire("exitFullscreen");
+        setTimeout(() => {
+            mapSectionRef.current?.scrollIntoView({ behavior: "instant", block: "center" });
+        }, 50);
     };
 
 
@@ -1191,7 +1214,7 @@ export default function MapView() {
     }, [selectedProvince, selectedRegion, selectedCity, selectedRadius, refLocation, places, userPos]);
 
     return (
-        <div className="rounded-2xl border border-[color:rgb(0_0_0_/_0.06)] overflow-hidden">
+        <div ref={mapSectionRef} className="rounded-2xl border border-[color:rgb(0_0_0_/_0.06)] overflow-hidden">
             <div className="p-3 bg-white">
                 <div className="text-[var(--ink)] font-semibold">Masjid & Musallah Map</div>
                 <div className="flex flex-wrap items-center justify-between gap-2 py-2 text-xs font-medium text-[var(--muted)] border-b border-[color:rgb(0_0_0_/_0.05)]">
@@ -1419,8 +1442,8 @@ export default function MapView() {
 
                     <MapClickCloser onClick={() => setSearchOpen(false)} />
 
-                    {!isMapFullscreen && <FullscreenControl position="topleft" />}
-                    <FullscreenTracker onFullscreenChange={setIsMapFullscreen} />
+                    <FullscreenControl position="topleft" />
+                    <FullscreenTracker mapSectionRef={mapSectionRef} onFullscreenChange={setIsMapFullscreen} />
                     <MobileFullscreenExit isMobile={isMobile} />
                    
                     <LibertyLayer />
@@ -1573,8 +1596,7 @@ export default function MapView() {
                                     <button
                                         type="button"
                                         onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleExitFullscreen();
+                                            handleExitFullscreen(e);
                                         }}
                                         className="h-12 px-3.5 rounded-2xl border border-[var(--brand)] bg-white/95 shadow-md text-xs font-bold text-[var(--brand)] hover:bg-[var(--brand-50)] flex items-center justify-center gap-1.5 pointer-events-auto font-sans cursor-pointer active:scale-95 transition-transform"
                                         title="Exit Fullscreen"

@@ -66,7 +66,7 @@ body {
 }
 
 
-/* Mobile Fullscreen & Pseudo-fullscreen Overrides */
+/* Fullscreen & Pseudo-fullscreen Overrides */
 html.is-fullscreen header,
 body.is-fullscreen header {
   display: none !important;
