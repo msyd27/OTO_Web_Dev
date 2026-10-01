@@ -10496,32 +10496,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -81.276584,
-          42.9554213,
-          0
-        ]
-      },
-      "properties": {
-        "name": "Muslim Association of Canada (MAC) Westmount Centre",
-        "styleUrl": "#icon-1673-0288D1-nodesc",
-        "styleHash": "-ae0e09f",
-        "province": "Ontario",
-        "region": "London",
-        "city": "London",
-        "styleMapHash": {
-          "normal": "#icon-1673-0288D1-nodesc-normal",
-          "highlight": "#icon-1673-0288D1-nodesc-highlight"
-        },
-        "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
-        "website": "https://centres.macnet.ca/westmount/",
-        "address": "312 Commissioners Rd W Unit 5, London, ON N6J 1Y3"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -123.0635315,
           49.2441672,
           0
