@@ -289,7 +289,8 @@ export const locationData: Record<string, Record<string, string[]>> = {
         ],
         "Quinte Region": [
             "Belleville",
-            "Stirling"
+            "Stirling",
+            "Trenton"
         ],
         "Renfrew County": [
             "Deep River",

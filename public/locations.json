@@ -3424,7 +3424,7 @@
         ]
       },
       "properties": {
-        "name": "Darul Arqum , Markaz of Ottawa",
+        "name": "Darul Arqum East, Markaz of Ottawa",
         "styleUrl": "#icon-1673-0288D1-nodesc",
         "styleHash": "-ae0e09f",
         "province": "Ontario",
@@ -13965,6 +13965,32 @@
         "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
         "website": "https://www.islamnovascotia.ca/Truro.aspx",
         "address": "533 Pictou Rd, Truro, NS B2N 2V2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.554176,
+          44.116582,
+          0
+        ]
+      },
+      "properties": {
+        "name": "Quinte West Islamic Community",
+        "styleUrl": "#icon-1673-0288D1-nodesc",
+        "styleHash": "-ae0e09f",
+        "province": "Ontario",
+        "region": "Quinte Region",
+        "city": "Trenton",
+        "styleMapHash": {
+          "normal": "#icon-1673-0288D1-nodesc-normal",
+          "highlight": "#icon-1673-0288D1-nodesc-highlight"
+        },
+        "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+        "website": "https://qwic.ca/",
+        "address": "91 Namao Dr, Quinte West, ON K8V 1C6"
       }
     }
   ]
