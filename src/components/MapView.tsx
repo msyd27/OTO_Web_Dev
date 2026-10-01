@@ -10,7 +10,7 @@ import LibertyLayer from "./LibertyLayer";
 import { FullscreenControl } from 'react-leaflet-fullscreen';
 import 'react-leaflet-fullscreen/styles.css';
 import { locationData } from "@/lib/locationData";
-import { searchCanadianAddress, type GeocodingResult } from "@/lib/geocoding";
+import { searchCanadianAddress, stripPostalCode, CANADIAN_POSTAL_CODE_REGEX, type GeocodingResult } from "@/lib/geocoding";
 
 function crescentStarIcon(color: string) {
     const svg = encodeURIComponent(`
@@ -629,7 +629,8 @@ export default function MapView() {
 
     const handleSelectAddress = (item: GeocodingResult) => {
         const coords: [number, number] = [item.lat, item.lng];
-        const label = item.shortName || item.displayName;
+        const isPostalCode = CANADIAN_POSTAL_CODE_REGEX.test(addressInput.trim());
+        const label = isPostalCode ? item.shortName : stripPostalCode(item.shortName || item.displayName);
         setAddressInput(label);
         setShowAddressDropdown(false);
         setRefLocation({
@@ -1313,7 +1314,7 @@ export default function MapView() {
                                             handleAddressSubmit();
                                         }
                                     }}
-                                    placeholder="e.g. L3S 0B5 or Markham"
+                                    placeholder="e.g. L3S 4J8 or Ajax"
                                     className="w-full rounded-lg border border-[color:rgb(0_0_0_/_0.15)] bg-white pl-2.5 pr-14 py-2 text-base sm:text-sm text-[var(--ink)] outline-none focus:ring-2 focus:ring-[var(--brand)] transition-all shadow-sm placeholder:text-[var(--muted)] h-[38px]"
                                 />
                                 <div className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center gap-0.5">
@@ -1344,16 +1345,21 @@ export default function MapView() {
                             {/* Autocomplete suggestions dropdown */}
                             {showAddressDropdown && addressSuggestions.length > 0 && (
                                 <ul className="absolute top-full left-0 right-0 sm:right-auto sm:min-w-[240px] z-[1100] mt-1 max-h-48 overflow-y-auto rounded-lg border border-[color:rgb(0_0_0_/_0.15)] bg-white p-1 text-xs shadow-lg divide-y divide-gray-100">
-                                    {addressSuggestions.map((item, idx) => (
-                                        <li
-                                            key={idx}
-                                            onClick={() => handleSelectAddress(item)}
-                                            className="cursor-pointer rounded-md p-2 hover:bg-[var(--brand)]/10 text-left text-gray-800 transition-colors"
-                                        >
-                                            <div className="font-semibold text-[var(--ink)]">{item.shortName}</div>
-                                            <div className="text-[10px] text-[var(--muted)] truncate">{item.displayName}</div>
-                                        </li>
-                                    ))}
+                                    {addressSuggestions.map((item, idx) => {
+                                        const isPostalSearch = CANADIAN_POSTAL_CODE_REGEX.test(addressInput.trim());
+                                        const title = isPostalSearch ? item.shortName : stripPostalCode(item.shortName);
+                                        const subtitle = stripPostalCode(item.displayName);
+                                        return (
+                                            <li
+                                                key={idx}
+                                                onClick={() => handleSelectAddress(item)}
+                                                className="cursor-pointer rounded-md p-2 hover:bg-[var(--brand)]/10 text-left text-gray-800 transition-colors"
+                                            >
+                                                <div className="font-semibold text-[var(--ink)]">{title}</div>
+                                                <div className="text-[10px] text-[var(--muted)] truncate">{subtitle}</div>
+                                            </li>
+                                        );
+                                    })}
                                 </ul>
                             )}
                             {showAddressDropdown && isGeocoding && (
