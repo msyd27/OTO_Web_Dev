@@ -122,6 +122,9 @@ export const locationData: Record<string, Record<string, string[]>> = {
         "Campbellton": [
             "Campbellton"
         ],
+        "Madawaska Region": [
+            "Edmundston"
+        ],
         "Northumberland County": [
             "Miramichi"
         ],
@@ -141,6 +144,9 @@ export const locationData: Record<string, Record<string, string[]>> = {
         ],
         "St. John’s Metropolitan Area": [
             "St. John’s"
+        ],
+        "Western Newfoundland": [
+            "Corner Brook"
         ]
     },
     "Northwest Territories": {
