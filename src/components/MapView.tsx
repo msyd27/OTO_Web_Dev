@@ -1494,20 +1494,34 @@ export default function MapView() {
                                     click: () => setActivePlaceId(p.id),
                                 }}
                             >
-                                <Popup autoPan={false}>
-                                    <div className="space-y-1">
+                                <Popup
+                                    autoPan={false}
+                                    maxWidth={isMobile ? 220 : 300}
+                                    minWidth={isMobile ? 150 : 200}
+                                >
+                                    <div className="space-y-0.5 sm:space-y-1 p-0.5 sm:p-1 font-sans">
                                         {isNearest && nearInfo && (
-                                            <div className="mb-2 inline-flex items-center gap-1 rounded-full bg-[var(--brand)]/10 px-2 py-0.5 text-[10px] font-bold text-[var(--brand)] uppercase tracking-wider">
+                                            <div className="mb-1 sm:mb-2 inline-flex items-center gap-1 rounded-full bg-[var(--brand)]/10 px-1.5 sm:px-2 py-0.5 text-[9px] sm:text-[10px] font-bold text-[var(--brand)] uppercase tracking-wider">
                                                 {refLocation?.source === "address" ? "Closest to address" : "Closest to you"} ({nearInfo.d.toFixed(1)} km)
                                             </div>
                                         )}
-                                        <div className="font-semibold text-[var(--ink)]">{p.name}</div>
+                                        <div className="font-semibold text-xs sm:text-sm text-[var(--ink)] leading-snug sm:leading-normal">
+                                            {p.name}
+                                        </div>
                                         {p.address && (
-                                            <div className="text-sm text-[var(--muted)]">{p.address}</div>
+                                            <div className="text-[11px] sm:text-xs text-[var(--muted)] leading-tight sm:leading-normal">
+                                                {p.address}
+                                            </div>
                                         )}
-                                        {p.notes && <div className="text-sm italic text-[var(--muted)]">{p.notes}</div>}
-                                        <div className="text-[10px] font-bold uppercase tracking-wide text-[var(--muted)]">{p.type}</div>
-                                        <div className="pt-2 flex items-center gap-2 text-xs">
+                                        {p.notes && (
+                                            <div className="text-[11px] sm:text-xs italic text-[var(--muted)] leading-tight sm:leading-normal">
+                                                {p.notes}
+                                            </div>
+                                        )}
+                                        <div className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wide text-[var(--muted)]">
+                                            {p.type}
+                                        </div>
+                                        <div className="pt-1 sm:pt-2 flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs">
                                             <a
                                                 className="font-bold underline text-[var(--brand)]"
                                                 href={googleDirectionsUrl(p)}
