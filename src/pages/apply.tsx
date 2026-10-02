@@ -29,12 +29,12 @@ export default function ApplyPage() {
         <p>Jazakallahu Khair.</p>
       </div>
 
-      <div className="mt-6 flex flex-col sm:flex-row sm:justify-center gap-4">
+      <div className="flex flex-col sm:flex-row w-full gap-4 mt-4">
         <a
           href={huffadhLink}
           target="_blank"
           rel="noreferrer"
-          className="w-full sm:flex-1 sm:w-auto sm:min-w-[260px] text-center inline-flex justify-center items-center gap-2 rounded-lg bg-[var(--brand)] px-6 py-3 text-lg text-white font-semibold hover:bg-[var(--brand-700)] transition-colors"
+          className="w-full sm:flex-1 text-center inline-flex justify-center items-center gap-2 rounded-xl bg-[var(--brand)] px-6 py-5 sm:px-8 text-lg sm:text-xl text-white font-bold hover:bg-[var(--brand-700)] transition-colors shadow-sm"
         >
           Sign up as a Hafidh
         </a>
@@ -43,7 +43,7 @@ export default function ApplyPage() {
           href={masajidLink}
           target="_blank"
           rel="noreferrer"
-          className="w-full sm:flex-1 sm:w-auto sm:min-w-[260px] text-center inline-flex justify-center items-center gap-2 rounded-lg border border-[var(--brand)] bg-white text-[var(--brand)] text-lg font-semibold px-6 py-3 hover:bg-[var(--brand-50)] transition-colors"
+          className="w-full sm:flex-1 text-center inline-flex justify-center items-center gap-2 rounded-xl border-2 border-[var(--brand)] bg-white text-[var(--brand)] text-lg sm:text-xl font-bold px-6 py-5 sm:px-8 hover:bg-[var(--brand-50)] transition-colors shadow-sm"
         >
           Submit a listing as a Masjid/Musallah
         </a>
