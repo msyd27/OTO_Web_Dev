@@ -64,7 +64,7 @@
         ]
       },
       "properties": {
-        "name": "71 Musallah",
+        "name": "71 Musallah - Apartment No. 709",
         "styleUrl": "#icon-1673-0288D1-nodesc",
         "styleHash": "-ae0e09f",
         "province": "Ontario",
@@ -76,6 +76,31 @@
         },
         "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
         "address": "71 Thorncliffe Park Dr, East York, ON M4H 1L3, Canada"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.341452,
+          43.705293,
+          0
+        ]
+      },
+      "properties": {
+        "name": "75 Musallah - Apartment No. 1706",
+        "styleUrl": "#icon-1673-0288D1-nodesc",
+        "styleHash": "-ae0e09f",
+        "province": "Ontario",
+        "region": "Toronto",
+        "city": "East York",
+        "styleMapHash": {
+          "normal": "#icon-1673-0288D1-nodesc-normal",
+          "highlight": "#icon-1673-0288D1-nodesc-highlight"
+        },
+        "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+        "address": "75 Thorncliffe Park Dr, East York, ON M4H 1L4"
       }
     },
     {
