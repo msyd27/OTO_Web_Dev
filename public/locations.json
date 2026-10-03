@@ -64,7 +64,7 @@
         ]
       },
       "properties": {
-        "name": "71 Musallah",
+        "name": "71 Musallah - Apartment No. 709",
         "styleUrl": "#icon-1673-0288D1-nodesc",
         "styleHash": "-ae0e09f",
         "province": "Ontario",
@@ -76,6 +76,31 @@
         },
         "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
         "address": "71 Thorncliffe Park Dr, East York, ON M4H 1L3, Canada"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.341452,
+          43.705293,
+          0
+        ]
+      },
+      "properties": {
+        "name": "75 Musallah - Apartment No. 1706",
+        "styleUrl": "#icon-1673-0288D1-nodesc",
+        "styleHash": "-ae0e09f",
+        "province": "Ontario",
+        "region": "Toronto",
+        "city": "East York",
+        "styleMapHash": {
+          "normal": "#icon-1673-0288D1-nodesc-normal",
+          "highlight": "#icon-1673-0288D1-nodesc-highlight"
+        },
+        "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+        "address": "75 Thorncliffe Park Dr, East York, ON M4H 1L4"
       }
     },
     {
@@ -2754,15 +2779,14 @@
         "styleUrl": "#icon-1673-0288D1-nodesc",
         "styleHash": "-ae0e09f",
         "province": "New Brunswick",
-        "region": "York County",
-        "city": "Fredericton",
+        "region": "Madawaska Region",
+        "city": "Edmundston",
         "styleMapHash": {
           "normal": "#icon-1673-0288D1-nodesc-normal",
           "highlight": "#icon-1673-0288D1-nodesc-highlight"
         },
         "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
-        "website": "https://www.frederictonislamicassociation.com/",
-        "address": "130 Lincoln Road"
+        "address": "34 37e Ave, Edmundston, NB E3V 2W8"
       }
     },
     {
@@ -3424,7 +3448,7 @@
         ]
       },
       "properties": {
-        "name": "Darul Arqum , Markaz of Ottawa",
+        "name": "Darul Arqum East, Markaz of Ottawa",
         "styleUrl": "#icon-1673-0288D1-nodesc",
         "styleHash": "-ae0e09f",
         "province": "Ontario",
@@ -10496,32 +10520,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -81.276584,
-          42.9554213,
-          0
-        ]
-      },
-      "properties": {
-        "name": "Muslim Association of Canada (MAC) Westmount Centre",
-        "styleUrl": "#icon-1673-0288D1-nodesc",
-        "styleHash": "-ae0e09f",
-        "province": "Ontario",
-        "region": "London",
-        "city": "London",
-        "styleMapHash": {
-          "normal": "#icon-1673-0288D1-nodesc-normal",
-          "highlight": "#icon-1673-0288D1-nodesc-highlight"
-        },
-        "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
-        "website": "https://centres.macnet.ca/westmount/",
-        "address": "312 Commissioners Rd W Unit 5, London, ON N6J 1Y3"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -123.0635315,
           49.2441672,
           0
@@ -11384,7 +11382,7 @@
         ]
       },
       "properties": {
-        "name": "Outaouais Islamic Centre",
+        "name": "Centre Islamique de l'Outaouais - Outaouais Islamic Centre",
         "styleUrl": "#icon-1673-0288D1-nodesc",
         "styleHash": "-ae0e09f",
         "province": "Quebec",
@@ -13965,6 +13963,162 @@
         "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
         "website": "https://www.islamnovascotia.ca/Truro.aspx",
         "address": "533 Pictou Rd, Truro, NS B2N 2V2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.554176,
+          44.116582,
+          0
+        ]
+      },
+      "properties": {
+        "name": "Quinte West Islamic Community",
+        "styleUrl": "#icon-1673-0288D1-nodesc",
+        "styleHash": "-ae0e09f",
+        "province": "Ontario",
+        "region": "Quinte Region",
+        "city": "Trenton",
+        "styleMapHash": {
+          "normal": "#icon-1673-0288D1-nodesc-normal",
+          "highlight": "#icon-1673-0288D1-nodesc-highlight"
+        },
+        "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+        "website": "https://qwic.ca/",
+        "address": "91 Namao Dr, Quinte West, ON K8V 1C6"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.742318,
+          43.592949,
+          0
+        ]
+      },
+      "properties": {
+        "name": "Rowdah Centre",
+        "styleUrl": "#icon-1673-0288D1-nodesc",
+        "styleHash": "-ae0e09f",
+        "province": "Ontario",
+        "region": "Peel Region",
+        "city": "Mississauga",
+        "styleMapHash": {
+          "normal": "#icon-1673-0288D1-nodesc-normal",
+          "highlight": "#icon-1673-0288D1-nodesc-highlight"
+        },
+        "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+        "website": "https://www.rowdahcentre.ca/",
+        "address": "6535 Millcreek Dr Unit # 61, Mississauga, ON L5N 2M2"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -123.017291,
+          49.264502,
+          0
+        ]
+      },
+      "properties": {
+        "name": "AbuBakr Siddiq Brentwood Islamic Center",
+        "styleUrl": "#icon-1673-0288D1-nodesc",
+        "styleHash": "-ae0e09f",
+        "province": "British Columbia",
+        "region": "Metro Vancouver",
+        "city": "Burnaby",
+        "styleMapHash": {
+          "normal": "#icon-1673-0288D1-nodesc-normal",
+          "highlight": "#icon-1673-0288D1-nodesc-highlight"
+        },
+        "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+        "website": "https://asicbrentwood.ca/",
+        "address": "3989 Henning Dr #123, Burnaby, BC V5C 6P8"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -63.661494,
+          44.697236,
+          0
+        ]
+      },
+      "properties": {
+        "name": "Sabeel Muslim Youth & Community Center",
+        "styleUrl": "#icon-1673-0288D1-nodesc",
+        "styleHash": "-ae0e09f",
+        "province": "Nova Scotia",
+        "region": "Halifax Region",
+        "city": "Halifax",
+        "styleMapHash": {
+          "normal": "#icon-1673-0288D1-nodesc-normal",
+          "highlight": "#icon-1673-0288D1-nodesc-highlight"
+        },
+        "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+        "website": "https://sabeelcenter.ca/",
+        "address": "600 Bedford Hwy, Halifax, NS B3M 0P6"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -75.816717,
+          45.246462,
+          0
+        ]
+      },
+      "properties": {
+        "name": "Darul Arqum West",
+        "styleUrl": "#icon-1673-0288D1-nodesc",
+        "styleHash": "-ae0e09f",
+        "province": "Ontario",
+        "region": "Ottawa",
+        "city": "South Ottawa",
+        "styleMapHash": {
+          "normal": "#icon-1673-0288D1-nodesc-normal",
+          "highlight": "#icon-1673-0288D1-nodesc-highlight"
+        },
+        "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+        "website": "https://www.darularqum.org/locations#west",
+        "address": "6050 Old Richmond Rd, Ottawa, ON K0A 2Z0"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -57.930332,
+          48.961312,
+          0
+        ]
+      },
+      "properties": {
+        "name": "Sabeel Corner Brook Mosque - Corner Brook Islamic Center",
+        "styleUrl": "#icon-1673-0288D1-nodesc",
+        "styleHash": "-ae0e09f",
+        "province": "Newfoundland and Labrador",
+        "region": "Western Newfoundland",
+        "city": "Corner Brook",
+        "styleMapHash": {
+          "normal": "#icon-1673-0288D1-nodesc-normal",
+          "highlight": "#icon-1673-0288D1-nodesc-highlight"
+        },
+        "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+        "website": "https://cbicnl.org/",
+        "address": "36 Clarence St, Corner Brook, NL A2H 6N2"
       }
     }
   ]
