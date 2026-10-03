@@ -7566,13 +7566,13 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -79.2408656,
-          43.8780306,
+          -79.2368507,
+          43.8786035,
           0
         ]
       },
       "properties": {
-        "name": "Markham Muslim Association",
+        "name": "Markham Muslim Association - Highway 7 Musallah",
         "styleUrl": "#icon-1673-0288D1-nodesc",
         "styleHash": "-ae0e09f",
         "province": "Ontario",
@@ -7584,7 +7584,7 @@
         },
         "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
         "website": "https://www.themma.ca/",
-        "address": "6545 Highway 7 East, Units 13 & 14, Markham, ON, Canada"
+        "address": "6633 Hwy 7 Unit 012, Markham, ON L3P 7P2"
       }
     },
     {
