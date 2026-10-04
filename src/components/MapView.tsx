@@ -961,6 +961,12 @@ export default function MapView() {
         );
     };
 
+    const userPosTuple: [number, number] | null = useMemo(() => {
+        if (refLocation) return refLocation.pos;
+        if (userPos) return normPos(userPos);
+        return null;
+    }, [refLocation, userPos]);
+
     const nearest3 = useMemo(() => {
         if (!refLocation || !filteredPlaces.length) return [];
         return [...filteredPlaces] 
@@ -1477,6 +1483,9 @@ export default function MapView() {
                         // Logic to check if this place is in the top 3 closest
                         const nearInfo = nearest3.find((n) => n.p.id === p.id);
                         const isNearest = !!nearInfo;
+                        const distanceKm = userPosTuple
+                            ? haversineKm(userPosTuple, [p.lat, p.lng])
+                            : null;
 
                         return (
                             <Marker
@@ -1496,8 +1505,8 @@ export default function MapView() {
                             >
                                 <Popup
                                     autoPan={false}
-                                    maxWidth={isMobile ? 220 : 300}
-                                    minWidth={isMobile ? 150 : 200}
+                                    maxWidth={isMobile ? 240 : 300}
+                                    minWidth={isMobile ? 180 : 200}
                                 >
                                     <div className="space-y-0.5 sm:space-y-1 p-0.5 sm:p-1 font-sans">
                                         {isNearest && nearInfo && (
@@ -1518,39 +1527,43 @@ export default function MapView() {
                                                 {p.notes}
                                             </div>
                                         )}
-                                        <div className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wide text-[var(--muted)]">
-                                            {p.type}
-                                        </div>
-                                        <div className="pt-1 sm:pt-2 flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs">
-                                            <a
-                                                className="font-bold underline text-[var(--brand)]"
-                                                href={googleDirectionsUrl(p)}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                            >
-                                                Directions
-                                            </a>
-                                            <span className="text-gray-300">|</span>
-                                            <a
-                                                className="font-bold underline text-[var(--brand)]"
-                                                href={googlePlaceUrl(p)}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                            >
-                                                Details
-                                            </a>
-                                            {p.website && (
-                                                <>
-                                                    <span className="text-gray-300">|</span>
-                                                    <a
-                                                        className="font-bold underline text-[var(--brand)]"
-                                                        href={p.website}
-                                                        target="_blank"
-                                                        rel="noreferrer"
-                                                    >
-                                                        Website
-                                                    </a>
-                                                </>
+                                        <div className="flex justify-between items-center w-full mt-2 pt-2 border-t border-gray-100 text-[11px] sm:text-xs">
+                                            <div className="flex items-center gap-1.5 sm:gap-2">
+                                                <a
+                                                    className="font-bold underline text-[var(--brand)]"
+                                                    href={googleDirectionsUrl(p)}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                >
+                                                    Directions
+                                                </a>
+                                                <span className="text-gray-300">|</span>
+                                                <a
+                                                    className="font-bold underline text-[var(--brand)]"
+                                                    href={googlePlaceUrl(p)}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                >
+                                                    Details
+                                                </a>
+                                                {p.website && (
+                                                    <>
+                                                        <span className="text-gray-300">|</span>
+                                                        <a
+                                                            className="font-bold underline text-[var(--brand)]"
+                                                            href={p.website}
+                                                            target="_blank"
+                                                            rel="noreferrer"
+                                                        >
+                                                            Website
+                                                        </a>
+                                                    </>
+                                                )}
+                                            </div>
+                                            {distanceKm !== null && (
+                                                <span className="text-[11px] sm:text-xs font-semibold text-gray-500 whitespace-nowrap pl-2">
+                                                    {distanceKm.toFixed(1)} km
+                                                </span>
                                             )}
                                         </div>
                                     </div>
