@@ -14145,6 +14145,32 @@
         "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
         "address": "607 Manek Rd, Saskatoon, SK S7S 1N1"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.593577,
+          52.055726,
+          0
+        ]
+      },
+      "properties": {
+        "name": "Markaz Maryam Grasswood Mosque",
+        "styleUrl": "#icon-1673-0288D1-nodesc",
+        "styleHash": "-ae0e09f",
+        "province": "Saskatchewan",
+        "region": "Saskatoon",
+        "city": "Saskatoon",
+        "styleMapHash": {
+          "normal": "#icon-1673-0288D1-nodesc-normal",
+          "highlight": "#icon-1673-0288D1-nodesc-highlight"
+        },
+        "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+        "website": "https://mccsaskatoon.com/",
+        "address": "305063 Township Rd 360, Corman Park No. 344, SK S7H 0V1"
+      }
     }
   ]
 }
