@@ -14120,6 +14120,31 @@
         "website": "https://cbicnl.org/",
         "address": "36 Clarence St, Corner Brook, NL A2H 6N2"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.5655276,
+          52.1695885,
+          0
+        ]
+      },
+      "properties": {
+        "name": "Evergreen Musalla",
+        "styleUrl": "#icon-1673-0288D1-nodesc",
+        "styleHash": "-ae0e09f",
+        "province": "Saskatchewan",
+        "region": "Saskatoon",
+        "city": "Saskatoon",
+        "styleMapHash": {
+          "normal": "#icon-1673-0288D1-nodesc-normal",
+          "highlight": "#icon-1673-0288D1-nodesc-highlight"
+        },
+        "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+        "address": "607 Manek Rd, Saskatoon, SK S7S 1N1"
+      }
     }
   ]
 }
