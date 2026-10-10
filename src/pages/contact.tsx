@@ -43,10 +43,6 @@ export default function ContactPage() {
                     <a href="tel:6475816081" className="hover:underline">
                       647-581-6081
                     </a>
-                    {" or "}
-                    <a href="tel:6474107176" className="hover:underline">
-                      647-410-7176
-                    </a>
                   </>
                 )}
               </div>
