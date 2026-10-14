@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useEffect, useMemo, useState } from "react";
 import type { Listing } from "@/lib/types";
 import type { ReactNode } from "react";
@@ -153,7 +153,40 @@ export default function ListingsTable({ category, categories }: { category?: str
             <div className="px-4 sm:px-5 pb-5 pt-0 text-[var(--ink)]/90">
               {r.description && <p className="mb-3">{r.description}</p>}
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                <Field label="Address" value={r.address} />
+                <Field
+                  label="Address"
+                  value={
+                    r.address ? (
+                      <a
+                        href={googleMapsUrl(r.address, r.city)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline text-[var(--brand)] hover:opacity-80 transition-opacity inline-flex items-center gap-1"
+                        title="Open in Google Maps"
+                      >
+                        <span>{r.address}</span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          className="h-3.5 w-3.5 shrink-0 opacity-70"
+                          aria-hidden="true"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 16h-8.5A2.25 2.25 0 012 13.75v-8.5A2.25 2.25 0 014.25 3h4a.75.75 0 010 1.5h-4z"
+                            clipRule="evenodd"
+                          />
+                          <path
+                            fillRule="evenodd"
+                            d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </a>
+                    ) : undefined
+                  }
+                />
                 <Field label="Average Attendance" value={r.attendance} />
                 <Field label="Notes" value={r.notes} />
                 <Field label="Accommodations" value={r.accommodations} />
@@ -221,3 +254,13 @@ function fmtDate(d?: string) {
   const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   return `${months[Number(mm) - 1] ?? mm} ${Number(dd)}, ${y}`;
 }
+
+function googleMapsUrl(address: string, city?: string): string {
+  const cleanCity = city?.trim();
+  const cleanAddr = address.trim();
+  const query = cleanCity && !cleanAddr.toLowerCase().includes(cleanCity.toLowerCase())
+    ? `${cleanAddr}, ${cleanCity}`
+    : cleanAddr;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+
