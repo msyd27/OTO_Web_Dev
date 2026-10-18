@@ -1,7 +1,6 @@
-export default function ApplyPage() {
-  const huffadhLink = "https://forms.gle/tKYuZgKEddMQ6m4e9";
-  const masajidLink = "https://forms.gle/qPeBBG9AjUKp4yiAA";
+import Link from "next/link";
 
+export default function ApplyPage() {
   return (
     <section className="mx-auto max-w-4xl px-4 py-12">
       <h1 className="text-3xl font-bold text-[var(--brand)] mb-6">Apply</h1>
@@ -30,23 +29,23 @@ export default function ApplyPage() {
       </div>
 
       <div className="flex flex-col sm:flex-row w-full gap-4 mt-4">
-        <a
-          href={huffadhLink}
+        <Link
+          href="/hafidh"
           target="_blank"
           rel="noreferrer"
           className="w-full sm:flex-1 text-center inline-flex justify-center items-center gap-2 rounded-xl bg-[var(--brand)] px-6 py-5 sm:px-8 text-lg sm:text-xl text-white font-bold hover:bg-[var(--brand-700)] transition-colors shadow-sm"
         >
           Sign up as a Hafidh
-        </a>
+        </Link>
 
-        <a
-          href={masajidLink}
+        <Link
+          href="/masajid"
           target="_blank"
           rel="noreferrer"
           className="w-full sm:flex-1 text-center inline-flex justify-center items-center gap-2 rounded-xl border-2 border-[var(--brand)] bg-white text-[var(--brand)] text-lg sm:text-xl font-bold px-6 py-5 sm:px-8 hover:bg-[var(--brand-50)] transition-colors shadow-sm"
         >
           Submit a listing as a Masjid/Musallah
-        </a>
+        </Link>
       </div>
 
 
