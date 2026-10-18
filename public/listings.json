@@ -101,6 +101,38 @@
     "approved": true
   },
   {
+    "title": "Waterdown Muslim Community Centre (WMCC)",
+    "description": "Huffadh needed for general Taraweeh",
+    "address": "211 Mill St N, Hamilton, ON L0R 2H0",
+    "category": "Taraweeh",
+    "city": "Waterdown",
+    "notes": "",
+    "attendance": "300",
+    "accommodations": "",
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open",
+    "approved": true
+  },
+  {
+    "title": "Regina City Jamia Masjid",
+    "description": "Huffadh needed for general Taraweeh",
+    "address": "1910 McIntyre Street, Regina, SK S4P 2R3",
+    "category": "Taraweeh",
+    "city": "Regina, SK",
+    "notes": "Need an experienced, fluent reciter who is a native Arabic speaker.",
+    "attendance": "100",
+    "accommodations": "Travel, Food & Lodging",
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open",
+    "approved": true
+  },
+  {
     "_SECTION": "==================== [ARCHIVE: LAST YEAR'S LISTINGS] ====================",
     "_NOTE": "All listings below are from last year. They are preserved for reference with 'approved': false and 'archived': true.",
     "approved": false
