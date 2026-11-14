@@ -20,6 +20,24 @@
     "available": "Open",
     "approved": false
   },
+
+  {
+    "title": "House by Whites & Kingston",
+    "description": "Huffadh needed for 10-day Taraweeh",
+    "address": "",
+    "category": "Taraweeh",
+    "city": "Pickering",
+    "notes": "Hafidh should be able to lead a minimum of 1/2 Juz",
+    "attendance": "40",
+    "accommodations": "",
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open",
+    "approved": false
+
+  },
   {
     "title": "New Northern Community Services",
     "description": "Huffadh needed for general Taraweeh & short Khatira",
@@ -780,22 +798,6 @@
     "available": "Open",
     "approved": false,
     "archived": true
-  },
-  {
-    "title": "House by Whites & Kingston",
-    "description": "Huffadh needed for 10-day Taraweeh",
-    "address": "",
-    "category": "Taraweeh",
-    "city": "Pickering",
-    "notes": "Hafidh should be able to lead a minimum of 1/2 Juz",
-    "attendance": "40",
-    "accommodations": "",
-    "startDate": "",
-    "endDate": "",
-    "contactNumber": "",
-    "contactEmail": "",
-    "available": "Open",
-    "approved": false,
-    "archived": true
   }
+  
 ]
