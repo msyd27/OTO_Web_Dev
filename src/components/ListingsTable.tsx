@@ -188,7 +188,7 @@ export default function ListingsTable({ category, categories }: { category?: str
                   }
                 />
                 <Field label="Average Attendance" value={r.attendance} />
-                <Field label="Notes" value={r.notes} />
+                <Field label="Notes" value={formatNotes(r.notes)} className={r.notes && r.notes.length > 80 ? "sm:col-span-2 lg:col-span-3" : undefined} />
                 <Field label="Accommodations" value={r.accommodations} />
                 <Field label="Start Date" value={fmtDate(r.startDate)} />
                 {r.available !== "Filled" && (
@@ -231,17 +231,57 @@ export default function ListingsTable({ category, categories }: { category?: str
   );
 }
 
-type FieldProps = { label: string; value?: ReactNode };
-function Field({ label, value }: FieldProps) {
+function formatNotes(notes?: string) {
+  if (!notes) return null;
+  if (!notes.includes("\n")) return notes;
+
+  const paragraphs = notes.split(/\n\s*\n/);
+  return (
+    <div className="space-y-3">
+      {paragraphs.map((para, i) => {
+        const lines = para.split("\n");
+        if (lines.length > 1 && lines.some((l) => /^\s*(\d+\.|\*|-|•)\s+/.test(l))) {
+          return (
+            <div key={i} className="space-y-1.5 pt-0.5">
+              {lines.map((line, j) => {
+                const isListItem = /^\s*(\d+\.|\*|-|•)\s+/.test(line);
+                return (
+                  <div
+                    key={j}
+                    className={
+                      isListItem
+                        ? "pl-2.5 text-[var(--ink)] font-medium flex items-start"
+                        : "font-semibold text-[var(--ink)]"
+                    }
+                  >
+                    {line}
+                  </div>
+                );
+              })}
+            </div>
+          );
+        }
+        return (
+          <p key={i} className="leading-relaxed text-[var(--ink)]/90">
+            {para}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
+type FieldProps = { label: string; value?: ReactNode; className?: string };
+function Field({ label, value, className = "" }: FieldProps) {
   const isEmpty =
     value == null ||
     (typeof value === "string" && value.trim() === "") ||
     (Array.isArray(value) && value.length === 0);
   if (isEmpty) return null;
   return (
-    <div className="rounded-xl border border-[color:rgb(0_0_0_/_0.06)] p-3 bg-white">
-      <div className="text-xs font-semibold text-[var(--muted)]">{label}</div>
-      <div className="text-sm">{value}</div>
+    <div className={`rounded-xl border border-[color:rgb(0_0_0_/_0.06)] p-3.5 bg-white ${className}`}>
+      <div className="text-xs font-semibold text-[var(--muted)] mb-1.5">{label}</div>
+      <div className="text-sm whitespace-pre-line">{value}</div>
     </div>
   );
 }

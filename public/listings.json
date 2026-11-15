@@ -20,7 +20,22 @@
     "available": "Open",
     "approved": false
   },
-
+  {
+    "title": "Gananoque Dr Musallah",
+    "description": "Huffadh needed for general Taraweeh",
+    "address": "2779 Gananoque Drive",
+    "category": "Taraweeh",
+    "city": "Mississauga",
+    "notes": "Gananoque Dr Musallah is a Ramadan-only Taraweeh training organization. We established this Musallah (2025/1446) to give Huffadh who normally don't get an opportunity at a large masjid to lead.\n\nOur aim is to provide a space for Huffadh to build their confidence in leading salah and prayers and a place with flexibility for those with busy schedules.\n\nHuffadh can sign up to lead everyday or any day that works for them.\n\nGreat for new Huffadh, those with busy schedules, those who rather lead a small congregation and those who couldn't find a space in the masjid.\n\nRequirements for acceptance:\n1. Must have proper makharaj and tajweed.\n2. Memorization must be decent (able to revise a minimum of 2 pages with minimal mistakes)\n3. Must be of good character\n4. Must be at least the minimum age of leading salah.",
+    "attendance": "15",
+    "accommodations": "",
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open",
+    "approved": true
+  },
   {
     "title": "House by Whites & Kingston",
     "description": "Huffadh needed for 10-day Taraweeh",
@@ -798,5 +813,4 @@
     "approved": false,
     "archived": true
   }
-  
 ]
