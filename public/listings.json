@@ -35,8 +35,7 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Open",
-    "approved": false
-
+    "approved": true
   },
   {
     "title": "New Northern Community Services",
