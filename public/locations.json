@@ -14171,6 +14171,32 @@
         "website": "https://mccsaskatoon.com/",
         "address": "305063 Township Rd 360, Corman Park No. 344, SK S7H 0V1"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.78877,
+          43.24312,
+          0
+        ]
+      },
+      "properties": {
+        "name": "Ebu Bekir Islamic Center",
+        "styleUrl": "#icon-1673-0288D1-nodesc",
+        "styleHash": "-ae0e09f",
+        "province": "Ontario",
+        "region": "Hamilton",
+        "city": "Hamilton",
+        "styleMapHash": {
+          "normal": "#icon-1673-0288D1-nodesc-normal",
+          "highlight": "#icon-1673-0288D1-nodesc-highlight"
+        },
+        "icon": "https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png",
+        "website": "https://www.ebubekir.org/",
+        "address": "238 Parkdale Ave N, Hamilton, ON L8H 5X5"
+      }
     }
   ]
 }
