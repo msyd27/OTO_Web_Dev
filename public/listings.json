@@ -178,7 +178,7 @@
     "contactNumber": "",
     "contactEmail": "",
     "available": "Open",
-    "approved": true
+    "approved": false
   },
   {
     "title": "Jamia Masjid Ali (Ahle Sunnah Wal Jammah)",
@@ -207,6 +207,38 @@
     "accommodations": "",
     "startDate": "2026-11-23",
     "endDate": "2027-01-14",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open",
+    "approved": true
+  },
+  {
+    "title": "Taaseen Musallah",
+    "description": "Huffadh needed for general Taraweeh",
+    "address": "54 Chesterwood Cres, Brampton, ON L6Y 0Z4",
+    "category": "Taraweeh",
+    "city": "Brampton",
+    "notes": "Age: 20+ with experience. Located in front of 90 Bonnie Braes Drive.",
+    "attendance": "80-100",
+    "accommodations": "",
+    "startDate": "",
+    "endDate": "",
+    "contactNumber": "",
+    "contactEmail": "",
+    "available": "Open",
+    "approved": true
+  },
+  {
+    "title": "Masjid Al-Salaam - Kawartha Muslim Religious Association",
+    "description": "Huffadh needed for general Taraweeh (8 rakaats) & Tahajjud",
+    "address": "784 Parkhill Rd W, Peterborough, ON K9J 8E1",
+    "category": "Taraweeh",
+    "city": "Peterborough",
+    "notes": "8 rakaats. Open to international Huffadh. Includes leading Tahajjud.",
+    "attendance": "150",
+    "accommodations": "Travel, Food & Lodging",
+    "startDate": "",
+    "endDate": "",
     "contactNumber": "",
     "contactEmail": "",
     "available": "Open",
