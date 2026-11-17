@@ -191,6 +191,7 @@ export default function ListingsTable({ category, categories }: { category?: str
                 <Field label="Notes" value={formatNotes(r.notes)} className={r.notes && r.notes.length > 80 ? "sm:col-span-2 lg:col-span-3" : undefined} />
                 <Field label="Accommodations" value={r.accommodations} />
                 <Field label="Start Date" value={fmtDate(r.startDate)} />
+                <Field label="End Date" value={fmtDate(r.endDate)} />
                 {r.available !== "Filled" && (
                   <Field
                     label="Contact"
